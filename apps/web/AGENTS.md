@@ -27,6 +27,20 @@ Current priorities:
 - focus on mobile-first UX,
 - do not implement the Express backend or PostgreSQL yet.
 
+Current implementation snapshot:
+
+- public booking flow is implemented at `/booking` using mocked business, services, staff and time-slot data,
+- the booking wizard supports service, optional staff, date/time, customer data, summary, SMS verification and success screens,
+- solo-business mode skips the staff step and keeps the progress stepper consistent,
+- customer data forms use React Hook Form with Zod schemas; these schemas are intended to become shared backend-facing contracts,
+- booking drafts are preserved in `sessionStorage` across refreshes and cleared after successful SMS verification,
+- SMS verification is currently simulated with test codes and loading overlays,
+- booking consents include required terms acceptance and optional SMS/e-mail notification consent,
+- `/regulamin` contains placeholder reservation terms for the required terms link,
+- account creation is represented by `/register` and an invite after successful booking; it is still frontend-only,
+- theme palettes and light/dark mode are implemented with semantic CSS tokens and a dev preview at `/dev/components`,
+- backend persistence, authentication, real notifications and real availability calculation are not implemented yet.
+
 ## Product context
 
 This is a multi-tenant booking platform for beauty and appointment-based service businesses, including:
@@ -156,6 +170,36 @@ Prefer small, testable functions.
 Avoid duplicated constants and domain types.
 Keep imports and naming consistent with the existing project.
 Do not leave dead code or commented-out implementations.
+
+Code style and maintainability
+
+Prefer explicit React imports. Do not use `import * as React`; import concrete hooks and types instead, for example `useState`, `useCallback`, and `type ReactNode`.
+
+Prefer `const` declarations for components, hooks, helpers, and local utilities. Use `function` only when there is a clear implementation reason.
+
+Keep components focused and aligned with SOLID principles. A component should have one main reason to change. Move state orchestration and derived data into hooks, validation contracts into schemas, formatting and sanitizing into utils, and presentational UI into components.
+
+Feature components should receive data through props. Do not import mocks or API clients directly inside presentational pickers, cards, or form sections. Import mocks or API calls in route-level components, feature containers, or feature hooks.
+
+Keep domain types close to the domain. Place booking domain types in `features/booking/types`, or infer them from Zod schemas in `features/booking/schemas` when those schemas define data contracts.
+
+Use Zod schemas as the source of truth for form data and request-like contracts that may later be shared with the backend. Derive TypeScript types with `z.infer` instead of duplicating shapes manually.
+
+Use React Hook Form for non-trivial forms. Keep validation rules in Zod schemas, not duplicated as custom component-level checks.
+
+Prefer literal unions derived from `as const` data for UI state such as wizard steps. Use TypeScript `enum` only when a runtime enum-like object is genuinely useful or required by an API/database contract.
+
+Use shallow barrel exports with `index.ts` only where they improve ergonomics without hiding important boundaries. Avoid one large feature-wide barrel and avoid mixing client/server boundaries in the same barrel.
+
+Sort imports consistently without section comments:
+
+1. External libraries.
+2. `@/components`.
+3. `@/features`.
+4. `@/config`, `@/lib`, `@/styles`, `@/types`.
+5. Relative imports when they are necessary.
+
+Avoid overly generic components with many unrelated boolean props. Prefer composition and narrowly focused components.
 Verification
 
 Before completing a task, run the relevant commands available in the repository, including:
