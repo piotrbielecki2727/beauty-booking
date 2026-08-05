@@ -35,8 +35,12 @@ const formatPriceFrom = (price: number) => {
   return `od ${priceFormatter.format(price)}`
 }
 
+const formatPrice = (price: number) => {
+  return priceFormatter.format(price)
+}
+
 const getServiceCategoryLabel = (category: ServiceCategory) => {
   return serviceCategoryLabels[category]
 }
 
-export { formatDuration, formatPriceFrom, getServiceCategoryLabel }
+export { formatDuration, formatPrice, formatPriceFrom, getServiceCategoryLabel }

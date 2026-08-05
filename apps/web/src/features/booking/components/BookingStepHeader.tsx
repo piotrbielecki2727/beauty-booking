@@ -1,25 +1,30 @@
 "use client"
 
 import { CheckCircle2 } from "lucide-react"
+import type { CSSProperties } from "react"
 
 import type { BookingStep, BookingStepItem } from "@/features/booking/types/flow"
 import { cn } from "@/lib/utils"
 
 type BookingStepHeaderProps = {
   canOpenStep: (step: BookingStep) => boolean
+  className?: string
   currentStep: BookingStep
   onStepSelect: (step: BookingStep) => void
   steps: BookingStepItem[]
 }
 
-const BookingStepHeader = ({ canOpenStep, currentStep, onStepSelect, steps }: BookingStepHeaderProps) => {
+const BookingStepHeader = ({ canOpenStep, className, currentStep, onStepSelect, steps }: BookingStepHeaderProps) => {
   const currentIndex = steps.findIndex((step) => step.id === currentStep)
-  const desktopGridClass = steps.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-5"
 
   return (
     <ol
-      className={cn("grid gap-2 sm:grid-cols-2", desktopGridClass)}
       aria-label="Postęp rezerwacji"
+      className={cn(
+        "grid gap-2 sm:grid-cols-2 lg:grid-cols-[repeat(var(--booking-step-count),minmax(8.75rem,1fr))]",
+        className
+      )}
+      style={{ "--booking-step-count": steps.length } as CSSProperties}
     >
       {steps.map((step, index) => {
         const isActive = step.id === currentStep
@@ -30,9 +35,9 @@ const BookingStepHeader = ({ canOpenStep, currentStep, onStepSelect, steps }: Bo
           <li key={step.id}>
             <button
               className={cn(
-                "group/step flex min-h-11 w-full items-center gap-2 rounded-lg border px-3 text-left text-sm font-medium transition-colors disabled:cursor-default focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
+                "group/step flex min-h-10 w-full min-w-0 items-center gap-2 rounded-lg border px-3 text-left text-sm font-medium transition-colors disabled:cursor-default focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
                 isActive
-                  ? "cursor-pointer border-primary bg-primary text-primary-foreground shadow-sm hover:border-primary hover:bg-primary/90"
+                  ? "cursor-pointer border-primary bg-primary text-primary-foreground shadow-sm hover:border-primary hover:bg-primary"
                   : isComplete
                     ? "cursor-pointer border-primary/30 bg-primary/5 text-foreground hover:border-primary/60 hover:bg-primary/10"
                     : canOpen
@@ -44,7 +49,7 @@ const BookingStepHeader = ({ canOpenStep, currentStep, onStepSelect, steps }: Bo
               type="button"
             >
               <StepIndicator canOpen={canOpen} index={index} isActive={isActive} isComplete={isComplete} />
-              {step.label}
+              <span className="min-w-0 whitespace-nowrap">{step.label}</span>
             </button>
           </li>
         )
@@ -62,7 +67,7 @@ type StepIndicatorProps = {
 
 const StepIndicator = ({ canOpen, index, isActive, isComplete }: StepIndicatorProps) => {
   const className = cn(
-    "flex size-6 shrink-0 items-center justify-center rounded-full text-xs transition-colors",
+      "flex size-5.5 shrink-0 items-center justify-center rounded-full text-xs transition-colors",
     isComplete
       ? "bg-primary text-primary-foreground"
       : isActive

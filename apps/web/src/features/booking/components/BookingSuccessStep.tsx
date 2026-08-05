@@ -1,17 +1,20 @@
-import { CheckCircle2 } from "lucide-react"
+﻿import { CheckCircle2 } from "lucide-react"
 
 import { SectionCard } from "@/components/common/section-card"
-import { AccountInviteCard } from "@/features/booking/components/account-invite-card"
-import { BookingSummaryCard } from "@/features/booking/components/booking-summary-card"
-import type { AccountInviteVariant, StoredBookingReservation } from "@/features/booking/types/reservation"
+import { BookingSummaryCard } from "@/features/booking/components/BookingSummaryCard"
+import type { StoredBookingReservation } from "@/features/booking/types/reservation"
 
 type BookingSuccessStepProps = {
-  accountInviteVariant?: AccountInviteVariant
+  isEditingReservation?: boolean
   isSoloBusiness: boolean
   reservation: StoredBookingReservation
 }
 
-const BookingSuccessStep = ({ accountInviteVariant, isSoloBusiness, reservation }: BookingSuccessStepProps) => (
+const BookingSuccessStep = ({
+  isEditingReservation = false,
+  isSoloBusiness,
+  reservation,
+}: BookingSuccessStepProps) => (
   <div className="grid gap-5">
     <SectionCard>
       <div className="grid gap-4 text-center">
@@ -19,16 +22,22 @@ const BookingSuccessStep = ({ accountInviteVariant, isSoloBusiness, reservation 
           <CheckCircle2 aria-hidden="true" className="size-6" />
         </div>
         <div className="grid gap-2">
-          <h2 className="font-heading text-3xl font-semibold leading-tight">Rezerwacja zakończona pomyślnie</h2>
+          <h2 className="font-heading text-3xl font-semibold leading-tight">
+            {isEditingReservation ? "Zmiany zostały zapisane" : "Rezerwacja zakończona pomyślnie"}
+          </h2>
           <p className="text-sm leading-6 text-muted-foreground">
-            Dziękujemy. Szczegóły wizyty znajdziesz poniżej.
+            {isEditingReservation
+              ? "Zaktualizowane szczegóły wizyty znajdziesz poniżej."
+              : "Dziękujemy. Szczegóły wizyty znajdziesz poniżej."}
           </p>
         </div>
       </div>
     </SectionCard>
 
     <BookingSummaryCard
-      customerDetails={reservation.customerDetails}
+      accountEmail={reservation.customerDetails.email}
+      accountName={`${reservation.customerDetails.firstName} ${reservation.customerDetails.lastName}`.trim()}
+      accountPhone={reservation.customerDetails.phone}
       consents={reservation.consents}
       description={null}
       isCustomerDetailsComplete
@@ -37,8 +46,6 @@ const BookingSuccessStep = ({ accountInviteVariant, isSoloBusiness, reservation 
       selectedStaffMember={reservation.staffMember}
       selectedTimeSlot={reservation.timeSlot}
     />
-
-    {accountInviteVariant ? <AccountInviteCard reservation={reservation} variant={accountInviteVariant} /> : null}
   </div>
 )
 

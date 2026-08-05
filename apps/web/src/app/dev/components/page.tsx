@@ -1,4 +1,4 @@
-import { CalendarDays, Clock, Scissors, Sparkles } from "lucide-react"
+﻿import { CalendarDays, Clock, Scissors, Sparkles } from "lucide-react"
 import { notFound } from "next/navigation"
 
 import { AppButton } from "@/components/common/app-button"
@@ -11,7 +11,7 @@ import { PageContainer } from "@/components/layout/page-container"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ThemePaletteSwitcher } from "@/features/theme/components/theme-palette-switcher"
+import { ThemePaletteSwitcher } from "@/features/theme/components/ThemePaletteSwitcher"
 import { ServicePickerDemo } from "./service-picker-demo"
 
 const DevComponentsPage = () => {

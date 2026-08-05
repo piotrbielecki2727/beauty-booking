@@ -1,7 +1,6 @@
-"use client"
+﻿"use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { MailCheck } from "lucide-react"
 import { useEffect } from "react"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import type { ControllerFieldState } from "react-hook-form"
@@ -13,8 +12,8 @@ import { Textarea } from "@/components/ui/textarea"
 import {
   customerDetailsSchema,
   type BookingCustomerDetails,
-} from "@/features/booking/schemas/customer-details-schema"
-import { normalizeNameInput, normalizePhoneInput } from "@/features/booking/utils/customer-details-formatters"
+} from "@/features/booking/schemas/customerDetailsSchema"
+import { normalizeNameInput, normalizePhoneInput } from "@/features/booking/utils/customerDetailsFormatters"
 
 type CustomerDetailsChangeHandler = (details: BookingCustomerDetails) => void
 
@@ -181,18 +180,6 @@ const CustomerDetailsForm = ({ details, onDetailsChange }: CustomerDetailsFormPr
           </FormField>
         )}
       />
-
-      <div className="flex gap-3 rounded-lg border border-border bg-card p-4 text-sm text-card-foreground shadow-sm">
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
-          <MailCheck aria-hidden="true" className="size-5" />
-        </span>
-        <div className="grid gap-1">
-          <p className="font-medium">Zostaw e-mail i miej wizytę pod kontrolą</p>
-          <p className="leading-6 text-muted-foreground">
-            Wyślemy potwierdzenie rezerwacji, przypomnienie przed terminem oraz ważne informacje dotyczące wizyty.
-          </p>
-        </div>
-      </div>
     </form>
   )
 }

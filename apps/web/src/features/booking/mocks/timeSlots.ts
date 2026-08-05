@@ -1,4 +1,4 @@
-import type { BookingTimeSlot } from "@/features/booking/types/time-slot"
+﻿import type { BookingTimeSlot } from "@/features/booking/types/timeSlot"
 
 const mockTimeSlots: BookingTimeSlot[] = [
   {

@@ -1,7 +1,7 @@
-const bookingStepIds = ["service", "staff", "datetime", "customer", "summary"] as const
+const bookingStepIds = ["customer", "service", "staff", "datetime", "summary"] as const
 
 type BookingStep = (typeof bookingStepIds)[number]
-type BookingScreen = BookingStep | "success" | "verification"
+type BookingScreen = BookingStep | "success"
 
 type BookingStepItem = {
   id: BookingStep

@@ -1,21 +1,17 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
+import { Suspense } from "react"
 
-import { PageContainer } from "@/components/layout/page-container"
-import { BookingFlow } from "@/features/booking/components/booking-flow"
+import { BookingFlow } from "@/features/booking/components/BookingFlow"
 
 export const metadata: Metadata = {
   title: "Rezerwacja | Beauty Booking",
   description: "Wybierz usługę, termin i potwierdź rezerwację wizyty.",
 }
 
-const BookingPage = () => {
-  return (
-    <main className="min-h-screen bg-background">
-      <PageContainer className="grid gap-8 py-8 sm:py-10">
-        <BookingFlow />
-      </PageContainer>
-    </main>
-  )
-}
+const BookingPage = () => (
+  <Suspense fallback={<main className="min-h-screen bg-background" />}>
+    <BookingFlow />
+  </Suspense>
+)
 
 export default BookingPage

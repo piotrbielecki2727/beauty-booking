@@ -2,6 +2,13 @@ import type { BookingStaffMember } from "@/features/booking/types/staff"
 
 const mockStaffMembers: BookingStaffMember[] = [
   {
+    bio: "Właścicielka salonu. Wykonuje pełny zakres usług i przyjmuje także poza standardowymi godzinami pracowników.",
+    id: "staff-owner",
+    name: "Anna Kowalska",
+    role: "Właścicielka",
+    serviceIds: ["manicure-hybrid", "lashes-light-volume", "brow-styling", "occasion-makeup", "soft-waves"],
+  },
+  {
     bio: "Specjalizuje się w naturalnych stylizacjach paznokci i precyzyjnym opracowaniu skórek.",
     id: "staff-amelia",
     name: "Amelia Nowak",

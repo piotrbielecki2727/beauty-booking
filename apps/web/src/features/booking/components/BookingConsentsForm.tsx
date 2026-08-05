@@ -11,6 +11,7 @@ type BookingConsentsFormProps = {
   canUseEmailNotifications: boolean
   consents: BookingConsents
   onConsentChange: (consents: BookingConsents) => void
+  showNotificationConsents?: boolean
 }
 
 type ConsentOptionProps = {
@@ -25,6 +26,7 @@ const BookingConsentsForm = ({
   canUseEmailNotifications,
   consents,
   onConsentChange,
+  showNotificationConsents = true,
 }: BookingConsentsFormProps) => {
   const updateConsent = (key: keyof BookingConsents, value: boolean) => {
     onConsentChange({
@@ -34,8 +36,8 @@ const BookingConsentsForm = ({
   }
 
   return (
-    <div className="grid gap-3 border-t border-border pt-4">
-      <p className="text-sm font-medium">Zgody i powiadomienia</p>
+    <div className="grid gap-2">
+      <p className="text-sm font-medium">Zgody</p>
       <ConsentOption
         checked={consents.termsAccepted}
         id="booking-terms-consent"
@@ -53,37 +55,37 @@ const BookingConsentsForm = ({
         </Link>
         . <span className="text-destructive">*</span>
       </ConsentOption>
-      <ConsentOption
-        checked={consents.phoneNotifications}
-        id="booking-phone-notifications-consent"
-        onCheckedChange={(checked) => updateConsent("phoneNotifications", checked)}
-      >
-        Chcę otrzymywać powiadomienia dotyczące wizyty na numer telefonu.
-      </ConsentOption>
-      <ConsentOption
-        checked={consents.emailNotifications}
-        disabled={!canUseEmailNotifications}
-        id="booking-email-notifications-consent"
-        onCheckedChange={(checked) => updateConsent("emailNotifications", checked)}
-      >
-        Chcę otrzymywać powiadomienia dotyczące wizyty na adres e-mail.
-      </ConsentOption>
-      {!canUseEmailNotifications ? (
-        <p className="pl-8 text-xs leading-5 text-muted-foreground">
-          Dodaj adres e-mail w danych klientki, aby włączyć powiadomienia e-mail.
-        </p>
+
+      {showNotificationConsents ? (
+        <>
+          <ConsentOption
+            checked={consents.phoneNotifications}
+            id="booking-phone-notifications-consent"
+            onCheckedChange={(checked) => updateConsent("phoneNotifications", checked)}
+          >
+            Chcę otrzymywać powiadomienia dotyczące wizyty na numer telefonu.
+          </ConsentOption>
+          <ConsentOption
+            checked={consents.emailNotifications}
+            disabled={!canUseEmailNotifications}
+            id="booking-email-notifications-consent"
+            onCheckedChange={(checked) => updateConsent("emailNotifications", checked)}
+          >
+            Chcę otrzymywać powiadomienia dotyczące wizyty na adres e-mail.
+          </ConsentOption>
+          {!canUseEmailNotifications ? (
+            <p className="pl-8 text-xs leading-5 text-muted-foreground">
+              Dodaj adres e-mail w danych klientki, aby włączyć powiadomienia e-mail.
+            </p>
+          ) : null}
+        </>
       ) : null}
     </div>
   )
 }
 
 const ConsentOption = ({ checked, children, disabled = false, id, onCheckedChange }: ConsentOptionProps) => (
-  <div
-    className={cn(
-      "flex gap-3 text-sm leading-6 text-muted-foreground",
-      disabled && "opacity-60"
-    )}
-  >
+  <div className={cn("flex gap-3 text-sm leading-6 text-muted-foreground", disabled && "opacity-60")}>
     <Checkbox
       aria-labelledby={`${id}-label`}
       checked={checked}

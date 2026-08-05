@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Check, Clock, Scissors } from "lucide-react"
 
@@ -12,7 +12,7 @@ import {
   formatDuration,
   formatPriceFrom,
   getServiceCategoryLabel,
-} from "@/features/booking/utils/service-formatters"
+} from "@/features/booking/utils/serviceFormatters"
 import { cn } from "@/lib/utils"
 
 type ServicePickerProps = {
@@ -69,7 +69,7 @@ const ServicePicker = ({
   }
 
   return (
-    <div className={cn("grid gap-3", className)} role="radiogroup" aria-label="Wybór usługi">
+    <div className={cn("grid gap-3 lg:grid-cols-2 2xl:grid-cols-3", className)} role="radiogroup" aria-label="Wybór usługi">
       {services.map((service) => {
         const isSelected = service.id === selectedServiceId
 
@@ -77,7 +77,7 @@ const ServicePicker = ({
           <button
             aria-checked={isSelected}
             className={cn(
-              "grid w-full cursor-pointer gap-3 rounded-lg border bg-card p-4 text-left text-card-foreground shadow-sm transition-colors hover:border-primary/45 hover:bg-accent/20 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
+              "grid min-h-32 w-full cursor-pointer gap-3 rounded-lg border bg-card p-3.5 text-left text-card-foreground shadow-sm transition-colors hover:border-primary/45 hover:bg-accent/20 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none",
               isSelected ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-border"
             )}
             key={service.id}
@@ -87,8 +87,8 @@ const ServicePicker = ({
           >
             <span className="flex items-start justify-between gap-4">
               <span className="grid gap-1">
-                <span className="font-heading text-lg font-medium leading-snug">{service.name}</span>
-                <span className="text-sm leading-6 text-muted-foreground">{service.description}</span>
+                <span className="font-heading text-base font-medium leading-snug">{service.name}</span>
+                <span className="line-clamp-2 text-sm leading-6 text-muted-foreground">{service.description}</span>
               </span>
               <span
                 aria-hidden="true"

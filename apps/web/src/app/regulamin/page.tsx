@@ -17,7 +17,7 @@ const rules = [
   {
     title: "Potwierdzenie rezerwacji",
     content:
-      "Rezerwacja zostaje przyjęta po poprawnym potwierdzeniu numeru telefonu kodem SMS oraz zapisaniu zgłoszenia w systemie.",
+      "Rezerwacja zostaje przyjęta po zapisaniu zgłoszenia na zalogowanym koncie klientki.",
   },
   {
     title: "Zmiana lub odwołanie wizyty",

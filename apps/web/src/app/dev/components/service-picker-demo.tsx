@@ -1,8 +1,8 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 
-import { ServicePicker } from "@/features/booking/components/service-picker"
+import { ServicePicker } from "@/features/booking/components/ServicePicker"
 import { mockBeautyServices } from "@/features/booking/mocks/services"
 
 const ServicePickerDemo = () => {

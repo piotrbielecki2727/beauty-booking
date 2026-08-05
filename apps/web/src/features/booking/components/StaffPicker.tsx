@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Check, Sparkles, UserRound } from "lucide-react"
 
@@ -8,6 +8,8 @@ import { ErrorState } from "@/components/common/error-state"
 import { LoadingState } from "@/components/common/loading-state"
 import { Badge } from "@/components/ui/badge"
 import type { BookingStaffMember } from "@/features/booking/types/staff"
+import type { StaffServiceDisplayDetails } from "@/features/booking/utils/availability"
+import { formatDuration, formatPriceFrom } from "@/features/booking/utils/serviceFormatters"
 import { cn } from "@/lib/utils"
 
 type StaffPickerProps = {
@@ -18,6 +20,7 @@ type StaffPickerProps = {
   onRetry?: () => void
   onStaffSelect: (staffMemberId: string) => void
   selectedStaffMemberId?: string
+  serviceDetailsByStaffId?: Record<string, StaffServiceDisplayDetails>
   staffMembers: BookingStaffMember[]
 }
 
@@ -33,6 +36,7 @@ const StaffPicker = ({
   onRetry,
   onStaffSelect,
   selectedStaffMemberId,
+  serviceDetailsByStaffId = {},
   staffMembers,
 }: StaffPickerProps) => {
   if (isLoading) {
@@ -71,6 +75,7 @@ const StaffPicker = ({
     <div className={cn("grid gap-3", className)} role="radiogroup" aria-label="Wybór pracownika">
       {staffMembers.map((staffMember) => {
         const isSelected = staffMember.id === selectedStaffMemberId
+        const serviceDetails = serviceDetailsByStaffId[staffMember.id]
 
         return (
           <button
@@ -113,6 +118,12 @@ const StaffPicker = ({
                 <Sparkles aria-hidden="true" />
                 {formatHandledServicesCount(staffMember.serviceIds.length)}
               </Badge>
+              {serviceDetails ? (
+                <>
+                  <Badge variant="outline">{formatDuration(serviceDetails.durationMinutes)}</Badge>
+                  <Badge variant="outline">{formatPriceFrom(serviceDetails.priceFrom)}</Badge>
+                </>
+              ) : null}
             </span>
           </button>
         )
