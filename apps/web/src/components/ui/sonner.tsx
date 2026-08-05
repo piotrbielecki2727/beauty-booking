@@ -1,10 +1,10 @@
-"use client"
+﻿"use client"
 
 import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon } from "lucide-react"
 import type { CSSProperties } from "react"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 
-import { useAppTheme } from "@/features/theme/providers/app-theme-provider"
+import { useAppTheme } from "@/features/theme/providers/appThemeProvider"
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { mode } = useAppTheme()

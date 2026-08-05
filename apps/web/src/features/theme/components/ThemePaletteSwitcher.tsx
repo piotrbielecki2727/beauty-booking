@@ -1,13 +1,13 @@
-"use client"
+﻿"use client"
 
 import { Check, Moon, Palette, Sun } from "lucide-react"
 import { useState } from "react"
 
 import { AppButton } from "@/components/common/app-button"
 import { Badge } from "@/components/ui/badge"
-import type { ThemeColorMode, ThemePaletteId } from "@/features/theme/config/theme-palettes"
-import { getThemePalette, themePalettes } from "@/features/theme/config/theme-palettes"
-import { useAppTheme } from "@/features/theme/providers/app-theme-provider"
+import type { ThemeColorMode, ThemePaletteId } from "@/features/theme/config/themePalettes"
+import { getThemePalette, themePalettes } from "@/features/theme/config/themePalettes"
+import { useAppTheme } from "@/features/theme/providers/appThemeProvider"
 import { cn } from "@/lib/utils"
 
 const themeModeOptions: { icon: typeof Sun; label: string; value: ThemeColorMode }[] = [
