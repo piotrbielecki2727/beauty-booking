@@ -1,0 +1,1 @@
+export { BeautyBookingLogoSvg } from "./BeautyBookingLogoSvg";

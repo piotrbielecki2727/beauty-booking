@@ -1,0 +1,58 @@
+{
+  "common": {
+    "appName": "Beauty Booking",
+    "english": "English",
+    "polish": "Polish"
+  },
+  "navigation": {
+    "bookings": "Bookings",
+    "calendar": "Calendar",
+    "collapseSidebar": "Collapse sidebar",
+    "customerMain": "Main",
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "expandSidebar": "Expand sidebar",
+    "home": "Home",
+    "management": "Management",
+    "mobile": "Mobile",
+    "openMenu": "Open menu",
+    "profile": "Profile",
+    "services": "Services",
+    "settings": "Settings",
+    "closeMenu": "Close menu"
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "toggle": "Change theme"
+  },
+  "footer": {
+    "description": "Your place to book the best beauty services. Beauty begins with a moment for yourself.",
+    "copyright": "? 2026 Beauty Booking. All rights reserved.",
+    "sections": {
+      "customers": "For customers",
+      "information": "Information"
+    },
+    "links": {
+      "howItWorks": "How it works",
+      "findService": "Find a service",
+      "salonsAndSpecialists": "Salons and specialists",
+      "help": "Help",
+      "faq": "FAQ",
+      "about": "About us",
+      "contact": "Contact",
+      "blog": "Blog",
+      "terms": "Terms",
+      "privacy": "Privacy policy",
+      "cookies": "Cookie policy"
+    },
+    "newsletter": {
+      "title": "Stay up to date",
+      "description": "Subscribe to the newsletter and receive beauty tips and special offers.",
+      "placeholder": "Your e-mail address",
+      "inputLabel": "E-mail address",
+      "buttonLabel": "Subscribe"
+    }
+  }
+}

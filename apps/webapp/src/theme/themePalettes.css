@@ -1,0 +1,320 @@
+:root,
+:root[data-palette="nude"] {
+  --background: #fcf8f5; /* Glowne tlo aplikacji. */
+  --foreground: #2f2926; /* Domyslny kolor tekstu. */
+  --card: #ffffff; /* Karty i podniesione powierzchnie. */
+  --card-foreground: #2f2926; /* Tekst na kartach. */
+  --popover: #ffffff; /* Dropdowny, menu, tooltipy i panele floating. */
+  --popover-foreground: #2f2926; /* Tekst w popoverach. */
+  --primary: #c98e7a; /* Glowne CTA, kluczowe akcje i akcje brandowe. */
+  --primary-foreground: #ffffff; /* Tekst i ikony na primary. */
+  --secondary: #f3e7e1; /* Drugorzedne przyciski i subtelne wyroznienia. */
+  --secondary-foreground: #5c4740; /* Tekst i ikony na secondary. */
+  --muted: #f6f0ec; /* Wyciszone bloki, tla disabled/subtle. */
+  --muted-foreground: #8b7c74; /* Help text, labele i tekst drugorzedny. */
+  --accent: #e9d3c8; /* Aktywne elementy poza sidebar/nav, miekki akcent. */
+  --accent-foreground: #4d3932; /* Tekst i ikony na accent. */
+  --destructive: #b94a48; /* Bledy i akcje destrukcyjne. */
+  --destructive-foreground: #ffffff; /* Tekst i ikony na destructive. */
+  --border: #e9ded8; /* Domyslne obramowania i separatory. */
+  --input: #e9ded8; /* Obramowania inputow. */
+  --ring: #c98e7a; /* Domyslny focus ring. */
+  --success: #3f7a5b; /* Status sukcesu i pozytywne badge. */
+  --success-foreground: #ffffff; /* Tekst i ikony na success. */
+  --warning: #a66a21; /* Ostrzezenia i badge wymagajace uwagi. */
+  --warning-foreground: #ffffff; /* Tekst i ikony na warning. */
+  --info: #5f718d; /* Status informacyjny i neutralne notice. */
+  --info-foreground: #ffffff; /* Tekst i ikony na info. */
+  --brand: #c98e7a; /* Logo, akcenty brandowe i detale dekoracyjne. */
+  --brand-soft: #f6e6df; /* Bardzo delikatne powierzchnie brandowe. */
+  --brand-strong: #a96d5b; /* Mocniejsze akcenty brandowe i hover. */
+  --surface-soft: #faf1ec; /* Miekkie karty rezerwacji/info i spokojne sekcje. */
+  --surface-emphasis: #f0ddd4; /* Troche mocniejsze wyroznienie powierzchni. */
+  --chart-1: #c98e7a; /* Seria danych 1. */
+  --chart-2: #a96d5b; /* Seria danych 2. */
+  --chart-3: #e9d3c8; /* Seria danych 3. */
+  --chart-4: #8b7c74; /* Seria danych 4. */
+  --chart-5: #5c4740; /* Seria danych 5. */
+  --radius: 0.625rem;
+  --sidebar: #fbf5f1; /* Tlo management sidebaru. */
+  --sidebar-foreground: #4a3c36; /* Domyslny tekst i ikony w sidebarze. */
+  --sidebar-primary: #c98e7a; /* Akcent logo/brandu w sidebarze. */
+  --sidebar-primary-foreground: #ffffff; /* Tekst i ikony na sidebar primary. */
+  --sidebar-accent: #f0e1da; /* Aktywny i hoverowany element sidebaru. */
+  --sidebar-accent-foreground: #3f312c; /* Tekst i ikony na sidebar accent. */
+  --sidebar-border: #e7dad3; /* Obramowania i separatory sidebaru. */
+  --sidebar-ring: #c98e7a; /* Focus ring w sidebarze. */
+  --nav: #fcf8f5; /* Tlo customer navbara i mobile drawera. */
+  --nav-foreground: #2f2926; /* Domyslny tekst i ikony w navbarze. */
+  --nav-brand: #c98e7a; /* Akcent logo/brandu w navbarze. */
+  --nav-accent: #e9d3c8; /* Aktywny i hoverowany element navbara. */
+  --nav-accent-foreground: #4d3932; /* Tekst i ikony na nav accent. */
+  --nav-border: #e9ded8; /* Obramowania i separatory navbara. */
+  --nav-ring: #c98e7a; /* Focus ring w navbarze. */
+}
+
+:root[data-palette="mauve"] {
+  --background: #fbf8f8; /* Glowne tlo aplikacji. */
+  --foreground: #342b2e; /* Domyslny kolor tekstu. */
+  --card: #ffffff; /* Karty i podniesione powierzchnie. */
+  --card-foreground: #342b2e; /* Tekst na kartach. */
+  --popover: #ffffff; /* Dropdowny, menu, tooltipy i panele floating. */
+  --popover-foreground: #342b2e; /* Tekst w popoverach. */
+  --primary: #b97b88; /* Glowne CTA, kluczowe akcje i akcje brandowe. */
+  --primary-foreground: #ffffff; /* Tekst i ikony na primary. */
+  --secondary: #f2e5e8; /* Drugorzedne przyciski i subtelne wyroznienia. */
+  --secondary-foreground: #61464e; /* Tekst i ikony na secondary. */
+  --muted: #f5eff1; /* Wyciszone bloki, tla disabled/subtle. */
+  --muted-foreground: #8b7a7f; /* Help text, labele i tekst drugorzedny. */
+  --accent: #e8cfd5; /* Aktywne elementy poza sidebar/nav, miekki akcent. */
+  --accent-foreground: #52353d; /* Tekst i ikony na accent. */
+  --destructive: #b94a5a; /* Bledy i akcje destrukcyjne. */
+  --destructive-foreground: #ffffff; /* Tekst i ikony na destructive. */
+  --border: #e8dde0; /* Domyslne obramowania i separatory. */
+  --input: #e8dde0; /* Obramowania inputow. */
+  --ring: #b97b88; /* Domyslny focus ring. */
+  --success: #47745f; /* Status sukcesu i pozytywne badge. */
+  --success-foreground: #ffffff; /* Tekst i ikony na success. */
+  --warning: #9b6a2f; /* Ostrzezenia i badge wymagajace uwagi. */
+  --warning-foreground: #ffffff; /* Tekst i ikony na warning. */
+  --info: #64708f; /* Status informacyjny i neutralne notice. */
+  --info-foreground: #ffffff; /* Tekst i ikony na info. */
+  --brand: #c08b89; /* Logo, akcenty brandowe i detale dekoracyjne. */
+  --brand-soft: #f4e5e7; /* Bardzo delikatne powierzchnie brandowe. */
+  --brand-strong: #93616d; /* Mocniejsze akcenty brandowe i hover. */
+  --surface-soft: #f8f1f3; /* Miekkie karty rezerwacji/info i spokojne sekcje. */
+  --surface-emphasis: #eedde1; /* Troche mocniejsze wyroznienie powierzchni. */
+  --chart-1: #b97b88; /* Seria danych 1. */
+  --chart-2: #93616d; /* Seria danych 2. */
+  --chart-3: #e8cfd5; /* Seria danych 3. */
+  --chart-4: #8b7a7f; /* Seria danych 4. */
+  --chart-5: #61464e; /* Seria danych 5. */
+  --sidebar: #faf5f6; /* Tlo management sidebaru. */
+  --sidebar-foreground: #4c3b40; /* Domyslny tekst i ikony w sidebarze. */
+  --sidebar-primary: #b97b88; /* Akcent logo/brandu w sidebarze. */
+  --sidebar-primary-foreground: #ffffff; /* Tekst i ikony na sidebar primary. */
+  --sidebar-accent: #eedde1; /* Aktywny i hoverowany element sidebaru. */
+  --sidebar-accent-foreground: #482f36; /* Tekst i ikony na sidebar accent. */
+  --sidebar-border: #e5d8db; /* Obramowania i separatory sidebaru. */
+  --sidebar-ring: #b97b88; /* Focus ring w sidebarze. */
+  --nav: #fbf8f8; /* Tlo customer navbara i mobile drawera. */
+  --nav-foreground: #342b2e; /* Domyslny tekst i ikony w navbarze. */
+  --nav-brand: #c08b89; /* Akcent logo/brandu w navbarze. */
+  --nav-accent: #e8cfd5; /* Aktywny i hoverowany element navbara. */
+  --nav-accent-foreground: #52353d; /* Tekst i ikony na nav accent. */
+  --nav-border: #e8dde0; /* Obramowania i separatory navbara. */
+  --nav-ring: #b97b88; /* Focus ring w navbarze. */
+}
+
+:root[data-palette="burgundy"] {
+  --background: #fff8f5; /* Glowne tlo aplikacji. */
+  --foreground: #2e2022; /* Domyslny kolor tekstu. */
+  --card: #ffffff; /* Karty i podniesione powierzchnie. */
+  --card-foreground: #2e2022; /* Tekst na kartach. */
+  --popover: #ffffff; /* Dropdowny, menu, tooltipy i panele floating. */
+  --popover-foreground: #2e2022; /* Tekst w popoverach. */
+  --primary: #7a2434; /* Glowne CTA, kluczowe akcje i mocny burgund. */
+  --primary-foreground: #ffffff; /* Tekst i ikony na primary. */
+  --secondary: #f1e0d8; /* Drugorzedne przyciski i subtelne wyroznienia. */
+  --secondary-foreground: #5b3a3e; /* Tekst i ikony na secondary. */
+  --muted: #f7efeb; /* Wyciszone bloki, tla disabled/subtle. */
+  --muted-foreground: #857276; /* Help text, labele i tekst drugorzedny. */
+  --accent: #b85d6a; /* Aktywne elementy poza sidebar/nav, mocny akcent. */
+  --accent-foreground: #ffffff; /* Tekst i ikony na accent. */
+  --destructive: #b63d48; /* Bledy i akcje destrukcyjne. */
+  --destructive-foreground: #ffffff; /* Tekst i ikony na destructive. */
+  --border: #e9ddd9; /* Domyslne obramowania i separatory. */
+  --input: #e9ddd9; /* Obramowania inputow. */
+  --ring: #7a2434; /* Domyslny focus ring. */
+  --success: #3f775e; /* Status sukcesu i pozytywne badge. */
+  --success-foreground: #ffffff; /* Tekst i ikony na success. */
+  --warning: #9b6728; /* Ostrzezenia i badge wymagajace uwagi. */
+  --warning-foreground: #ffffff; /* Tekst i ikony na warning. */
+  --info: #5b6f8f; /* Status informacyjny i neutralne notice. */
+  --info-foreground: #ffffff; /* Tekst i ikony na info. */
+  --brand: #b85d6a; /* Logo, akcenty brandowe i detale dekoracyjne. */
+  --brand-soft: #f4dfda; /* Bardzo delikatne powierzchnie brandowe. */
+  --brand-strong: #7a2434; /* Mocniejsze akcenty brandowe i hover. */
+  --surface-soft: #faece7; /* Miekkie karty rezerwacji/info i spokojne sekcje. */
+  --surface-emphasis: #f1ddd6; /* Troche mocniejsze wyroznienie powierzchni. */
+  --chart-1: #7a2434; /* Seria danych 1. */
+  --chart-2: #b85d6a; /* Seria danych 2. */
+  --chart-3: #f1ddd6; /* Seria danych 3. */
+  --chart-4: #857276; /* Seria danych 4. */
+  --chart-5: #5b3a3e; /* Seria danych 5. */
+  --sidebar: #7a2434; /* Tlo management sidebaru. */
+  --sidebar-foreground: #fff8f5; /* Domyslny tekst i ikony w sidebarze. */
+  --sidebar-primary: #b85d6a; /* Akcent logo/brandu w sidebarze. */
+  --sidebar-primary-foreground: #ffffff; /* Tekst i ikony na sidebar primary. */
+  --sidebar-accent: #681725; /* Aktywny i hoverowany element sidebaru. */
+  --sidebar-accent-foreground: #ffffff; /* Tekst i ikony na sidebar accent. */
+  --sidebar-border: #913143; /* Obramowania i separatory sidebaru. */
+  --sidebar-ring: #b85d6a; /* Focus ring w sidebarze. */
+  --nav: #7a2434; /* Tlo customer navbara i mobile drawera. */
+  --nav-foreground: #fff8f5; /* Domyslny tekst i ikony w navbarze. */
+  --nav-brand: #b85d6a; /* Akcent logo/brandu w navbarze. */
+  --nav-accent: #681725; /* Aktywny i hoverowany element navbara. */
+  --nav-accent-foreground: #ffffff; /* Tekst i ikony na nav accent. */
+  --nav-border: #913143; /* Obramowania i separatory navbara. */
+  --nav-ring: #b85d6a; /* Focus ring w navbarze. */
+}
+
+:root.dark,
+:root.dark[data-palette="nude"] {
+  --background: #1d1816;
+  --foreground: #f8eee8;
+  --card: #261f1c;
+  --card-foreground: #f8eee8;
+  --popover: #261f1c;
+  --popover-foreground: #f8eee8;
+  --primary: #d7a08f;
+  --primary-foreground: #2f2926;
+  --secondary: #3a2f2b;
+  --secondary-foreground: #f3e7e1;
+  --muted: #332a26;
+  --muted-foreground: #c7b6ad;
+  --accent: #5a4038;
+  --accent-foreground: #ffffff;
+  --destructive: #e17773;
+  --destructive-foreground: #2f2926;
+  --border: #463832;
+  --input: #463832;
+  --ring: #d7a08f;
+  --success: #76ad8e;
+  --success-foreground: #14251b;
+  --warning: #d8a25a;
+  --warning-foreground: #2c1e0d;
+  --info: #9aabc8;
+  --info-foreground: #111827;
+  --brand: #d7a08f;
+  --brand-soft: #3a2f2b;
+  --brand-strong: #f0c5b8;
+  --surface-soft: #261f1c;
+  --surface-emphasis: #3a2f2b;
+  --chart-1: #d7a08f;
+  --chart-2: #f0c5b8;
+  --chart-3: #5a4038;
+  --chart-4: #c7b6ad;
+  --chart-5: #8b7c74;
+  --sidebar: #261f1c;
+  --sidebar-foreground: #f8eee8;
+  --sidebar-primary: #d7a08f;
+  --sidebar-primary-foreground: #2f2926;
+  --sidebar-accent: #3a2f2b;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #463832;
+  --sidebar-ring: #d7a08f;
+  --nav: #261f1c;
+  --nav-foreground: #f8eee8;
+  --nav-brand: #d7a08f;
+  --nav-accent: #3a2f2b;
+  --nav-accent-foreground: #ffffff;
+  --nav-border: #463832;
+  --nav-ring: #d7a08f;
+}
+
+:root.dark[data-palette="mauve"] {
+  --background: #1f191c;
+  --foreground: #f8eef1;
+  --card: #2a2226;
+  --card-foreground: #f8eef1;
+  --popover: #2a2226;
+  --popover-foreground: #f8eef1;
+  --primary: #ca93a0;
+  --primary-foreground: #342b2e;
+  --secondary: #3d3035;
+  --secondary-foreground: #f2e5e8;
+  --muted: #352a2f;
+  --muted-foreground: #c9b7bd;
+  --accent: #60424a;
+  --accent-foreground: #ffffff;
+  --destructive: #e17888;
+  --destructive-foreground: #321419;
+  --border: #47383e;
+  --input: #47383e;
+  --ring: #ca93a0;
+  --success: #78aa8e;
+  --success-foreground: #13251b;
+  --warning: #d3a260;
+  --warning-foreground: #2a1c0d;
+  --info: #9ba7c8;
+  --info-foreground: #111827;
+  --brand: #ca93a0;
+  --brand-soft: #3d3035;
+  --brand-strong: #efc1ca;
+  --surface-soft: #2a2226;
+  --surface-emphasis: #3d3035;
+  --chart-1: #ca93a0;
+  --chart-2: #efc1ca;
+  --chart-3: #60424a;
+  --chart-4: #c9b7bd;
+  --chart-5: #8b7a7f;
+  --sidebar: #2a2226;
+  --sidebar-foreground: #f8eef1;
+  --sidebar-primary: #ca93a0;
+  --sidebar-primary-foreground: #342b2e;
+  --sidebar-accent: #3d3035;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #47383e;
+  --sidebar-ring: #ca93a0;
+  --nav: #2a2226;
+  --nav-foreground: #f8eef1;
+  --nav-brand: #ca93a0;
+  --nav-accent: #3d3035;
+  --nav-accent-foreground: #ffffff;
+  --nav-border: #47383e;
+  --nav-ring: #ca93a0;
+}
+
+:root.dark[data-palette="burgundy"] {
+  --background: #1f1517;
+  --foreground: #fff3ef;
+  --card: #2a1b1e;
+  --card-foreground: #fff3ef;
+  --popover: #2a1b1e;
+  --popover-foreground: #fff3ef;
+  --primary: #d0717f;
+  --primary-foreground: #2e2022;
+  --secondary: #3d292d;
+  --secondary-foreground: #f1e0d8;
+  --muted: #352428;
+  --muted-foreground: #cbb9b4;
+  --accent: #9b3e4c;
+  --accent-foreground: #ffffff;
+  --destructive: #e06470;
+  --destructive-foreground: #321114;
+  --border: #4a3337;
+  --input: #4a3337;
+  --ring: #d0717f;
+  --success: #76aa8d;
+  --success-foreground: #13251b;
+  --warning: #d3a05a;
+  --warning-foreground: #2a1c0d;
+  --info: #98a7c8;
+  --info-foreground: #111827;
+  --brand: #d0717f;
+  --brand-soft: #3d292d;
+  --brand-strong: #ffb5bd;
+  --surface-soft: #2a1b1e;
+  --surface-emphasis: #3d292d;
+  --chart-1: #d0717f;
+  --chart-2: #ffb5bd;
+  --chart-3: #9b3e4c;
+  --chart-4: #cbb9b4;
+  --chart-5: #857276;
+  --sidebar: #7a2434;
+  --sidebar-foreground: #fff8f5;
+  --sidebar-primary: #d0717f;
+  --sidebar-primary-foreground: #2e2022;
+  --sidebar-accent: #681725;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #913143;
+  --sidebar-ring: #d0717f;
+  --nav: #7a2434;
+  --nav-foreground: #fff8f5;
+  --nav-brand: #d0717f;
+  --nav-accent: #681725;
+  --nav-accent-foreground: #ffffff;
+  --nav-border: #913143;
+  --nav-ring: #d0717f;
+}

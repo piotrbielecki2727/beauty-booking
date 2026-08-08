@@ -1,0 +1,58 @@
+{
+  "common": {
+    "appName": "Beauty Booking",
+    "english": "Angielski",
+    "polish": "Polski"
+  },
+  "navigation": {
+    "bookings": "Rezerwacje",
+    "calendar": "Kalendarz",
+    "collapseSidebar": "Zwi\u0144 menu boczne",
+    "customerMain": "G\u0142\u00f3wna",
+    "dashboard": "Dashboard",
+    "employees": "Pracownicy",
+    "expandSidebar": "Rozwi\u0144 menu boczne",
+    "home": "Start",
+    "management": "Zarz\u0105dzanie",
+    "mobile": "Mobilna",
+    "openMenu": "Otw\u00f3rz menu",
+    "profile": "Profil",
+    "services": "Us\u0142ugi",
+    "settings": "Ustawienia",
+    "closeMenu": "Zamknij menu"
+  },
+  "theme": {
+    "dark": "Ciemny",
+    "light": "Jasny",
+    "system": "Systemowy",
+    "toggle": "Zmie\u0144 motyw"
+  },
+  "footer": {
+    "description": "Twoje miejsce do rezerwacji najlepszych us\u0142ug beauty. Pi\u0119kno zaczyna si\u0119 od chwili dla siebie.",
+    "copyright": "\u00a9 2026 Beauty Booking. Wszelkie prawa zastrze\u017cone.",
+    "sections": {
+      "customers": "Dla klient\u00f3w",
+      "information": "Informacje"
+    },
+    "links": {
+      "howItWorks": "Jak to dzia\u0142a",
+      "findService": "Znajd\u017a us\u0142ug\u0119",
+      "salonsAndSpecialists": "Salony i specjali\u015bci",
+      "help": "Pomoc",
+      "faq": "FAQ",
+      "about": "O nas",
+      "contact": "Kontakt",
+      "blog": "Blog",
+      "terms": "Regulamin",
+      "privacy": "Polityka prywatno\u015bci",
+      "cookies": "Polityka cookies"
+    },
+    "newsletter": {
+      "title": "B\u0105d\u017a na bie\u017c\u0105co",
+      "description": "Zapisz si\u0119 do newslettera i otrzymuj porady beauty oraz specjalne oferty.",
+      "placeholder": "Tw\u00f3j adres e-mail",
+      "inputLabel": "Adres e-mail",
+      "buttonLabel": "Zapisz si\u0119"
+    }
+  }
+}
