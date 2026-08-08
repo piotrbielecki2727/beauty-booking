@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter @beauty-booking/web dev",
+    "dev": "pnpm docker:up && pnpm --filter @beauty-booking/backend db:deploy && pnpm --filter @beauty-booking/shared build && pnpm -r --parallel --filter @beauty-booking/shared --filter @beauty-booking/web --filter @beauty-booking/backend dev",
+    "docker:up": "docker compose up -d --wait",
+    "docker:down": "docker compose down",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck"

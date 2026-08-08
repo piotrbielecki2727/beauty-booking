@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: beauty-booking-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: beauty_booking
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d beauty_booking"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - beauty_booking_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  beauty_booking_postgres_data:
