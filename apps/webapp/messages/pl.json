@@ -1,23 +1,60 @@
 {
   "common": {
     "appName": "Beauty Booking",
+    "close": "Zamknij",
     "english": "Angielski",
-    "polish": "Polski"
+    "polish": "Polski",
+    "selectPlaceholder": "Wybierz"
+  },
+  "tenant": {
+    "notFound": {
+      "description": "Ten adres nie jest połączony z żadnym salonem w Beauty Booking.",
+      "eyebrow": "Nieznany salon",
+      "hint": "Sprawdź adres strony albo skontaktuj się z właścicielem salonu.",
+      "title": "Nie znaleźliśmy tego salonu"
+    }
+  },
+  "customerHome": {
+    "session": {
+      "email": "E-mail",
+      "loading": "Sprawdzanie sesji...",
+      "notLoggedIn": "Nie jesteś zalogowany.",
+      "userId": "ID użytkownika"
+    }
+  },
+  "api": {
+    "account": {
+      "connectionError": "Nie można połączyć się z usługą kont. Sprawdź, czy backend jest uruchomiony.",
+      "invalidResponse": "Backend zwrócił nieprawidłową odpowiedź dla operacji konta.",
+      "requestFailed": "Nie udało się wykonać operacji."
+    }
+  },
+  "confirmationDialog": {
+    "cancel": "Zostań",
+    "confirm": "Opuść"
+  },
+  "input": {
+    "clear": "Wyczyść pole",
+    "hidePassword": "Ukryj hasło",
+    "showPassword": "Pokaż hasło"
   },
   "navigation": {
     "bookings": "Rezerwacje",
     "calendar": "Kalendarz",
-    "collapseSidebar": "Zwi\u0144 menu boczne",
-    "customerMain": "G\u0142\u00f3wna",
+    "contact": "Kontakt",
+    "pricing": "Cennik",
+    "inspirations": "Inspiracje",
+    "collapseSidebar": "Zwiń menu boczne",
+    "customerMain": "Główna",
     "dashboard": "Dashboard",
     "employees": "Pracownicy",
-    "expandSidebar": "Rozwi\u0144 menu boczne",
-    "home": "Start",
-    "management": "Zarz\u0105dzanie",
+    "expandSidebar": "Rozwiń menu boczne",
+    "home": "Strona główna",
+    "management": "Zarządzanie",
     "mobile": "Mobilna",
-    "openMenu": "Otw\u00f3rz menu",
+    "openMenu": "Otwórz menu",
     "profile": "Profil",
-    "services": "Us\u0142ugi",
+    "services": "Usługi",
     "settings": "Ustawienia",
     "closeMenu": "Zamknij menu"
   },
@@ -25,34 +62,256 @@
     "dark": "Ciemny",
     "light": "Jasny",
     "system": "Systemowy",
-    "toggle": "Zmie\u0144 motyw"
+    "toggle": "Zmień motyw"
+  },
+  "settingsMenu": {
+    "language": "Język",
+    "theme": "Motyw"
+  },
+  "accountMenu": {
+    "theme": "Motyw",
+    "label": "Menu konta",
+    "language": "Język",
+    "logout": "Wyloguj się",
+    "logoutErrorDescription": "Nie udało się zakończyć sesji. Spróbuj ponownie.",
+    "logoutErrorTitle": "Nie udało się wylogować",
+    "logoutOverlayDescription": "Kończymy Twoją sesję i wracamy do strony głównej.",
+    "logoutOverlayTitle": "Wylogowujemy Cię",
+    "myData": "Moje dane",
+    "myVisits": "Moje wizyty",
+    "upcomingVisit": "Nadchodząca wizyta",
+    "userFallback": "Konto",
+    "viewDetails": "Zobacz szczegóły",
+    "visitHistory": "Historia wizyt"
   },
   "footer": {
-    "description": "Twoje miejsce do rezerwacji najlepszych us\u0142ug beauty. Pi\u0119kno zaczyna si\u0119 od chwili dla siebie.",
-    "copyright": "\u00a9 2026 Beauty Booking. Wszelkie prawa zastrze\u017cone.",
+    "description": "Twoje miejsce do rezerwacji najlepszych usług beauty. Piękno zaczyna się od chwili dla siebie.",
+    "copyright": "© 2026 Beauty Booking. Wszelkie prawa zastrzeżone.",
     "sections": {
-      "customers": "Dla klient\u00f3w",
+      "customers": "Dla klientów",
       "information": "Informacje"
     },
     "links": {
-      "howItWorks": "Jak to dzia\u0142a",
-      "findService": "Znajd\u017a us\u0142ug\u0119",
-      "salonsAndSpecialists": "Salony i specjali\u015bci",
+      "howItWorks": "Jak to działa",
+      "findService": "Znajdź usługę",
+      "salonsAndSpecialists": "Salony i specjaliści",
       "help": "Pomoc",
       "faq": "FAQ",
       "about": "O nas",
       "contact": "Kontakt",
       "blog": "Blog",
       "terms": "Regulamin",
-      "privacy": "Polityka prywatno\u015bci",
+      "privacy": "Polityka prywatności",
       "cookies": "Polityka cookies"
     },
     "newsletter": {
-      "title": "B\u0105d\u017a na bie\u017c\u0105co",
-      "description": "Zapisz si\u0119 do newslettera i otrzymuj porady beauty oraz specjalne oferty.",
-      "placeholder": "Tw\u00f3j adres e-mail",
+      "title": "Bądź na bieżąco",
+      "description": "Zapisz się do newslettera i otrzymuj porady beauty oraz specjalne oferty.",
+      "placeholder": "Twój adres e-mail",
       "inputLabel": "Adres e-mail",
-      "buttonLabel": "Zapisz si\u0119"
+      "buttonLabel": "Zapisz się"
+    }
+  },
+  "auth": {
+    "register": {
+      "actions": {
+        "backHome": "Przejdź na stronę główną",
+        "cancelRegistration": "Anuluj rejestrację",
+        "fillTemporaryData": "Tymczasowo uzupełnij losowe dane",
+        "goToLogin": "Przejdź do logowania",
+        "haveAccount": "Mam już konto",
+        "resendCode": "Wyślij kod ponownie",
+        "submit": "Zarejestruj się",
+        "verifyEmail": "Potwierdź e-mail"
+      },
+      "fields": {
+        "acceptTermsAndPrivacy": "Akceptuję <termsLink>regulamin</termsLink> i <privacyPolicyLink>politykę prywatności</privacyPolicyLink>.",
+        "birthDate": "Data urodzenia",
+        "confirmPassword": "Powtórz hasło",
+        "email": "E-mail",
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "password": "Hasło",
+        "phone": "Numer telefonu",
+        "verificationCode": "Kod weryfikujący"
+      },
+      "feedback": {
+        "cannotResume": "Nie można wznowić rejestracji",
+        "codeExpired": "Czas na potwierdzenie rejestracji minął. Rozpocznij rejestrację ponownie.",
+        "codeExpires": "Czas na potwierdzenie e-maila minie za {time}",
+        "emailConfirmationFailed": "Nie udało się potwierdzić e-maila",
+        "genericError": "Nie udało się wykonać operacji. Spróbuj ponownie.",
+        "registrationCleared": "Rejestracja wyczyszczona",
+        "registrationClearedDescription": "Nie udało się anulować rejestracji po stronie serwera. Lokalny proces został wyczyszczony.",
+        "registrationExpired": "Rejestracja wygasła",
+        "registrationExpiredDescription": "Czas na potwierdzenie rejestracji minął. Rozpocznij rejestrację ponownie.",
+        "registrationFailed": "Nie udało się założyć konta",
+        "resendCodeFailed": "Nie udało się wysłać kodu",
+        "resendCooldown": "Nowy kod możesz wysłać za {seconds} s",
+        "resendLimitReached": "Limit ponownych wysyłek został wykorzystany.",
+        "resumeRegistrationDescription": "Rozpocznij rejestrację ponownie.",
+        "resumeRegistrationFailed": "Nie udało się wznowić rejestracji",
+        "verificationCodeSent": "Kod został wysłany",
+        "verificationCodeSentDescription": "Sprawdź skrzynkę e-mail i wpisz nowy kod."
+      },
+      "hero": {
+        "confirmedDescription": "Konto jest gotowe do logowania.",
+        "confirmedTitle": "Adres e-mail potwierdzony",
+        "description": "Utwórz konto i zacznij korzystać z Beauty Booking.",
+        "title": "Załóż konto",
+        "verifyTitle": "Potwierdź adres e-mail"
+      },
+      "overlays": {
+        "cancelDescription": "Kończymy bieżący proces rejestracji.",
+        "cancelTitle": "Anulujemy rejestrację",
+        "redirectDescription": "Przenosimy Cię do potwierdzenia adresu e-mail.",
+        "sendCodeTitle": "Wysyłamy kod",
+        "statusDescription": "Sprawdzamy, czy możesz kontynuować potwierdzanie adresu e-mail.",
+        "statusTitle": "Sprawdzamy rejestrację",
+        "verifyDescription": "Sprawdzamy kod i aktywujemy konto.",
+        "verifyTitle": "Potwierdzamy e-mail"
+      },
+      "placeholders": {
+        "confirmPassword": "Powtórz hasło",
+        "email": "anna@example.com",
+        "firstName": "Anna",
+        "lastName": "Kowalska",
+        "password": "Wpisz mocne hasło",
+        "verificationCode": "000000"
+      },
+      "success": {
+        "description": "E-mail {email} został potwierdzony. Możesz się zalogować.",
+        "title": "Adres e-mail został potwierdzony"
+      },
+      "texts": {
+        "emailDescription": "Na ten adres wyślemy kod potwierdzający.",
+        "optional": "(opcjonalnie)",
+        "passwordDescription": "Minimum 8 znaków, mała i wielka litera, cyfra oraz znak specjalny.",
+        "privacyPolicy": "politykę prywatności",
+        "terms": "regulamin",
+        "verificationIntro": "Wysłaliśmy kod weryfikujący na adres",
+        "verificationOutro": "Wpisz go poniżej, aby zakończyć rejestrację."
+      }
+    },
+    "navigation": {
+      "label": "Nawigacja konta",
+      "login": "Zaloguj się",
+      "register": "Zarejestruj się"
+    },
+    "login": {
+      "actions": {
+        "backHome": "Przejdź na stronę główną",
+        "forgotPassword": "Nie pamiętasz hasła?",
+        "google": "Zaloguj się przez Google",
+        "noAccount": "Nie masz jeszcze konta?",
+        "register": "Zarejestruj się",
+        "rememberMe": "Zapamiętaj mnie",
+        "submit": "Zaloguj się"
+      },
+      "card": {
+        "description": "Wpisz dane konta, aby przejść do rezerwacji.",
+        "title": "Logowanie"
+      },
+      "feedback": {
+        "invalidCredentials": "Nie znaleźliśmy konta z takimi danymi. Sprawdź e-mail i hasło.",
+        "loginFailed": "Nie udało się zalogować"
+      },
+      "fields": {
+        "email": "E-mail",
+        "password": "Hasło"
+      },
+      "hero": {
+        "description": "Zaloguj się, aby zarządzać swoimi rezerwacjami i cieszyć się pięknem na co dzień.",
+        "title": "Zaloguj się"
+      },
+      "overlays": {
+        "submitDescription": "Sprawdzamy dane konta i przygotowujemy panel.",
+        "submitTitle": "Logujemy Cię"
+      },
+      "placeholders": {
+        "email": "Wpisz swój adres e-mail",
+        "password": "Wpisz swoje hasło"
+      },
+      "texts": {
+        "privacy": "Szczegóły znajdziesz w naszej <privacyPolicyLink>Polityce prywatności</privacyPolicyLink>.",
+        "security": "Twoje dane są u nas bezpieczne.",
+        "separator": "Lub"
+      }
+    }
+  },
+  "datePicker": {
+    "month": "Miesiąc",
+    "months": {
+      "april": "Kwiecień",
+      "august": "Sierpień",
+      "december": "Grudzień",
+      "february": "Luty",
+      "january": "Styczeń",
+      "july": "Lipiec",
+      "june": "Czerwiec",
+      "march": "Marzec",
+      "may": "Maj",
+      "november": "Listopad",
+      "october": "Październik",
+      "september": "Wrzesień"
+    },
+    "nextMonth": "Następny miesiąc",
+    "placeholder": "Wybierz datę",
+    "previousMonth": "Poprzedni miesiąc",
+    "weekDays": {
+      "friday": "Pt",
+      "monday": "Pn",
+      "saturday": "Sb",
+      "sunday": "Nd",
+      "thursday": "Cz",
+      "tuesday": "Wt",
+      "wednesday": "Śr"
+    },
+    "year": "Rok"
+  },
+  "timePicker": {
+    "placeholder": "Wybierz godzinę"
+  },
+  "validation": {
+    "account": {
+      "email": {
+        "required": "Podaj adres e-mail.",
+        "invalid": "Podaj poprawny adres e-mail."
+      },
+      "password": {
+        "minLength": "Hasło musi mieć minimum 8 znaków.",
+        "lowercase": "Hasło musi zawierać małą literę.",
+        "uppercase": "Hasło musi zawierać wielką literę.",
+        "digit": "Hasło musi zawierać cyfrę.",
+        "specialCharacter": "Hasło musi zawierać znak specjalny.",
+        "required": "Podaj hasło."
+      },
+      "confirmPassword": {
+        "required": "Powtórz hasło.",
+        "mismatch": "Hasła muszą być takie same."
+      },
+      "firstName": {
+        "minLength": "Imię musi mieć minimum 2 znaki.",
+        "maxLength": "Imię może mieć maksymalnie 40 znaków.",
+        "invalidCharacters": "Imię może zawierać litery, spacje, apostrof i myślnik."
+      },
+      "lastName": {
+        "minLength": "Nazwisko musi mieć minimum 2 znaki.",
+        "maxLength": "Nazwisko może mieć maksymalnie 40 znaków.",
+        "invalidCharacters": "Nazwisko może zawierać litery, spacje, apostrof i myślnik."
+      },
+      "birthDate": {
+        "invalid": "Podaj poprawną datę urodzenia."
+      },
+      "phone": {
+        "invalid": "Podaj poprawny numer telefonu, 9 cyfr."
+      },
+      "consents": {
+        "termsAndPrivacyPolicy": "Zaakceptuj regulamin i politykę prywatności."
+      },
+      "verificationCode": {
+        "invalid": "Wpisz 6-cyfrowy kod z e-maila."
+      }
     }
   }
 }

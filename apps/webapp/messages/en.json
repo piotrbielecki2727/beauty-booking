@@ -1,12 +1,49 @@
 {
   "common": {
     "appName": "Beauty Booking",
+    "close": "Close",
     "english": "English",
-    "polish": "Polish"
+    "polish": "Polish",
+    "selectPlaceholder": "Choose"
+  },
+  "tenant": {
+    "notFound": {
+      "description": "This address is not connected to any salon in Beauty Booking.",
+      "eyebrow": "Unknown salon",
+      "hint": "Check the page address or contact the salon owner.",
+      "title": "We could not find this salon"
+    }
+  },
+  "customerHome": {
+    "session": {
+      "email": "E-mail",
+      "loading": "Checking session...",
+      "notLoggedIn": "You are not logged in.",
+      "userId": "User ID"
+    }
+  },
+  "api": {
+    "account": {
+      "connectionError": "Cannot connect to the account service. Check whether the backend is running.",
+      "invalidResponse": "The backend returned an invalid response for the account operation.",
+      "requestFailed": "Could not complete the operation."
+    }
+  },
+  "confirmationDialog": {
+    "cancel": "Stay",
+    "confirm": "Leave"
+  },
+  "input": {
+    "clear": "Clear field",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password"
   },
   "navigation": {
     "bookings": "Bookings",
     "calendar": "Calendar",
+    "contact": "Contact",
+    "pricing": "Pricing",
+    "inspirations": "Inspirations",
     "collapseSidebar": "Collapse sidebar",
     "customerMain": "Main",
     "dashboard": "Dashboard",
@@ -27,9 +64,29 @@
     "system": "System",
     "toggle": "Change theme"
   },
+  "settingsMenu": {
+    "language": "Language",
+    "theme": "Theme"
+  },
+  "accountMenu": {
+    "theme": "Theme",
+    "label": "Account menu",
+    "language": "Language",
+    "logout": "Log out",
+    "logoutErrorDescription": "Could not end your session. Try again.",
+    "logoutErrorTitle": "Could not log out",
+    "logoutOverlayDescription": "We are ending your session and returning to the homepage.",
+    "logoutOverlayTitle": "Logging you out",
+    "myData": "My details",
+    "myVisits": "My visits",
+    "upcomingVisit": "Upcoming visit",
+    "userFallback": "Account",
+    "viewDetails": "View details",
+    "visitHistory": "Visit history"
+  },
   "footer": {
     "description": "Your place to book the best beauty services. Beauty begins with a moment for yourself.",
-    "copyright": "? 2026 Beauty Booking. All rights reserved.",
+    "copyright": "© 2026 Beauty Booking. All rights reserved.",
     "sections": {
       "customers": "For customers",
       "information": "Information"
@@ -53,6 +110,208 @@
       "placeholder": "Your e-mail address",
       "inputLabel": "E-mail address",
       "buttonLabel": "Subscribe"
+    }
+  },
+  "auth": {
+    "register": {
+      "actions": {
+        "backHome": "Go to homepage",
+        "cancelRegistration": "Cancel registration",
+        "fillTemporaryData": "Temporarily fill random data",
+        "goToLogin": "Go to login",
+        "haveAccount": "I already have an account",
+        "resendCode": "Send code again",
+        "submit": "Create account",
+        "verifyEmail": "Confirm e-mail"
+      },
+      "fields": {
+        "acceptTermsAndPrivacy": "I accept the <termsLink>terms</termsLink> and <privacyPolicyLink>privacy policy</privacyPolicyLink>.",
+        "birthDate": "Birth date",
+        "confirmPassword": "Repeat password",
+        "email": "E-mail",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "password": "Password",
+        "phone": "Phone number",
+        "verificationCode": "Verification code"
+      },
+      "feedback": {
+        "cannotResume": "Registration cannot be resumed",
+        "codeExpired": "The registration confirmation time has expired. Start registration again.",
+        "codeExpires": "E-mail confirmation expires in {time}",
+        "emailConfirmationFailed": "Could not confirm e-mail",
+        "genericError": "Could not complete the operation. Try again.",
+        "registrationCleared": "Registration cleared",
+        "registrationClearedDescription": "Could not cancel registration on the server. The local process was cleared.",
+        "registrationExpired": "Registration expired",
+        "registrationExpiredDescription": "The registration confirmation time has expired. Start registration again.",
+        "registrationFailed": "Could not create account",
+        "resendCodeFailed": "Could not send code",
+        "resendCooldown": "You can send a new code in {seconds} s",
+        "resendLimitReached": "The resend limit has been reached.",
+        "resumeRegistrationDescription": "Start registration again.",
+        "resumeRegistrationFailed": "Could not resume registration",
+        "verificationCodeSent": "Code sent",
+        "verificationCodeSentDescription": "Check your inbox and enter the new code."
+      },
+      "hero": {
+        "confirmedDescription": "The account is ready for login.",
+        "confirmedTitle": "E-mail confirmed",
+        "description": "Create an account and start using Beauty Booking.",
+        "title": "Create account",
+        "verifyTitle": "Confirm e-mail"
+      },
+      "overlays": {
+        "cancelDescription": "We are ending the current registration process.",
+        "cancelTitle": "Cancelling registration",
+        "redirectDescription": "We are taking you to e-mail confirmation.",
+        "sendCodeTitle": "Sending code",
+        "statusDescription": "We are checking whether you can continue e-mail confirmation.",
+        "statusTitle": "Checking registration",
+        "verifyDescription": "We are checking the code and activating the account.",
+        "verifyTitle": "Confirming e-mail"
+      },
+      "placeholders": {
+        "confirmPassword": "Repeat password",
+        "email": "anna@example.com",
+        "firstName": "Anna",
+        "lastName": "Kowalska",
+        "password": "Enter a strong password",
+        "verificationCode": "000000"
+      },
+      "success": {
+        "description": "E-mail {email} has been confirmed. You can log in.",
+        "title": "E-mail has been confirmed"
+      },
+      "texts": {
+        "emailDescription": "We will send a confirmation code to this address.",
+        "optional": "(optional)",
+        "passwordDescription": "Minimum 8 characters, lowercase and uppercase letter, digit, and special character.",
+        "privacyPolicy": "privacy policy",
+        "terms": "terms",
+        "verificationIntro": "We sent a verification code to",
+        "verificationOutro": "Enter it below to finish registration."
+      }
+    },
+    "navigation": {
+      "label": "Account navigation",
+      "login": "Log in",
+      "register": "Sign up"
+    },
+    "login": {
+      "actions": {
+        "backHome": "Go to homepage",
+        "forgotPassword": "Forgot password?",
+        "google": "Log in with Google",
+        "noAccount": "Do not have an account yet?",
+        "register": "Sign up",
+        "rememberMe": "Remember me",
+        "submit": "Log in"
+      },
+      "card": {
+        "description": "Enter your account details to continue booking.",
+        "title": "Login"
+      },
+      "feedback": {
+        "invalidCredentials": "We could not find an account with these credentials. Check your e-mail and password.",
+        "loginFailed": "Could not log in"
+      },
+      "fields": {
+        "email": "E-mail",
+        "password": "Password"
+      },
+      "hero": {
+        "description": "Log in to manage your bookings and enjoy beauty every day.",
+        "title": "Log in"
+      },
+      "overlays": {
+        "submitDescription": "We are checking your account details and preparing your panel.",
+        "submitTitle": "Logging you in"
+      },
+      "placeholders": {
+        "email": "Enter your e-mail address",
+        "password": "Enter your password"
+      },
+      "texts": {
+        "privacy": "Details are available in our <privacyPolicyLink>Privacy policy</privacyPolicyLink>.",
+        "security": "Your data is safe with us.",
+        "separator": "Or"
+      }
+    }
+  },
+  "datePicker": {
+    "month": "Month",
+    "months": {
+      "april": "April",
+      "august": "August",
+      "december": "December",
+      "february": "February",
+      "january": "January",
+      "july": "July",
+      "june": "June",
+      "march": "March",
+      "may": "May",
+      "november": "November",
+      "october": "October",
+      "september": "September"
+    },
+    "nextMonth": "Next month",
+    "placeholder": "Choose date",
+    "previousMonth": "Previous month",
+    "weekDays": {
+      "friday": "Fri",
+      "monday": "Mon",
+      "saturday": "Sat",
+      "sunday": "Sun",
+      "thursday": "Thu",
+      "tuesday": "Tue",
+      "wednesday": "Wed"
+    },
+    "year": "Year"
+  },
+  "timePicker": {
+    "placeholder": "Choose time"
+  },
+  "validation": {
+    "account": {
+      "email": {
+        "required": "Enter your e-mail address.",
+        "invalid": "Enter a valid e-mail address."
+      },
+      "password": {
+        "minLength": "Password must contain at least 8 characters.",
+        "lowercase": "Password must contain a lowercase letter.",
+        "uppercase": "Password must contain an uppercase letter.",
+        "digit": "Password must contain a digit.",
+        "specialCharacter": "Password must contain a special character.",
+        "required": "Enter your password."
+      },
+      "confirmPassword": {
+        "required": "Repeat your password.",
+        "mismatch": "Passwords must match."
+      },
+      "firstName": {
+        "minLength": "First name must contain at least 2 characters.",
+        "maxLength": "First name can contain up to 40 characters.",
+        "invalidCharacters": "First name may contain letters, spaces, apostrophes and hyphens."
+      },
+      "lastName": {
+        "minLength": "Last name must contain at least 2 characters.",
+        "maxLength": "Last name can contain up to 40 characters.",
+        "invalidCharacters": "Last name may contain letters, spaces, apostrophes and hyphens."
+      },
+      "birthDate": {
+        "invalid": "Enter a valid birth date."
+      },
+      "phone": {
+        "invalid": "Enter a valid 9-digit phone number."
+      },
+      "consents": {
+        "termsAndPrivacyPolicy": "Accept the terms and privacy policy."
+      },
+      "verificationCode": {
+        "invalid": "Enter the 6-digit code from the e-mail."
+      }
     }
   }
 }
