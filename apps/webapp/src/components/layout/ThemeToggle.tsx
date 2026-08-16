@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 
 import { layoutControlClassNames } from "@/components/layout/layoutControlVariantStyles";
-import { Tooltip } from "@/components/reusable/Tooltip";
 import { useClientHydrated } from "@/hooks/useClientHydrated";
 import { cn } from "@/lib/utils";
 
@@ -26,24 +25,27 @@ export const ThemeToggle = ({
     isClientHydrated && theme ? t(`theme.${theme}`) : t("theme.system");
 
   return (
-    <Tooltip content={title} side="bottom">
-      <button
-        type="button"
-        className={cn(
-          "inline-flex size-10 items-center justify-center rounded-md transition-colors focus-visible:outline-2",
-          layoutControlClassNames[variant],
-        )}
-        aria-label={t("theme.toggle")}
-        onClick={() => setTheme(nextTheme)}
-      >
-        {!isClientHydrated || theme === "system" ? (
-          <MonitorIcon className="size-5" aria-hidden="true" />
-        ) : resolvedTheme === "dark" ? (
-          <SunIcon className="size-5" aria-hidden="true" />
-        ) : (
-          <MoonIcon className="size-5" aria-hidden="true" />
-        )}
-      </button>
-    </Tooltip>
+    <button
+      type="button"
+      className={cn(
+        "group relative inline-flex size-10 items-center justify-center rounded-md transition-colors focus-visible:outline-2",
+        layoutControlClassNames[variant],
+      )}
+      aria-label={t("theme.toggle")}
+      title={title}
+      onClick={() => setTheme(nextTheme)}
+    >
+      {!isClientHydrated || theme === "system" ? (
+        <MonitorIcon className="size-5" aria-hidden="true" />
+      ) : resolvedTheme === "dark" ? (
+        <SunIcon className="size-5" aria-hidden="true" />
+      ) : (
+        <MoonIcon className="size-5" aria-hidden="true" />
+      )}
+      <span
+        aria-hidden="true"
+        className="absolute bottom-1 left-1/2 h-px w-full origin-center -translate-x-1/2 scale-x-0 bg-current transition-transform duration-300 ease-out group-hover:scale-x-50"
+      />
+    </button>
   );
 };
