@@ -14,10 +14,7 @@ export const CustomerFooterBrand = ({
 }) => {
   return (
     <div className="flex flex-col items-center gap-5 text-center md:items-start md:text-left">
-      <Link
-        href="/"
-        className="w-fit origin-left transition-transform duration-200 ease-out hover:scale-[1.03] focus-visible:scale-[1.03]"
-      >
+      <Link href="/" className="w-fit origin-left ">
         <Logo label={appName} size="lg" textSize="lg" />
       </Link>
 

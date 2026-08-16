@@ -16,9 +16,13 @@ export const CustomerNavbarMobile = ({
   const t = useTranslations();
 
   return (
-    <Drawer.Root open={isOpen} onOpenChange={onIsOpenChange} swipeDirection="right">
+    <Drawer.Root
+      open={isOpen}
+      onOpenChange={onIsOpenChange}
+      swipeDirection="right"
+    >
       <Drawer.Trigger
-        className="inline-flex size-10 items-center justify-center rounded-md text-nav-foreground/80 transition-colors hover:bg-nav-accent hover:text-nav-accent-foreground focus-visible:outline-2 focus-visible:outline-nav-ring md:hidden"
+        className="inline-flex size-10 items-center justify-center rounded-md text-brand transition-colors hover:bg-transparent hover:scale-[1.1] hover: transition-transform duration-300 ease-out focus-visible:outline-2 focus-visible:outline-nav-ring xl:hidden cursor-pointer"
         aria-label={t("navigation.openMenu")}
       >
         <MenuIcon className="size-5" aria-hidden="true" />

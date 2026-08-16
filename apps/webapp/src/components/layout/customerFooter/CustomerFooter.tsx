@@ -8,17 +8,20 @@ import { CustomerFooterBottom } from "@/components/layout/customerFooter/shared/
 import { CustomerFooterBrand } from "@/components/layout/customerFooter/shared/CustomerFooterBrand";
 import { CustomerFooterNewsletter } from "@/components/layout/customerFooter/shared/CustomerFooterNewsletter";
 import { CustomerFooterSection } from "@/components/layout/customerFooter/shared/CustomerFooterSection";
+import { useTenantContext } from "@/features/tenant";
 
 export const CustomerFooter = () => {
   const t = useTranslations();
+  const { business } = useTenantContext();
   const translateFooter = (key: string) => t(`footer.${key}`);
+  const brandLabel = business?.name ?? t("common.appName");
 
   return (
     <footer className="border-t border-border bg-surface-soft">
       <PageContainer className="py-10 md:py-12">
         <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr] lg:grid-cols-[1.4fr_0.8fr_0.8fr_1.3fr]">
           <CustomerFooterBrand
-            appName={t("common.appName")}
+            appName={brandLabel}
             description={t("footer.description")}
           />
 
