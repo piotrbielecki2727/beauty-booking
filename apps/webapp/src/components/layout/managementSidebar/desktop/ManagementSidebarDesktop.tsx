@@ -21,7 +21,7 @@ export const ManagementSidebarDesktop = ({
 
   return (
     <aside
-      className="hidden min-h-screen min-w-0 flex-col overflow-hidden border-r border-sidebar-border bg-sidebar text-sidebar-foreground md:flex"
+      className="hidden min-h-screen min-w-0 flex-col overflow-hidden border-r border-line bg-canvas text-copy md:flex"
       onMouseEnter={() => setIsSidebarHovered(true)}
       onMouseLeave={() => setIsSidebarHovered(false)}
     >

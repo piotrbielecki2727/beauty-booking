@@ -17,7 +17,7 @@ export const ManagementAppShell = ({ children }: { children: ReactNode }) => {
   return (
     <div
       className={cn(
-        "grid min-h-screen bg-background transition-[grid-template-columns] duration-300 ease-in-out",
+        "grid min-h-screen bg-canvas transition-[grid-template-columns] duration-300 ease-in-out",
         "md:grid-cols-[16rem_minmax(0,1fr)]",
         isSidebarCollapsed && "md:grid-cols-[5rem_minmax(0,1fr)]",
       )}

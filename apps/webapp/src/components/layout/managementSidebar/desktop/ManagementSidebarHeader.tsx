@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { getManagementSidebarHeaderState } from "@/components/layout/managementSidebar/desktop/managementSidebarHeaderStyles";
 import { Logo } from "@/components/reusable/Logo";
 import { Tooltip } from "@/components/reusable/Tooltip";
+import { useTenantContext } from "@/features/tenant";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,8 @@ export const ManagementSidebarHeader = ({
   transition,
 }: ManagementSidebarHeaderProperties) => {
   const t = useTranslations();
+  const { business } = useTenantContext();
+  const brandLabel = business?.name ?? t("common.appName");
 
   const {
     handleCollapseSidebar,
@@ -47,7 +50,7 @@ export const ManagementSidebarHeader = ({
   });
 
   return (
-    <div className="flex h-16 shrink-0 items-center border-b border-sidebar-border px-6">
+    <div className="flex h-16 shrink-0 items-center border-b border-line px-6">
       <div className="relative flex w-full min-w-0 items-center">
         <div
           className={cn(
@@ -58,18 +61,14 @@ export const ManagementSidebarHeader = ({
           <div className="relative flex size-8 shrink-0 items-center justify-center">
             <Link
               href="/management"
-              aria-label={t("common.appName")}
+              aria-label={brandLabel}
               className={cn(
                 "absolute inset-0 flex items-center justify-center",
                 "transition-[opacity,transform] duration-150 ease-out",
                 logoButtonClassName,
               )}
             >
-              <Logo
-                aria-hidden="true"
-                svgClassName="text-sidebar-primary"
-                size="md"
-              />
+              <Logo aria-hidden="true" size="md" />
             </Link>
 
             <Tooltip content={t("navigation.expandSidebar")} side="right">
@@ -80,10 +79,10 @@ export const ManagementSidebarHeader = ({
                 disabled={!isCollapsed || isTransitioning}
                 className={cn(
                   "absolute inset-0 inline-flex items-center justify-center",
-                  "rounded-md text-sidebar-foreground/80",
+                  "rounded-md text-brand",
                   "transition-[opacity,transform,color,background-color] duration-150 ease-out",
-                  "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                  "focus-visible:outline-2 focus-visible:outline-sidebar-ring",
+                  "hover:bg-surface-hover hover:text-brand-hover",
+                  "focus-visible:outline-2 focus-visible:outline-brand",
                   expandButtonClassName,
                 )}
               >
@@ -94,12 +93,12 @@ export const ManagementSidebarHeader = ({
 
           <Logo
             aria-hidden="true"
-            label={t("common.appName")}
+            label={brandLabel}
             size="md"
             svgClassName="hidden"
             textSize="md"
             className={cn(
-              "ml-2 min-w-0 overflow-hidden whitespace-nowrap",
+              "ml-2 min-w-0 overflow-hidden whitespace-nowrap text-brand",
               "transition-[opacity,transform] duration-200 ease-out",
               brandLabelClassName,
             )}
@@ -121,9 +120,9 @@ export const ManagementSidebarHeader = ({
               disabled={isTransitioning}
               className={cn(
                 "inline-flex ml-[1.3rem] size-9 items-center justify-center rounded-md",
-                "text-sidebar-foreground/80 transition-colors",
-                "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                "focus-visible:outline-2 focus-visible:outline-sidebar-ring",
+                "text-brand transition-colors",
+                "hover:bg-surface-hover hover:text-brand-hover",
+                "focus-visible:outline-2 focus-visible:outline-brand",
               )}
             >
               <PanelLeftCloseIcon className="size-5" aria-hidden="true" />

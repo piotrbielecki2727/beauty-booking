@@ -14,7 +14,7 @@ export const ManagementSidebarFooter = ({
   return (
     <div
       className={cn(
-        "flex shrink-0 border-t border-sidebar-border p-3",
+        "flex shrink-0 border-t border-line p-3",
         isCollapsed
           ? "flex-col items-center gap-2"
           : "items-center justify-between gap-2",
