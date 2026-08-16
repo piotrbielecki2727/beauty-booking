@@ -21,6 +21,10 @@
     "./roles": {
       "types": "./dist/roles/index.d.ts",
       "default": "./dist/roles/index.js"
+    },
+    "./tenant": {
+      "types": "./dist/tenant/index.d.ts",
+      "default": "./dist/tenant/index.js"
     }
   },
   "scripts": {
