@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AccountRole {
+  Admin
+  Owner
+  Manager
+  Employee
+  Customer
+}
+
+model User {
+  id                              String                  @id @default(uuid())
+  email                           String
+  passwordHash                    String
+  firstName                       String
+  lastName                        String
+  phone                           String?
+  birthDate                       DateTime?
+  role                            AccountRole             @default(Customer)
+  emailVerifiedAt                 DateTime?
+  termsAndPrivacyPolicyAcceptedAt DateTime?
+  createdAt                       DateTime                @default(now())
+  updatedAt                       DateTime                @updatedAt
+  businessId                      String
+  business                        Business                @relation(fields: [businessId], references: [id], onDelete: Restrict)
+  businessMemberships             BusinessMembership[]
+  emailVerificationCodes          EmailVerificationCode[]
+
+  @@unique([businessId, email])
+  @@index([businessId])
+  @@index([role])
+}
+
+model EmailVerificationCode {
+  id             String    @id @default(uuid())
+  codeHash       String
+  expiresAt      DateTime
+  failedAttempts Int       @default(0)
+  usedAt         DateTime?
+  createdAt      DateTime  @default(now())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, usedAt, expiresAt])
+}
+
+model Business {
+  id          String               @id @default(uuid())
+  name        String
+  slug        String               @unique
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  domains     BusinessDomain[]
+  memberships BusinessMembership[]
+  users       User[]
+}
+
+model BusinessDomain {
+  id         String   @id @default(uuid())
+  hostname   String   @unique
+  isPrimary  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+}
+
+model BusinessMembership {
+  id         String      @id @default(uuid())
+  role       AccountRole
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  businessId String
+  userId     String
+  business   Business    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, userId])
+  @@index([userId])
+}
