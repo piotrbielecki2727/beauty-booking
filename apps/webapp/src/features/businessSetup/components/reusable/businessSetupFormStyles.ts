@@ -1,5 +1,5 @@
 export const businessSetupFieldClassNames =
-  "border-line-strong bg-background hover:bg-surface-hover focus-visible:border-brand focus-visible:ring-[var(--ring-soft)]";
+  "border-line-strong bg-background hover:bg-surface-soft focus-visible:border-brand focus-visible:ring-[var(--ring-soft)]";
 
 export const businessSetupFeedbackMode = "overlay" as const;
 

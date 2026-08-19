@@ -122,7 +122,11 @@ const authConfig = {
     }),
   ],
   secret: process.env.AUTH_SECRET ?? "beauty-booking-local-auth-secret",
+  jwt: {
+    maxAge: 60 * 60,
+  },
   session: {
+    maxAge: 60 * 60,
     strategy: "jwt",
   },
   trustHost: true,

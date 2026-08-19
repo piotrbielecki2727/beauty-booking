@@ -40,6 +40,14 @@ const normalizeTenantHostname = (value: string) => {
 const isLocalBackendHostname = (hostname: string) =>
   hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 
+const getTenantHostnameCandidates = (hostname: string) => {
+  if (env.NODE_ENV === "production" || !hostname.endsWith(".localhost")) {
+    return [hostname];
+  }
+
+  return [hostname, hostname.slice(0, -".localhost".length)];
+};
+
 const getTenantHostFromRequest = (request: Request) =>
   getHeaderValue(request.headers["x-tenant-host"]) ??
   getHeaderValue(request.headers.origin) ??
@@ -77,12 +85,16 @@ const resolveTenantContextByHost = async (
     throw new ApiError(400, "Nieprawidłowy kontekst biznesu.");
   }
 
-  const businessDomain = await findTenantBusinessByHostname(hostname);
+  for (const hostnameCandidate of getTenantHostnameCandidates(hostname)) {
+    const businessDomain = await findTenantBusinessByHostname(
+      hostnameCandidate,
+    );
 
-  if (businessDomain) {
-    return {
-      business: businessDomain.business,
-    };
+    if (businessDomain) {
+      return {
+        business: businessDomain.business,
+      };
+    }
   }
 
   if (env.NODE_ENV !== "production" && isLocalBackendHostname(hostname)) {

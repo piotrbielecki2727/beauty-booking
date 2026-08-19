@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 import type { ReactNode } from "react";
 
-type SelectFeedbackMode = "auto" | "reserved";
+type SelectFeedbackMode = "auto" | "overlay" | "reserved";
 
 type SelectOption = {
   isDisabled?: boolean;
@@ -82,6 +82,7 @@ export const Select = ({
 
   const selectId = id ?? generatedId;
   const isInvalid = Boolean(error) || invalid === true || invalid === "true";
+  const isFeedbackOverlay = feedbackMode === "overlay";
   const shouldReserveFeedback = feedbackMode === "reserved";
   const feedbackId =
     error || description || shouldReserveFeedback
@@ -144,7 +145,7 @@ export const Select = ({
 
   return (
     <div
-      className={cn("grid gap-1.5", className)}
+      className={cn("grid gap-1.5", isFeedbackOverlay && "relative", className)}
       data-invalid={isInvalid ? true : undefined}
     >
       <Label className="gap-1 leading-5" htmlFor={selectId}>
@@ -159,6 +160,11 @@ export const Select = ({
       {control}
 
       <FieldFeedback
+        className={
+          isFeedbackOverlay
+            ? "absolute left-0 top-full z-10 mt-0.5 w-full"
+            : undefined
+        }
         description={description}
         error={error}
         id={feedbackId}

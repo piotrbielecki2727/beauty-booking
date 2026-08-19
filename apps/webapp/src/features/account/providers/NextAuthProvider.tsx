@@ -12,7 +12,9 @@ export const NextAuthProvider = ({
   children,
 }: NextAuthProviderProperties) => {
   return (
-    <SessionProvider refetchOnWindowFocus={false}>{children}</SessionProvider>
+    <SessionProvider refetchInterval={5 * 60} refetchOnWindowFocus>
+      {children}
+    </SessionProvider>
   );
 };
 

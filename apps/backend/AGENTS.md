@@ -7,6 +7,8 @@
 3. Keep backend changes scoped to the requested feature.
 4. Use `packages/shared` for request/response schemas and domain types that must stay aligned with the frontend.
 5. Update feature documentation in `docs/features` whenever behavior, endpoints, data flow or module boundaries change.
+6. Implement broad features incrementally. Keep each stage independently understandable and verifiable instead of delivering a large, mixed change set at once.
+7. Do not create commits or push changes unless the user explicitly asks. In a dirty worktree, stage only files that belong to the requested commit; never use `git add .` blindly.
 
 ## Current Backend Stage
 
@@ -24,12 +26,13 @@ Current stack:
 
 From the repository root, `pnpm dev` builds `@beauty-booking/shared`, then starts shared watch mode, the web app and the backend in parallel.
 
-Current implemented module:
+Current implemented modules:
 
 - `auth`: registration, e-mail verification mock, login, current user, logout.
 - `tenant`: active business context resolution from host.
+- `businessSetup`: setup state plus persisted business basics, location, workstations and services.
 
-The backend auth module is connected to the frontend through Auth.js/NextAuth Credentials. Booking and salon data are still local/mock until their backend modules are added.
+The backend auth module is connected to the frontend through Auth.js/NextAuth Credentials. Booking, employee scheduling and the remaining setup steps are still incomplete or mocked until their backend modules are added.
 
 Current auth persistence includes a legal acceptance timestamp on `User`:
 
@@ -73,6 +76,8 @@ Rules:
 - `utils` contain small reusable pure helpers or infrastructure helpers.
 - Do not access Prisma directly from controllers.
 - Do not put business rules inside routes.
+- Keep role, tenant and ownership checks in the service layer even when authentication middleware already ran.
+- Use a transaction when one operation writes multiple related records or updates setup data together with completion state.
 
 ## Shared Contracts
 
@@ -84,11 +89,32 @@ Use `packages/shared` as the source of truth for:
 - registration legal consent validation,
 - registration/login/verification Zod schemas,
 - public account/session response types,
-- future shared booking/business contracts.
+- tenant and business setup request/response contracts,
+- future shared booking contracts.
 
 Do not duplicate a Zod schema in backend and frontend. If a schema is needed in both places, move it or add it to `packages/shared`, then import it from there.
 
 Backend modules may keep private internal validation schemas only when they are not part of the frontend/API contract.
+
+Shared validation messages are stable translation keys, not user-facing Polish or English copy. The frontend resolves those keys through i18n. Add every new key to all supported locale files when a shared schema is consumed by the web app.
+
+## Multi-Tenancy
+
+`Business` is the tenant boundary. The application uses one shared database, and tenant-owned data must always be isolated by `businessId`.
+
+Rules:
+
+- Resolve the active business from a normalized request hostname through `BusinessDomain` for public tenant context.
+- Derive the business for authenticated operations from the authenticated user/membership context. Do not trust a client-provided `businessId`.
+- Every repository query and mutation for tenant-owned data must include the resolved `businessId`, including lookups by record id.
+- Never fetch a tenant-owned record by globally supplied id and check ownership only after returning it.
+- Use composite uniqueness that includes `businessId` when uniqueness is tenant-scoped.
+- The same e-mail address may represent separate customer accounts in separate businesses. Account uniqueness is scoped by business.
+- Validate that related records belong to the same business before connecting them.
+- Normalize domains to lowercase hostnames without protocol, path or port before persistence and lookup.
+- `.localhost` domains are a development convention only. Production domains remain real hostnames such as `salon.pl`.
+- An unknown or inactive domain returns an explicit tenant-not-found response. Do not silently fall back to another business in production.
+- Keep CORS compatible with configured tenant origins in development and deployment. Do not solve tenant CORS with an unrestricted production wildcard.
 
 ## Naming
 
@@ -114,7 +140,7 @@ Avoid broad barrels that hide module boundaries. Small `index.ts` files are acce
 
 ## Auth And Security
 
-Auth is the first backend module and should stay close to the future NextAuth integration.
+Auth is integrated with the webapp through Auth.js/NextAuth and the Credentials provider.
 
 Current intended flow:
 
@@ -123,7 +149,7 @@ Current intended flow:
 3. Backend stores password hash, default role `Customer` and `termsAndPrivacyPolicyAcceptedAt`.
 4. Backend creates an e-mail verification code record.
 5. Current e-mail delivery is mocked with a fixed/dev code.
-6. Verification returns an auth response with user and access token.
+6. Verification confirms registration without creating a login session; the frontend shows success and redirects to login.
 7. Login returns an auth response with user and access token.
 8. Frontend Auth.js/NextAuth Credentials Provider calls backend `/auth/login`.
 
@@ -140,6 +166,13 @@ Security rules:
 - Do not persist legal consents as simple booleans. Use nullable acceptance timestamps so the system knows whether and when the user accepted the documents.
 - `authRegisterRequestSchema` should keep validating the consent boolean from the request and remove only fields that should not be persisted, such as `confirmPassword`.
 - Do not duplicate frontend-only password checks. The shared password schema is the contract used by both frontend and backend.
+- Public registration always creates a `Customer` inside the business resolved for the current domain.
+- Owner accounts are currently provisioned manually by an administrator. Do not expose owner/manager/employee role selection in public registration.
+- Employee onboarding should use a future business-scoped invitation flow, not public self-assignment of privileged roles.
+- Treat logout as idempotent and best effort. `/auth/logout` must not require a valid access token, and an expired or missing token must not turn logout into `401` or `500`.
+- A successful no-op logout may return `204`; the frontend still clears its local Auth.js session regardless of backend token state.
+- Store legal acceptance as the single UTC timestamp `termsAndPrivacyPolicyAcceptedAt`, because terms and privacy policy are accepted together in one required checkbox.
+- Store timestamps in UTC. Apply the user's locale/time zone only when formatting them for display.
 
 ## E-Mail Verification
 
@@ -169,7 +202,9 @@ Current foundational models:
 - `EmailVerificationCode`,
 - `Business`,
 - `BusinessDomain`,
-- `BusinessMembership`.
+- `BusinessMembership`,
+- `BusinessWorkstation`,
+- `BusinessService`.
 
 `User` currently includes `termsAndPrivacyPolicyAcceptedAt` for registration legal acceptance. When this field or other persisted auth fields change, add a Prisma migration and regenerate the client.
 
@@ -181,7 +216,42 @@ Temporary MVP business owner provisioning is handled by a local script:
 pnpm --filter @beauty-booking/backend db:create-business-owner
 ```
 
-The script reads business and owner data from env variables, creates or updates the business, domains, owner user and owner membership, and is intended for manual admin use until invite/admin UI flows exist.
+The script reads business and owner data from `createBusinessOwner.config.local.ts` when present and otherwise falls back to environment variables. It creates or updates the business, domains, owner user and owner membership, and is intended for manual admin use until invite/admin UI flows exist.
+
+`*.config.local.ts` is ignored by Git. Keep real owner passwords and customer data out of committed files. Committed examples may contain only clearly synthetic values.
+
+Migration rules:
+
+- Never rewrite or remove a migration that may already have been applied. Create a new migration for the next schema change.
+- Keep migrations small, ordered and feature-oriented.
+- Regenerate Prisma Client after schema changes.
+- Store money as integer minor units, for example grosze, rather than floating-point values.
+
+## Business Setup
+
+Initial setup is a resumable, business-scoped workflow. It is distinct from the permanent settings area that will later edit already configured data.
+
+Current endpoints:
+
+- `GET /business/setup`,
+- `PATCH /business/setup/business-basics`,
+- `PATCH /business/setup/location`,
+- `PATCH /business/setup/workstations`,
+- `PATCH /business/setup/services`.
+
+Rules:
+
+- Keep one focused endpoint and shared schema per persisted setup step.
+- Authorize setup access explicitly; only eligible management roles may modify business configuration.
+- Scope every setup read/write to the authenticated business.
+- Mark a step completed only after all of its writes succeed.
+- Return canonical persisted setup state after a save so the frontend can reset its form baseline from server data.
+- Do not mark navigation, local draft state or frontend validation as persisted completion.
+- Validate prerequisites for dependent steps and return a clear expected API error when required business data is missing.
+- Use transactions for replacing collections such as workstations or services together with completion metadata.
+- Preserve existing persisted setup data when saving a different step.
+- A failed save must not advance setup state or leave partial related records behind.
+- Update `docs/features/business-setup.md` whenever steps, dependencies, contracts or completion behavior change.
 
 ## Error Handling
 
@@ -192,6 +262,10 @@ Let unexpected errors reach `errorMiddleware`.
 Validation errors should come from Zod and be returned as structured `issues`.
 
 Do not return stack traces to the client.
+
+Expired or invalid credentials are expected authentication errors, not internal server errors. Map them to the appropriate `401`/`403` response without logging an unhandled stack trace as a `500`.
+
+Keep errors machine-readable and stable. User-facing localized text belongs in the frontend; shared validation issues use translation keys.
 
 ## Documentation
 
@@ -223,9 +297,9 @@ pnpm --filter @beauty-booking/backend build
 When frontend contracts or middleware change, also run:
 
 ```bash
-pnpm --filter @beauty-booking/web lint
-pnpm --filter @beauty-booking/web typecheck
-pnpm --filter @beauty-booking/web build
+pnpm --filter @beauty-booking/webapp lint
+pnpm --filter @beauty-booking/webapp exec tsc --noEmit
+pnpm --filter @beauty-booking/webapp build
 ```
 
 For broad monorepo changes, run:

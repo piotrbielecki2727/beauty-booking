@@ -16,14 +16,20 @@ import {
   BusinessSetupApiError,
   getBusinessSetup,
   saveBusinessBasics,
+  saveBusinessLocation,
+  saveBusinessServices,
+  saveBusinessWorkstations,
 } from "@/features/businessSetup/api";
 import { appToast } from "@/features/notifications";
 
 import type { ReactNode } from "react";
 import type {
   BusinessBasicsForm,
+  BusinessLocationForm,
+  BusinessServicesForm,
   BusinessSetupResponse,
   BusinessSetupStep,
+  BusinessWorkstationsForm,
 } from "@beauty-booking/shared";
 
 type BusinessSetupContextValue = {
@@ -36,6 +42,9 @@ type BusinessSetupContextValue = {
   isSaving: boolean;
   isSetupLoading: boolean;
   saveBasics: (values: BusinessBasicsForm) => Promise<void>;
+  saveLocation: (values: BusinessLocationForm) => Promise<void>;
+  saveServices: (values: BusinessServicesForm) => Promise<void>;
+  saveWorkstations: (values: BusinessWorkstationsForm) => Promise<void>;
   setActiveStep: (step: BusinessSetupStep) => void;
   setDraft: <Step extends BusinessSetupDraftStep>(
     step: Step,
@@ -50,6 +59,9 @@ type BusinessSetupContextValue = {
 
 type BusinessSetupDrafts = {
   BUSINESS_BASICS?: BusinessBasicsForm;
+  LOCATION?: BusinessLocationForm;
+  SERVICES?: BusinessServicesForm;
+  WORKSTATIONS?: BusinessWorkstationsForm;
 };
 
 type BusinessSetupDraftStep = keyof BusinessSetupDrafts;
@@ -266,6 +278,21 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       saveStep("BUSINESS_BASICS", values, saveBusinessBasics),
     [saveStep],
   );
+  const saveLocation = useCallback(
+    (values: BusinessLocationForm) =>
+      saveStep("LOCATION", values, saveBusinessLocation),
+    [saveStep],
+  );
+  const saveServices = useCallback(
+    (values: BusinessServicesForm) =>
+      saveStep("SERVICES", values, saveBusinessServices),
+    [saveStep],
+  );
+  const saveWorkstations = useCallback(
+    (values: BusinessWorkstationsForm) =>
+      saveStep("WORKSTATIONS", values, saveBusinessWorkstations),
+    [saveStep],
+  );
 
   const value = useMemo<BusinessSetupContextValue>(
     () => ({
@@ -278,6 +305,9 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       isSaving,
       isSetupLoading,
       saveBasics,
+      saveLocation,
+      saveServices,
+      saveWorkstations,
       setActiveStep,
       setDraft,
       setStepHasValidationErrors,
@@ -293,6 +323,9 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       isSetupLoading,
       resolvedActiveStep,
       saveBasics,
+      saveLocation,
+      saveServices,
+      saveWorkstations,
       setActiveStep,
       setDraft,
       setStepHasValidationErrors,

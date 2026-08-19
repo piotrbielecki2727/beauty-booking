@@ -34,7 +34,7 @@ export const BusinessSetupStepActions = ({
   return (
     <div className="flex flex-col-reverse gap-3 border-t border-line pt-4 @min-[40rem]/wizard:flex-row @min-[40rem]/wizard:items-center @min-[40rem]/wizard:justify-between">
       <Button
-        className="border-line bg-background text-brand hover:border-brand hover:bg-surface-hover hover:text-brand-hover"
+        className="border-line bg-background text-brand hover:border-brand hover:bg-surface-soft hover:text-brand-hover"
         variant="outline"
         render={<Link href="/management" />}
       >

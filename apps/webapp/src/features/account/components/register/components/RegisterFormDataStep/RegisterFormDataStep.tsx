@@ -182,7 +182,7 @@ export const RegisterFormDataStep = ({
         />
       </div>
 
-      <div className="text-copy-subtle">
+      <div className="text-copy-subtle mb-2">
         <Checkbox
           checked={areConsentsAccepted}
           className="border-line-strong bg-transparent data-checked:border-brand data-checked:bg-brand"

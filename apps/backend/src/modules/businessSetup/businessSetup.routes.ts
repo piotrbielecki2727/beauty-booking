@@ -3,8 +3,16 @@ import { Router } from "express";
 import {
   getBusinessSetupController,
   saveBusinessBasicsController,
+  saveBusinessLocationController,
+  saveBusinessServicesController,
+  saveBusinessWorkstationsController,
 } from "@/modules/businessSetup/businessSetup.controller";
-import { businessBasicsFormSchema } from "@/modules/businessSetup/businessSetup.schemas";
+import {
+  businessBasicsFormSchema,
+  businessLocationFormSchema,
+  businessServicesFormSchema,
+  businessWorkstationsFormSchema,
+} from "@/modules/businessSetup/businessSetup.schemas";
 import { requireAuth } from "@/modules/auth/auth.middleware";
 import { validateBody } from "@/middlewares/validateRequest";
 import { asyncHandler } from "@/utils/asyncHandler";
@@ -22,6 +30,27 @@ businessSetupRouter.patch(
   asyncHandler(requireAuth),
   validateBody(businessBasicsFormSchema),
   asyncHandler(saveBusinessBasicsController),
+);
+
+businessSetupRouter.patch(
+  "/setup/location",
+  asyncHandler(requireAuth),
+  validateBody(businessLocationFormSchema),
+  asyncHandler(saveBusinessLocationController),
+);
+
+businessSetupRouter.patch(
+  "/setup/workstations",
+  asyncHandler(requireAuth),
+  validateBody(businessWorkstationsFormSchema),
+  asyncHandler(saveBusinessWorkstationsController),
+);
+
+businessSetupRouter.patch(
+  "/setup/services",
+  asyncHandler(requireAuth),
+  validateBody(businessServicesFormSchema),
+  asyncHandler(saveBusinessServicesController),
 );
 
 export { businessSetupRouter };

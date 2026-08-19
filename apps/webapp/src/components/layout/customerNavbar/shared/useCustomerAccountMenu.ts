@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-import { logoutAccount } from "@/features/account/api";
-import { appToast } from "@/features/notifications";
+import { useAccountLogout } from "@/features/account/hooks";
 
 const upcomingVisit = {
   date: "14 sierpnia · 17:30",
@@ -15,7 +13,7 @@ const upcomingVisit = {
 export const useCustomerAccountMenu = () => {
   const { data: session } = useSession();
   const t = useTranslations();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { handleLogout, isLoggingOut } = useAccountLogout();
 
   const user = session?.user;
   const displayName = user?.firstName ?? t("accountMenu.userFallback");
@@ -23,31 +21,6 @@ export const useCustomerAccountMenu = () => {
     user?.firstName && user.lastName
       ? `${user.firstName} ${user.lastName}`
       : displayName;
-
-  const handleLogout = async () => {
-    if (isLoggingOut) {
-      return;
-    }
-
-    setIsLoggingOut(true);
-
-    try {
-      if (session?.accessToken) {
-        await logoutAccount(session.accessToken).catch(() => undefined);
-      }
-
-      await signOut({
-        callbackUrl: "/",
-        redirect: true,
-      });
-    } catch {
-      setIsLoggingOut(false);
-      appToast.error({
-        description: t("accountMenu.logoutErrorDescription"),
-        title: t("accountMenu.logoutErrorTitle"),
-      });
-    }
-  };
 
   return {
     displayName,

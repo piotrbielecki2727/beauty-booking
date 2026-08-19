@@ -199,7 +199,7 @@ export const BusinessBasicsStep = ({
                     type="button"
                     variant="ghost"
                     className={cn(
-                      "relative h-20 flex-col gap-1.5 whitespace-normal rounded-md border border-subtle bg-background py-3 text-center text-sm font-normal transition-colors hover:border-brand hover:bg-surface-hover hover:text-brand",
+                      "relative h-20 flex-col gap-1.5 whitespace-normal rounded-md border border-subtle bg-background py-3 text-center text-sm font-normal transition-colors hover:border-brand hover:bg-surface-soft hover:text-brand",
                       isSelected && "border-brand bg-brand-soft text-brand",
                     )}
                     onClick={() =>
@@ -241,7 +241,7 @@ export const BusinessBasicsStep = ({
                     type="button"
                     variant="ghost"
                     className={cn(
-                      "h-auto min-h-16 justify-start gap-3 whitespace-normal rounded-md border border-subtle bg-background px-4 py-3 text-left text-sm font-normal transition-colors hover:border-brand hover:bg-surface-hover hover:text-brand",
+                      "h-auto min-h-16 justify-start gap-3 whitespace-normal rounded-md border border-subtle bg-background px-4 py-3 text-left text-sm font-normal transition-colors hover:border-brand hover:bg-surface-soft hover:text-brand",
                       isSelected && "border-brand bg-brand-soft text-brand",
                     )}
                     onClick={() =>
@@ -301,7 +301,7 @@ export const BusinessBasicsStep = ({
                       type="button"
                       variant="ghost"
                       className={cn(
-                        "h-auto justify-between whitespace-normal rounded-md border border-subtle bg-background px-4 py-3 text-left text-sm font-normal transition-colors hover:border-brand hover:bg-surface-hover hover:text-brand",
+                        "h-auto justify-between whitespace-normal rounded-md border border-subtle bg-background px-4 py-3 text-left text-sm font-normal transition-colors hover:border-brand hover:bg-surface-soft hover:text-brand",
                         isSelected && "border-brand bg-brand-soft text-brand",
                       )}
                       onClick={() =>

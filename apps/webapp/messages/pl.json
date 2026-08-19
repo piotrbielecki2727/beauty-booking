@@ -143,6 +143,98 @@
       },
       "title": "Twój biznes"
     },
+    "location": {
+      "description": "Dodaj adres i informacje dojazdowe, które klientki zobaczą przed wizytą.",
+      "descriptions": {
+        "apartmentNumber": "Opcjonalnie — numer lokalu lub gabinetu.",
+        "buildingNumber": "Numer budynku wymagany do pełnego adresu.",
+        "city": "Miasto, w którym przyjmujesz klientki.",
+        "locationNote": "Opcjonalnie — dodaj wskazówki, np. wejście od podwórza, domofon lub piętro.",
+        "parkingNote": "Opcjonalnie — wskaż, gdzie można zaparkować lub czy parking jest płatny.",
+        "postalCode": "Ułatwia poprawne zapisanie i wyszukanie adresu.",
+        "street": "Podaj nazwę ulicy, przy której znajduje się salon."
+      },
+      "fields": {
+        "apartmentNumber": "Numer lokalu",
+        "buildingNumber": "Numer budynku",
+        "city": "Miasto",
+        "locationNote": "Notatka dojazdowa",
+        "parkingNote": "Informacja o parkingu",
+        "postalCode": "Kod pocztowy",
+        "street": "Ulica"
+      },
+      "placeholders": {
+        "apartmentNumber": "12",
+        "buildingNumber": "8A",
+        "city": "Warszawa",
+        "locationNote": "Np. wejście od podwórka, drugie piętro, domofon 12.",
+        "parkingNote": "Np. bezpłatne miejsca parkingowe znajdują się przed lokalem.",
+        "postalCode": "00-001",
+        "street": "ul. Beauty"
+      },
+      "title": "Lokalizacja"
+    },
+    "workstations": {
+      "add": "Dodaj stanowisko",
+      "cardDescription": "Określ miejsce wykonywania usług.",
+      "cardTitle": "Stanowisko {number}",
+      "defaultName": "Stanowisko {number}",
+      "description": "Dodaj miejsca, pokoje albo stanowiska, przy których wykonywane są usługi.",
+      "descriptions": {
+        "isActive": "Nieaktywne stanowisko nie będzie uwzględniane przy wyliczaniu dostępności.",
+        "name": "Widoczna nazwa ułatwiająca rozpoznanie stanowiska.",
+        "note": "Opcjonalna informacja wewnętrzna dla Ciebie i zespołu.",
+        "type": "Określa, które usługi mogą korzystać z tego stanowiska."
+      },
+      "fields": {
+        "isActive": "To stanowisko jest aktywne",
+        "name": "Nazwa stanowiska",
+        "note": "Notatka wewnętrzna",
+        "type": "Typ stanowiska"
+      },
+      "placeholders": {
+        "name": "Stanowisko manicure 1",
+        "note": "Np. przy oknie, używane do manicure żelowego."
+      },
+      "remove": "Usuń stanowisko",
+      "title": "Stanowiska"
+    },
+    "services": {
+      "add": "Dodaj usługę",
+      "cardDescription": "Ustaw czas, cenę i widoczność.",
+      "cardTitle": "Usługa {number}",
+      "defaultName": "Usługa {number}",
+      "description": "Utwórz usługi, które klientki będą mogły rezerwować.",
+      "descriptions": {
+        "description": "Opcjonalny opis zakresu usługi widoczny dla klientki.",
+        "durationMinutes": "Na tej podstawie wyliczamy dostępne terminy.",
+        "isActive": "Nieaktywna usługa nie będzie dostępna do rezerwacji.",
+        "name": "Ta nazwa będzie widoczna podczas rezerwacji.",
+        "price": "Cena wyświetlana klientce przed rezerwacją.",
+        "specialization": "Porządkuje usługę w odpowiedniej kategorii.",
+        "workstationType": "Ogranicza rezerwację do pasującego stanowiska."
+      },
+      "fields": {
+        "description": "Opis",
+        "durationMinutes": "Czas trwania w minutach",
+        "isActive": "Ta usługa jest aktywna",
+        "name": "Nazwa usługi",
+        "price": "Cena",
+        "specialization": "Kategoria",
+        "workstationType": "Preferowane stanowisko"
+      },
+      "placeholders": {
+        "description": "Np. manicure z lakierem hybrydowym i opracowaniem płytki.",
+        "durationMinutes": "60",
+        "name": "Manicure hybrydowy",
+        "price": "120"
+      },
+      "remove": "Usuń usługę",
+      "title": "Usługi",
+      "workstationTypes": {
+        "ANY": "Dowolne pasujące stanowisko"
+      }
+    },
     "placeholder": {
       "description": "Ten krok zaimplementujemy jako następny. Na razie możesz wrócić do poprzedniego kroku.",
       "title": "Następny krok"
@@ -421,7 +513,38 @@
     },
     "business": {
       "nameMinLength": "Nazwa biznesu musi mieć minimum 2 znaki.",
-      "ownerProvidesServicesRequired": "Wybierz, czy również wykonujesz usługi."
+      "ownerProvidesServicesRequired": "Wybierz, czy również wykonujesz usługi.",
+      "location": {
+        "apartmentNumberMaxLength": "Numer lokalu może mieć maksymalnie 20 znaków.",
+        "buildingNumberMaxLength": "Numer budynku może mieć maksymalnie 20 znaków.",
+        "buildingNumberRequired": "Podaj numer budynku.",
+        "cityMaxLength": "Miasto może mieć maksymalnie 80 znaków.",
+        "cityMinLength": "Miasto musi mieć minimum 2 znaki.",
+        "locationNoteMaxLength": "Notatka dojazdowa może mieć maksymalnie 500 znaków.",
+        "parkingNoteMaxLength": "Informacja o parkingu może mieć maksymalnie 500 znaków.",
+        "postalCodeMaxLength": "Kod pocztowy może mieć maksymalnie 16 znaków.",
+        "postalCodeMinLength": "Kod pocztowy musi mieć minimum 3 znaki.",
+        "streetMaxLength": "Ulica może mieć maksymalnie 120 znaków.",
+        "streetMinLength": "Ulica musi mieć minimum 2 znaki."
+      },
+      "workstations": {
+        "maxItems": "Możesz dodać maksymalnie 30 stanowisk.",
+        "minItems": "Dodaj co najmniej jedno stanowisko.",
+        "nameMaxLength": "Nazwa stanowiska może mieć maksymalnie 80 znaków.",
+        "nameMinLength": "Nazwa stanowiska musi mieć minimum 2 znaki.",
+        "noteMaxLength": "Notatka wewnętrzna może mieć maksymalnie 300 znaków."
+      },
+      "services": {
+        "descriptionMaxLength": "Opis może mieć maksymalnie 500 znaków.",
+        "durationInvalid": "Podaj czas jako pełną liczbę minut.",
+        "durationMax": "Czas trwania może mieć maksymalnie 1440 minut.",
+        "maxItems": "Możesz dodać maksymalnie 100 usług.",
+        "minItems": "Dodaj co najmniej jedną usługę.",
+        "nameMaxLength": "Nazwa usługi może mieć maksymalnie 100 znaków.",
+        "nameMinLength": "Nazwa usługi musi mieć minimum 2 znaki.",
+        "priceInvalid": "Podaj poprawną cenę.",
+        "priceMin": "Cena musi być większa niż 0."
+      }
     }
   }
 }

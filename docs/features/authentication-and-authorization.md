@@ -119,6 +119,9 @@ Development fallback:
 - if no tenant domain is matched and backend runs outside production for
   `localhost`, `127.0.0.1` or `::1`, backend falls back to the seeded
   `beauty-booking` business.
+- in development, hosts ending with `.localhost` are also resolved without that
+  suffix, so a database domain such as `example-salon.pl` can be tested through
+  `example-salon.pl.localhost:3000`.
 
 Response contract:
 

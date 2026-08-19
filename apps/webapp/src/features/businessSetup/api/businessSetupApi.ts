@@ -3,7 +3,10 @@ import { z } from "zod";
 import {
   businessSetupResponseSchema,
   type BusinessBasicsForm,
+  type BusinessLocationForm,
+  type BusinessServicesForm,
   type BusinessSetupResponse,
+  type BusinessWorkstationsForm,
 } from "@beauty-booking/shared";
 
 import { backendApiUrl } from "@/config";
@@ -170,6 +173,51 @@ export const saveBusinessBasics = ({
     body: values,
     method: "PATCH",
     path: "/business/setup/business-basics",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessLocation = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessLocationForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/location",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessWorkstations = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessWorkstationsForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/workstations",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessServices = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessServicesForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/services",
     schema: businessSetupResponseSchema,
   });
 

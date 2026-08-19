@@ -13,7 +13,7 @@ import {
 } from "@beauty-booking/shared";
 
 import { backendApiUrl } from "@/config";
-import { getCurrentTenantHost } from "@/features/tenant";
+import { getCurrentTenantHost } from "@/features/tenant/lib/getCurrentTenantHost";
 
 type AccountAuthApiErrorCode =
   | "connectionError"

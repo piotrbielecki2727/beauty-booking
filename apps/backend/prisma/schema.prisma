@@ -91,6 +91,13 @@ model Business {
   slug                       String                     @unique
   specialization             BusinessSpecialization?
   businessType               BusinessType?
+  city                       String?
+  postalCode                 String?
+  street                     String?
+  buildingNumber             String?
+  apartmentNumber            String?
+  parkingNote                String?
+  locationNote               String?
   onboardingStatus           BusinessOnboardingStatus   @default(NOT_STARTED)
   onboardingCurrentStep      BusinessSetupStep?
   onboardingCompletedSteps   BusinessSetupStep[]        @default([])
@@ -99,7 +106,40 @@ model Business {
   updatedAt                  DateTime                   @updatedAt
   domains                    BusinessDomain[]
   memberships                BusinessMembership[]
+  services                   BusinessService[]
   users                      User[]
+  workstations               BusinessWorkstation[]
+}
+
+model BusinessService {
+  id              String                  @id @default(uuid())
+  name            String
+  specialization  BusinessSpecialization
+  workstationType BusinessSpecialization?
+  durationMinutes Int
+  priceAmount     Int
+  isActive        Boolean                 @default(true)
+  description     String?
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  businessId      String
+  business        Business                @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+}
+
+model BusinessWorkstation {
+  id         String                 @id @default(uuid())
+  name       String
+  type       BusinessSpecialization
+  isActive   Boolean                @default(true)
+  note       String?
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  businessId String
+  business   Business               @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
 }
 
 model BusinessDomain {

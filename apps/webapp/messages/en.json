@@ -46,12 +46,12 @@
     "inspirations": "Inspirations",
     "collapseSidebar": "Collapse sidebar",
     "customerMain": "Main",
-    "dashboard": "Dashboard",
-    "employees": "Employees",
-    "expandSidebar": "Expand sidebar",
-    "home": "Home",
-    "initialSetup": "Initial setup",
-    "management": "Management",
+      "dashboard": "Dashboard",
+      "employees": "Employees",
+      "expandSidebar": "Expand sidebar",
+      "home": "Home",
+      "initialSetup": "Initial setup",
+      "management": "Management",
     "mobile": "Mobile",
     "openMenu": "Open menu",
     "profile": "Profile",
@@ -142,6 +142,98 @@
         "NAILS": "Nails"
       },
       "title": "Your business"
+    },
+    "location": {
+      "description": "Add the address and arrival details that clients will see before their appointment.",
+      "descriptions": {
+        "apartmentNumber": "Optional — enter the unit or studio number.",
+        "buildingNumber": "The building number required for a complete address.",
+        "city": "The city where you see clients.",
+        "locationNote": "Optional — add directions such as the entrance, intercom or floor.",
+        "parkingNote": "Optional — explain where clients can park and whether parking is paid.",
+        "postalCode": "Helps save and locate the address correctly.",
+        "street": "Enter the street where the salon is located."
+      },
+      "fields": {
+        "apartmentNumber": "Apartment number",
+        "buildingNumber": "Building number",
+        "city": "City",
+        "locationNote": "Arrival note",
+        "parkingNote": "Parking note",
+        "postalCode": "Postal code",
+        "street": "Street"
+      },
+      "placeholders": {
+        "apartmentNumber": "12",
+        "buildingNumber": "8A",
+        "city": "Warsaw",
+        "locationNote": "For example: entrance from the courtyard, second floor, intercom 12.",
+        "parkingNote": "For example: free parking spaces are available in front of the salon.",
+        "postalCode": "00-001",
+        "street": "Beauty Street"
+      },
+      "title": "Location"
+    },
+    "workstations": {
+      "add": "Add workstation",
+      "cardDescription": "Define where services can be performed.",
+      "cardTitle": "Workstation {number}",
+      "defaultName": "Workstation {number}",
+      "description": "Add the places, rooms or chairs where your services are performed.",
+      "descriptions": {
+        "isActive": "An inactive workstation will not be included when availability is calculated.",
+        "name": "A visible name that makes the workstation easy to identify.",
+        "note": "Optional internal information for you and your team.",
+        "type": "Determines which services can use this workstation."
+      },
+      "fields": {
+        "isActive": "This workstation is active",
+        "name": "Workstation name",
+        "note": "Internal note",
+        "type": "Workstation type"
+      },
+      "placeholders": {
+        "name": "Nail desk 1",
+        "note": "For example: near the window, used for gel manicure."
+      },
+      "remove": "Remove workstation",
+      "title": "Workstations"
+    },
+    "services": {
+      "add": "Add service",
+      "cardDescription": "Set duration, price and visibility.",
+      "cardTitle": "Service {number}",
+      "defaultName": "Service {number}",
+      "description": "Create the services clients will be able to book.",
+      "descriptions": {
+        "description": "An optional description of the service shown to clients.",
+        "durationMinutes": "Used to calculate available appointment times.",
+        "isActive": "An inactive service will not be available for booking.",
+        "name": "This name will be shown during booking.",
+        "price": "The price shown to the client before booking.",
+        "specialization": "Places the service in the appropriate category.",
+        "workstationType": "Limits bookings to a matching workstation."
+      },
+      "fields": {
+        "description": "Description",
+        "durationMinutes": "Duration in minutes",
+        "isActive": "This service is active",
+        "name": "Service name",
+        "price": "Price",
+        "specialization": "Category",
+        "workstationType": "Preferred workstation"
+      },
+      "placeholders": {
+        "description": "For example: manicure with gel polish and nail preparation.",
+        "durationMinutes": "60",
+        "name": "Hybrid manicure",
+        "price": "120"
+      },
+      "remove": "Remove service",
+      "title": "Services",
+      "workstationTypes": {
+        "ANY": "Any matching workstation"
+      }
     },
     "placeholder": {
       "description": "This step will be implemented next. You can return to the previous step for now.",
@@ -421,7 +513,38 @@
     },
     "business": {
       "nameMinLength": "Business name must contain at least 2 characters.",
-      "ownerProvidesServicesRequired": "Select whether you also provide services."
+      "ownerProvidesServicesRequired": "Select whether you also provide services.",
+      "location": {
+        "apartmentNumberMaxLength": "Apartment number can contain up to 20 characters.",
+        "buildingNumberMaxLength": "Building number can contain up to 20 characters.",
+        "buildingNumberRequired": "Enter the building number.",
+        "cityMaxLength": "City can contain up to 80 characters.",
+        "cityMinLength": "City must contain at least 2 characters.",
+        "locationNoteMaxLength": "Arrival note can contain up to 500 characters.",
+        "parkingNoteMaxLength": "Parking note can contain up to 500 characters.",
+        "postalCodeMaxLength": "Postal code can contain up to 16 characters.",
+        "postalCodeMinLength": "Postal code must contain at least 3 characters.",
+        "streetMaxLength": "Street can contain up to 120 characters.",
+        "streetMinLength": "Street must contain at least 2 characters."
+      },
+      "workstations": {
+        "maxItems": "You can add up to 30 workstations.",
+        "minItems": "Add at least one workstation.",
+        "nameMaxLength": "Workstation name can contain up to 80 characters.",
+        "nameMinLength": "Workstation name must contain at least 2 characters.",
+        "noteMaxLength": "Internal note can contain up to 300 characters."
+      },
+      "services": {
+        "descriptionMaxLength": "Description can contain up to 500 characters.",
+        "durationInvalid": "Enter duration as a whole number of minutes.",
+        "durationMax": "Duration can be up to 1440 minutes.",
+        "maxItems": "You can add up to 100 services.",
+        "minItems": "Add at least one service.",
+        "nameMaxLength": "Service name can contain up to 100 characters.",
+        "nameMinLength": "Service name must contain at least 2 characters.",
+        "priceInvalid": "Enter a valid price.",
+        "priceMin": "Price must be greater than 0."
+      }
     }
   }
 }

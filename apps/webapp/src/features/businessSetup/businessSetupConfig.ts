@@ -4,6 +4,9 @@ export const BUSINESS_SETUP_ACTIVE_FORM_ID = "business-setup-active-form";
 
 export const businessSetupFormSteps = [
   "BUSINESS_BASICS",
+  "LOCATION",
+  "WORKSTATIONS",
+  "SERVICES",
 ] satisfies BusinessSetupStep[];
 
 type BusinessSetupStepDefinition = {

@@ -32,7 +32,7 @@ export const BusinessSetupStepItem = ({
         aria-current={isCurrent ? "step" : undefined}
         className={cn(
           "h-10 w-full min-w-0 justify-start gap-2 rounded-md border border-transparent px-2.5 text-sm font-normal",
-          "text-copy-muted transition-colors hover:border-line-strong hover:bg-surface-hover hover:text-brand",
+          "text-copy-muted transition-colors hover:border-line-strong hover:bg-surface-soft hover:text-brand",
           isCurrent && "border-brand bg-brand-soft text-brand",
           isCompleted && "text-brand",
         )}

@@ -17,11 +17,19 @@ import {
 } from "@/features/businessSetup/components/reusable";
 import { BusinessSetupWizardShell } from "@/features/businessSetup/components/BusinessSetupWizardShell";
 import { BusinessBasicsStep } from "@/features/businessSetup/components/steps/BusinessBasicsStep";
+import { BusinessLocationStep } from "@/features/businessSetup/components/steps/BusinessLocationStep";
+import { BusinessServicesStep } from "@/features/businessSetup/components/steps/BusinessServicesStep";
+import { BusinessWorkstationsStep } from "@/features/businessSetup/components/steps/BusinessWorkstationsStep";
 import { useBusinessSetup } from "@/features/businessSetup/providers";
 import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
 
 import type { ReactNode } from "react";
-import type { BusinessBasicsForm } from "@beauty-booking/shared";
+import type {
+  BusinessBasicsForm,
+  BusinessLocationForm,
+  BusinessServicesForm,
+  BusinessWorkstationsForm,
+} from "@beauty-booking/shared";
 
 export const BusinessSetupWizard = () => {
   const t = useTranslations();
@@ -34,6 +42,9 @@ export const BusinessSetupWizard = () => {
     isSaving,
     isSetupLoading,
     saveBasics,
+    saveLocation,
+    saveServices,
+    saveWorkstations,
     setActiveStep,
     setDraft,
     setup,
@@ -59,6 +70,18 @@ export const BusinessSetupWizard = () => {
     (values: BusinessBasicsForm) => setDraft("BUSINESS_BASICS", values),
     [setDraft],
   );
+  const handleLocationDraftChange = useCallback(
+    (values: BusinessLocationForm) => setDraft("LOCATION", values),
+    [setDraft],
+  );
+  const handleServicesDraftChange = useCallback(
+    (values: BusinessServicesForm) => setDraft("SERVICES", values),
+    [setDraft],
+  );
+  const handleWorkstationsDraftChange = useCallback(
+    (values: BusinessWorkstationsForm) => setDraft("WORKSTATIONS", values),
+    [setDraft],
+  );
 
   let stepContent: ReactNode;
 
@@ -80,6 +103,54 @@ export const BusinessSetupWizard = () => {
               initialSetup={setup}
               onDraftChange={handleBasicsDraftChange}
               onSave={saveBasics}
+            />
+          </>
+        );
+        break;
+      case "LOCATION":
+        stepContent = (
+          <>
+            <BusinessSetupStepIntroduction
+              description={t("businessSetup.location.description")}
+              title={t("businessSetup.location.title")}
+            />
+            <BusinessLocationStep
+              draft={drafts.LOCATION}
+              initialSetup={setup}
+              onDraftChange={handleLocationDraftChange}
+              onSave={saveLocation}
+            />
+          </>
+        );
+        break;
+      case "WORKSTATIONS":
+        stepContent = (
+          <>
+            <BusinessSetupStepIntroduction
+              description={t("businessSetup.workstations.description")}
+              title={t("businessSetup.workstations.title")}
+            />
+            <BusinessWorkstationsStep
+              draft={drafts.WORKSTATIONS}
+              initialSetup={setup}
+              onDraftChange={handleWorkstationsDraftChange}
+              onSave={saveWorkstations}
+            />
+          </>
+        );
+        break;
+      case "SERVICES":
+        stepContent = (
+          <>
+            <BusinessSetupStepIntroduction
+              description={t("businessSetup.services.description")}
+              title={t("businessSetup.services.title")}
+            />
+            <BusinessServicesStep
+              draft={drafts.SERVICES}
+              initialSetup={setup}
+              onDraftChange={handleServicesDraftChange}
+              onSave={saveServices}
             />
           </>
         );

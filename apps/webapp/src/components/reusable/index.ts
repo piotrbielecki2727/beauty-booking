@@ -12,5 +12,6 @@ export * from "./Logo";
 export * from "./PhoneNumberInput";
 export * from "./Select";
 export * from "./Tooltip";
+export * from "./Textarea";
 export * from "./TimePicker";
 export * from "./timePickerOptions";
