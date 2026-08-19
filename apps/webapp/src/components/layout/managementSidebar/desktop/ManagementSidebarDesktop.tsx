@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-
+import { ManagementSidebarAccountSummary } from "@/components/layout/managementSidebar/desktop/ManagementSidebarAccountSummary";
 import { ManagementSidebarFooter } from "@/components/layout/managementSidebar/desktop/ManagementSidebarFooter";
 import { ManagementSidebarHeader } from "@/components/layout/managementSidebar/desktop/ManagementSidebarHeader";
 import { ManagementSidebarNav } from "@/components/layout/managementSidebar/desktop/ManagementSidebarNav";
@@ -17,24 +16,23 @@ export const ManagementSidebarDesktop = ({
   isCollapsed,
   transition,
 }: ManagementSidebarDesktopProperties) => {
-  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
-
   return (
     <aside
-      className="hidden min-h-screen min-w-0 flex-col overflow-hidden border-r border-line bg-canvas text-copy md:flex"
-      onMouseEnter={() => setIsSidebarHovered(true)}
-      onMouseLeave={() => setIsSidebarHovered(false)}
+      className="sticky top-0 z-30 hidden h-dvh min-w-0 self-start flex-col overflow-visible border-r border-line bg-canvas text-copy md:flex"
     >
       <ManagementSidebarHeader
         isCollapsed={isCollapsed}
-        isSidebarHovered={isSidebarHovered}
         transition={transition}
       />
+      <ManagementSidebarAccountSummary isCollapsed={isCollapsed} />
       <ManagementSidebarNav
         isCollapsed={isCollapsed}
         isTransitioning={transition.isTransitioning}
       />
-      <ManagementSidebarFooter isCollapsed={isCollapsed} />
+      <ManagementSidebarFooter
+        isCollapsed={isCollapsed}
+        isTransitioning={transition.isTransitioning}
+      />
     </aside>
   );
 };

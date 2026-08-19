@@ -4,10 +4,12 @@ import { Drawer } from "@base-ui/react/drawer";
 import { MenuIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { sidebarControlClassNames } from "@/components/layout/layoutControlVariantStyles";
 import { ManagementSidebarDrawer } from "@/components/layout/managementSidebar/mobile/ManagementSidebarDrawer";
 import { Logo } from "@/components/reusable/Logo";
 import { useTenantContext } from "@/features/tenant";
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 type ManagementSidebarMobileProperties = {
   isOpen: boolean;
@@ -30,7 +32,10 @@ export const ManagementSidebarMobile = ({
 
       <Drawer.Root open={isOpen} onOpenChange={onIsOpenChange}>
         <Drawer.Trigger
-          className="inline-flex size-10 items-center justify-center rounded-md text-brand transition-colors hover:bg-surface-hover hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand"
+          className={cn(
+            "inline-flex size-10 items-center justify-center rounded-md focus-visible:outline-2",
+            sidebarControlClassNames,
+          )}
           aria-label={t("navigation.openMenu")}
         >
           <MenuIcon className="size-5" aria-hidden="true" />

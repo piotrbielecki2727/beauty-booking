@@ -1,11 +1,17 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
-
-const subscribe = () => () => {};
-const getClientSnapshot = () => true;
-const getServerSnapshot = () => false;
+import { useEffect, useState } from "react";
 
 export const useClientHydrated = () => {
-  return useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
+  const [isClientHydrated, setIsClientHydrated] = useState(false);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setIsClientHydrated(true);
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  return isClientHydrated;
 };

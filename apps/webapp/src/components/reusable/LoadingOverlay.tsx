@@ -12,6 +12,7 @@ type LoadingOverlayProperties = {
   className?: string;
   description?: ReactNode;
   isOpen?: boolean;
+  scope?: "container" | "viewport";
   title?: ReactNode;
   variant?: "card" | "bare";
 };
@@ -20,6 +21,7 @@ export const LoadingOverlay = ({
   className,
   description,
   isOpen = true,
+  scope = "viewport",
   title,
   variant = "card",
 }: LoadingOverlayProperties) => {
@@ -34,7 +36,8 @@ export const LoadingOverlay = ({
       aria-busy="true"
       aria-live="polite"
       className={cn(
-        "fixed inset-0 z-[1000] grid place-items-center bg-overlay p-6 backdrop-blur-md",
+        "inset-0 grid place-items-center bg-overlay p-6 backdrop-blur-md",
+        scope === "viewport" ? "fixed z-[1000]" : "absolute z-30",
         className,
       )}
       role="status"
@@ -81,7 +84,7 @@ export const LoadingOverlay = ({
     </div>
   );
 
-  if (!isClientHydrated) {
+  if (scope === "container" || !isClientHydrated) {
     return overlay;
   }
 

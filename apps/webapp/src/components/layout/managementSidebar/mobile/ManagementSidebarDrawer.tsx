@@ -4,14 +4,16 @@ import { Drawer } from "@base-ui/react/drawer";
 import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { managementNavItems } from "@/components/layout/managementSidebar/managementSidebarConfig";
+import { sidebarControlClassNames } from "@/components/layout/layoutControlVariantStyles";
 import { ManagementNavItem } from "@/components/layout/managementSidebar/shared/ManagementNavItem";
+import { ManagementSidebarLogoutButton } from "@/components/layout/managementSidebar/shared/ManagementSidebarLogoutButton";
+import { ManagementSidebarSettingsControls } from "@/components/layout/managementSidebar/shared/ManagementSidebarSettingsControls";
 import { isNavItemActive } from "@/components/layout/managementSidebar/shared/isNavItemActive";
 import { Logo } from "@/components/reusable/Logo";
+import { useManagementSetupNavItems } from "@/features/businessSetup/hooks/useManagementSetupNavItems";
 import { useTenantContext } from "@/features/tenant";
 import { usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 type ManagementSidebarDrawerProperties = {
   onNavigate: () => void;
@@ -24,6 +26,7 @@ export const ManagementSidebarDrawer = ({
   const t = useTranslations();
   const { business } = useTenantContext();
   const brandLabel = business?.name ?? t("common.appName");
+  const navItems = useManagementSetupNavItems();
 
   return (
     <Drawer.Portal>
@@ -38,10 +41,13 @@ export const ManagementSidebarDrawer = ({
               </Drawer.Title>
 
               <Drawer.Close
-                className="inline-flex size-10 items-center justify-center rounded-md text-brand transition-colors hover:bg-surface-hover hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand"
+                className={cn(
+                  "inline-flex size-10 items-center justify-center rounded-md focus-visible:outline-2",
+                  sidebarControlClassNames,
+                )}
                 aria-label={t("navigation.closeMenu")}
               >
-                <XIcon className="size-5 text-brand" aria-hidden="true" />
+                <XIcon className="size-5" aria-hidden="true" />
               </Drawer.Close>
             </div>
 
@@ -49,7 +55,7 @@ export const ManagementSidebarDrawer = ({
               className="flex flex-col gap-1"
               aria-label={t("navigation.management")}
             >
-              {managementNavItems.map((item) => (
+              {navItems.map((item) => (
                 <ManagementNavItem
                   key={item.href}
                   isActive={isNavItemActive(pathname, item.href)}
@@ -60,9 +66,10 @@ export const ManagementSidebarDrawer = ({
               ))}
             </nav>
 
-            <div className="mt-auto flex items-center gap-2 border-t border-line pt-4">
-              <LanguageSwitcher variant="sidebar" />
-              <ThemeToggle variant="sidebar" />
+            <div className="mt-auto grid gap-3 border-t border-line pt-4">
+              <ManagementSidebarSettingsControls />
+              <div className="h-px w-full bg-line" aria-hidden="true" />
+              <ManagementSidebarLogoutButton />
             </div>
           </Drawer.Content>
         </Drawer.Popup>

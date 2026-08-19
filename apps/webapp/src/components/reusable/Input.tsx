@@ -12,13 +12,14 @@ import { cn } from "@/lib/utils";
 
 import type { ChangeEvent, ComponentPropsWithoutRef, ReactNode } from "react";
 
-type InputFeedbackMode = "auto" | "reserved";
+type InputFeedbackMode = "auto" | "overlay" | "reserved";
 type InputType = ComponentPropsWithoutRef<"input">["type"];
 
 type InputProperties = Omit<
   ComponentPropsWithoutRef<"input">,
   "className" | "disabled" | "required" | "type"
 > & {
+  className?: string;
   containerClassName?: string;
   description?: ReactNode;
   error?: ReactNode;
@@ -31,6 +32,7 @@ type InputProperties = Omit<
   isRequired?: boolean;
   isSearch?: boolean;
   label?: ReactNode;
+  labelClassName?: string;
   onClear?: () => void;
   type?: InputType;
 };
@@ -39,6 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
   (
     {
       "aria-describedby": ariaDescribedBy,
+      className,
       containerClassName,
       description,
       error,
@@ -52,6 +55,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
       isRequired = false,
       isSearch = false,
       label,
+      labelClassName,
       name,
       onChange,
       onClear,
@@ -68,6 +72,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
 
     const inputId = id ?? generatedId;
     const isPassword = type === "password";
+    const isFeedbackOverlay = feedbackMode === "overlay";
     const hasLeftIcon = Boolean(icon || isSearch);
     const normalizedValue =
       typeof value === "string" || typeof value === "number"
@@ -76,12 +81,12 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
     const isClearButtonVisible =
       isClearable && !isDisabled && !isPassword && normalizedValue.length > 0;
     const hasRightButton = isPassword || isClearButtonVisible;
-    const feedbackId =
-      error || description || feedbackMode === "reserved"
-        ? `${inputId}-feedback`
-        : undefined;
+    const descriptionId = description ? `${inputId}-description` : undefined;
+    const errorId =
+      error || feedbackMode === "reserved" ? `${inputId}-error` : undefined;
     const describedBy =
-      [ariaDescribedBy, feedbackId].filter(Boolean).join(" ") || undefined;
+      [ariaDescribedBy, descriptionId, errorId].filter(Boolean).join(" ") ||
+      undefined;
 
     const handleClear = () => {
       if (onClear) {
@@ -103,11 +108,19 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
 
     return (
       <div
-        className={cn("grid gap-1.5", containerClassName)}
+        className={cn(
+          "grid gap-1.5",
+          isFeedbackOverlay && "relative",
+          containerClassName,
+          className,
+        )}
         data-invalid={error ? true : undefined}
       >
         {label ? (
-          <Label className="gap-1 leading-5" htmlFor={inputId}>
+          <Label
+            className={cn("gap-1 leading-5", labelClassName)}
+            htmlFor={inputId}
+          >
             {label}
             {isRequired ? (
               <span aria-hidden="true" className="text-destructive">
@@ -115,6 +128,14 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
               </span>
             ) : null}
           </Label>
+        ) : null}
+
+        {description ? (
+          <FieldFeedback
+            className="-mt-1"
+            description={description}
+            id={descriptionId}
+          />
         ) : null}
 
         <div className="relative">
@@ -194,9 +215,13 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
         </div>
 
         <FieldFeedback
-          description={description}
+          className={
+            isFeedbackOverlay
+              ? "absolute left-0 top-full z-10 mt-0.5 w-full"
+              : undefined
+          }
           error={error}
-          id={feedbackId}
+          id={errorId}
           minLines={feedbackMinLines}
           reserveSpace={feedbackMode === "reserved"}
         />

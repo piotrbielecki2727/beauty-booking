@@ -8,6 +8,7 @@ import { isAllowedCorsOrigin } from "@/config/cors";
 import { errorMiddleware } from "@/middlewares/error.middleware";
 import { notFoundMiddleware } from "@/middlewares/notFound.middleware";
 import { authRouter } from "@/modules/auth/auth.routes";
+import { businessSetupRouter } from "@/modules/businessSetup/businessSetup.routes";
 import { tenantRouter } from "@/modules/tenant/tenant.routes";
 
 const createApp = () => {
@@ -32,6 +33,7 @@ const createApp = () => {
   });
 
   app.use("/auth", authRouter);
+  app.use("/business", businessSetupRouter);
   app.use("/tenant", tenantRouter);
   app.use(notFoundMiddleware);
   app.use(errorMiddleware);

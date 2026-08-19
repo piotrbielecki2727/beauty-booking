@@ -50,6 +50,7 @@
     "employees": "Pracownicy",
     "expandSidebar": "Rozwiń menu boczne",
     "home": "Strona główna",
+    "initialSetup": "Inicjalna konfiguracja",
     "management": "Zarządzanie",
     "mobile": "Mobilna",
     "openMenu": "Otwórz menu",
@@ -83,6 +84,111 @@
     "userFallback": "Konto",
     "viewDetails": "Zobacz szczegóły",
     "visitHistory": "Historia wizyt"
+  },
+  "managementSidebar": {
+    "account": {
+      "roles": {
+        "Admin": "Administrator",
+        "Customer": "Klient",
+        "Employee": "Pracownik",
+        "Manager": "Menedżer",
+        "Owner": "Właściciel"
+      }
+    }
+  },
+  "businessSetup": {
+    "actions": {
+      "finishLater": "Dokończę później",
+      "next": "Przejdź dalej",
+      "previous": "Wstecz",
+      "saveAndContinue": "Zapisz i przejdź dalej",
+      "saving": "Zapisywanie"
+    },
+    "businessBasics": {
+      "businessTypes": {
+        "SOLO": {
+          "description": "Tylko ja wykonuję usługi.",
+          "title": "Pracuję samodzielnie"
+        },
+        "TEAM": {
+          "description": "Usługi wykonuje kilka osób.",
+          "title": "Mam zespół"
+        }
+      },
+      "description": "Zacznij od najważniejszych informacji, które określają sposób działania Twojego biznesu beauty.",
+      "descriptions": {
+        "businessType": "Określa, czy skonfigurujemy także zespół i jego dostępność.",
+        "name": "Ta nazwa będzie wyświetlana klientkom w aplikacji i podczas rezerwacji.",
+        "ownerProvidesServices": "Wpływa na Twój profil pracownika i dostępność wizyt.",
+        "specialization": "Pomaga dopasować kolejne kroki i domyślne ustawienia."
+      },
+      "fields": {
+        "businessType": "Jak prowadzisz swój biznes?",
+        "name": "Nazwa biznesu",
+        "ownerProvidesServices": "Czy Ty również wykonujesz usługi?",
+        "specialization": "Główna specjalizacja"
+      },
+      "ownerProvidesServices": {
+        "false": "Nie, tylko zarządzam biznesem",
+        "true": "Tak, również przyjmuję klientki"
+      },
+      "placeholder": "W kolejnym kroku dodamy formularz nazwy biznesu, głównej specjalizacji i typu działalności.",
+      "placeholders": {
+        "name": "Maison Rouge"
+      },
+      "specializations": {
+        "BROWS_AND_LASHES": "Brwi i Rzęsy",
+        "MAKEUP": "Makijaż",
+        "NAILS": "Paznokcie"
+      },
+      "title": "Twój biznes"
+    },
+    "placeholder": {
+      "description": "Ten krok zaimplementujemy jako następny. Na razie możesz wrócić do poprzedniego kroku.",
+      "title": "Następny krok"
+    },
+    "feedback": {
+      "loadFailed": "Nie udało się pobrać konfiguracji biznesu",
+      "saveFailed": "Nie udało się zapisać tego kroku",
+      "sessionExpired": "Sesja wygasła. Zaloguj się ponownie"
+    },
+    "overlays": {
+      "loadingTitle": "Wczytujemy konfigurację"
+    },
+    "badges": {
+      "autosave": "Postęp zapisywany automatycznie",
+      "firstSetup": "Pierwsza konfiguracja"
+    },
+    "page": {
+      "description": "Ustaw podstawowe informacje, aby rozpocząć przyjmowanie rezerwacji.",
+      "title": "Skonfiguruj swój biznes"
+    },
+    "progress": "Krok {current} z {total}",
+    "progressCompleted": "{percentage}% ukończone",
+    "requirements": {
+      "description": "Aby skonfigurować ten krok, najpierw zapisz poniższe sekcje.",
+      "title": "Najpierw uzupełnij wymagane kroki"
+    },
+    "steps": {
+      "addons": "Addony",
+      "availability": "Godziny i dostępność",
+      "bookingRules": "Zasady rezerwacji",
+      "businessBasics": "Twój biznes",
+      "location": "Lokalizacja",
+      "publicProfile": "Dane strony",
+      "services": "Usługi",
+      "summary": "Podsumowanie",
+      "team": "Zespół",
+      "teamServices": "Usługi zespołu",
+      "workstations": "Stanowiska"
+    },
+    "unsavedChanges": {
+      "description": "Jeśli opuścisz konfigurację, zmiany wprowadzone od ostatniego zapisu zostaną utracone.",
+      "leave": "Opuść bez zapisywania",
+      "stay": "Pozostań",
+      "title": "Masz niezapisane zmiany"
+    },
+    "unsavedStep": "Ten krok ma niezapisane zmiany"
   },
   "footer": {
     "description": "Twoje miejsce do rezerwacji najlepszych usług beauty. Piękno zaczyna się od chwili dla siebie.",
@@ -312,6 +418,10 @@
       "verificationCode": {
         "invalid": "Wpisz 6-cyfrowy kod z e-maila."
       }
+    },
+    "business": {
+      "nameMinLength": "Nazwa biznesu musi mieć minimum 2 znaki.",
+      "ownerProvidesServicesRequired": "Wybierz, czy również wykonujesz usługi."
     }
   }
 }

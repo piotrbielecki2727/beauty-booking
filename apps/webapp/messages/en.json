@@ -50,6 +50,7 @@
     "employees": "Employees",
     "expandSidebar": "Expand sidebar",
     "home": "Home",
+    "initialSetup": "Initial setup",
     "management": "Management",
     "mobile": "Mobile",
     "openMenu": "Open menu",
@@ -83,6 +84,111 @@
     "userFallback": "Account",
     "viewDetails": "View details",
     "visitHistory": "Visit history"
+  },
+  "managementSidebar": {
+    "account": {
+      "roles": {
+        "Admin": "Administrator",
+        "Customer": "Customer",
+        "Employee": "Employee",
+        "Manager": "Manager",
+        "Owner": "Owner"
+      }
+    }
+  },
+  "businessSetup": {
+    "actions": {
+      "finishLater": "I will finish later",
+      "next": "Continue",
+      "previous": "Back",
+      "saveAndContinue": "Save and continue",
+      "saving": "Saving"
+    },
+    "businessBasics": {
+      "businessTypes": {
+        "SOLO": {
+          "description": "Only I provide services.",
+          "title": "I work solo"
+        },
+        "TEAM": {
+          "description": "Services are provided by several people.",
+          "title": "I have a team"
+        }
+      },
+      "description": "Start with the core information that defines how your beauty business works.",
+      "descriptions": {
+        "businessType": "Determines whether the next steps will also configure a team and its availability.",
+        "name": "This name will be shown to clients in the app and during booking.",
+        "ownerProvidesServices": "Affects your employee profile and appointment availability.",
+        "specialization": "Helps tailor the next steps and default settings."
+      },
+      "fields": {
+        "businessType": "How do you run your business?",
+        "name": "Business name",
+        "ownerProvidesServices": "Do you also provide services?",
+        "specialization": "Main specialization"
+      },
+      "ownerProvidesServices": {
+        "false": "No, I only manage the business",
+        "true": "Yes, I also take clients"
+      },
+      "placeholder": "In the next step we will add the business name, main specialization and business type form.",
+      "placeholders": {
+        "name": "Maison Rouge"
+      },
+      "specializations": {
+        "BROWS_AND_LASHES": "Brows and Lashes",
+        "MAKEUP": "Makeup",
+        "NAILS": "Nails"
+      },
+      "title": "Your business"
+    },
+    "placeholder": {
+      "description": "This step will be implemented next. You can return to the previous step for now.",
+      "title": "Next step"
+    },
+    "feedback": {
+      "loadFailed": "Could not load business setup",
+      "saveFailed": "Could not save this step",
+      "sessionExpired": "Your session has expired. Sign in again"
+    },
+    "overlays": {
+      "loadingTitle": "Loading setup"
+    },
+    "badges": {
+      "autosave": "Progress is saved automatically",
+      "firstSetup": "First setup"
+    },
+    "page": {
+      "description": "Set up the basic information before you start taking bookings.",
+      "title": "Configure your business"
+    },
+    "progress": "Step {current} of {total}",
+    "progressCompleted": "{percentage}% completed",
+    "requirements": {
+      "description": "To configure this step, save the following sections first.",
+      "title": "Complete the required steps first"
+    },
+    "steps": {
+      "addons": "Add-ons",
+      "availability": "Hours and availability",
+      "bookingRules": "Booking rules",
+      "businessBasics": "Your business",
+      "location": "Location",
+      "publicProfile": "Page details",
+      "services": "Services",
+      "summary": "Summary",
+      "team": "Team",
+      "teamServices": "Team services",
+      "workstations": "Workstations"
+    },
+    "unsavedChanges": {
+      "description": "If you leave setup, changes made since the last save will be lost.",
+      "leave": "Leave without saving",
+      "stay": "Stay",
+      "title": "You have unsaved changes"
+    },
+    "unsavedStep": "This step has unsaved changes"
   },
   "footer": {
     "description": "Your place to book the best beauty services. Beauty begins with a moment for yourself.",
@@ -312,6 +418,10 @@
       "verificationCode": {
         "invalid": "Enter the 6-digit code from the e-mail."
       }
+    },
+    "business": {
+      "nameMinLength": "Business name must contain at least 2 characters.",
+      "ownerProvidesServicesRequired": "Select whether you also provide services."
     }
   }
 }

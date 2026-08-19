@@ -15,6 +15,40 @@ enum AccountRole {
   Customer
 }
 
+enum BusinessSpecialization {
+  NAILS
+  LASHES
+  BROWS
+  MAKEUP
+  COSMETOLOGY
+  OTHER
+}
+
+enum BusinessType {
+  SOLO
+  TEAM
+}
+
+enum BusinessOnboardingStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum BusinessSetupStep {
+  BUSINESS_BASICS
+  LOCATION
+  WORKSTATIONS
+  SERVICES
+  ADDONS
+  TEAM
+  TEAM_SERVICES
+  AVAILABILITY
+  BOOKING_RULES
+  PUBLIC_PROFILE
+  SUMMARY
+}
+
 model User {
   id                              String                  @id @default(uuid())
   email                           String
@@ -52,14 +86,20 @@ model EmailVerificationCode {
 }
 
 model Business {
-  id          String               @id @default(uuid())
-  name        String
-  slug        String               @unique
-  createdAt   DateTime             @default(now())
-  updatedAt   DateTime             @updatedAt
-  domains     BusinessDomain[]
-  memberships BusinessMembership[]
-  users       User[]
+  id                         String                     @id @default(uuid())
+  name                       String
+  slug                       String                     @unique
+  specialization             BusinessSpecialization?
+  businessType               BusinessType?
+  onboardingStatus           BusinessOnboardingStatus   @default(NOT_STARTED)
+  onboardingCurrentStep      BusinessSetupStep?
+  onboardingCompletedSteps   BusinessSetupStep[]        @default([])
+  onboardingCompletedAt      DateTime?
+  createdAt                  DateTime                   @default(now())
+  updatedAt                  DateTime                   @updatedAt
+  domains                    BusinessDomain[]
+  memberships                BusinessMembership[]
+  users                      User[]
 }
 
 model BusinessDomain {
@@ -75,14 +115,15 @@ model BusinessDomain {
 }
 
 model BusinessMembership {
-  id         String      @id @default(uuid())
-  role       AccountRole
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  businessId String
-  userId     String
-  business   Business    @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String      @id @default(uuid())
+  role             AccountRole
+  providesServices Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  businessId       String
+  userId           String
+  business         Business    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([businessId, userId])
   @@index([userId])

@@ -2,9 +2,9 @@
 
 import { useTranslations } from "next-intl";
 
-import { managementNavItems } from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { ManagementNavItem } from "@/components/layout/managementSidebar/shared/ManagementNavItem";
 import { isNavItemActive } from "@/components/layout/managementSidebar/shared/isNavItemActive";
+import { useManagementSetupNavItems } from "@/features/businessSetup/hooks/useManagementSetupNavItems";
 import { usePathname } from "@/i18n/navigation";
 
 type ManagementSidebarNavProperties = {
@@ -18,13 +18,14 @@ export const ManagementSidebarNav = ({
 }: ManagementSidebarNavProperties) => {
   const pathname = usePathname();
   const t = useTranslations();
+  const navItems = useManagementSetupNavItems();
 
   return (
     <nav
-      className="flex flex-1 flex-col gap-1 p-3"
+      className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain p-3"
       aria-label={t("navigation.management")}
     >
-      {managementNavItems.map((item) => (
+      {navItems.map((item) => (
         <ManagementNavItem
           key={item.href}
           isActive={isNavItemActive(pathname, item.href)}

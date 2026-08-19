@@ -3,6 +3,7 @@ import type { LucideProps } from "lucide-react";
 
 export type ManagementNavLabelKey =
   | "dashboard"
+  | "initialSetup"
   | "calendar"
   | "bookings"
   | "services"
@@ -13,6 +14,7 @@ export type ManagementNavItemConfig = {
   href: string;
   icon: ComponentType<LucideProps>;
   labelKey: ManagementNavLabelKey;
+  shouldHideWhenSetupCompleted?: boolean;
 };
 
 export type ManagementSidebarTransition = {
