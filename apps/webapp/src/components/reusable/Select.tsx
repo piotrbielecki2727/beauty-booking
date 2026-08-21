@@ -84,12 +84,12 @@ export const Select = ({
   const isInvalid = Boolean(error) || invalid === true || invalid === "true";
   const isFeedbackOverlay = feedbackMode === "overlay";
   const shouldReserveFeedback = feedbackMode === "reserved";
-  const feedbackId =
-    error || description || shouldReserveFeedback
-      ? `${selectId}-feedback`
-      : undefined;
+  const descriptionId = description ? `${selectId}-description` : undefined;
+  const errorId =
+    error || shouldReserveFeedback ? `${selectId}-error` : undefined;
   const describedBy =
-    [ariaDescribedBy, feedbackId].filter(Boolean).join(" ") || undefined;
+    [ariaDescribedBy, descriptionId, errorId].filter(Boolean).join(" ") ||
+    undefined;
 
   const control = (
     <BaseSelect
@@ -157,6 +157,14 @@ export const Select = ({
         ) : null}
       </Label>
 
+      {description ? (
+        <FieldFeedback
+          className="-mt-1"
+          description={description}
+          id={descriptionId}
+        />
+      ) : null}
+
       {control}
 
       <FieldFeedback
@@ -165,9 +173,8 @@ export const Select = ({
             ? "absolute left-0 top-full z-10 mt-0.5 w-full"
             : undefined
         }
-        description={description}
         error={error}
-        id={feedbackId}
+        id={errorId}
         minLines={feedbackMinLines}
         reserveSpace={shouldReserveFeedback}
       />

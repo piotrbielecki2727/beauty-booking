@@ -91,10 +91,51 @@
         "Admin": "Administrator",
         "Customer": "Customer",
         "Employee": "Employee",
+        "Intern": "Intern",
         "Manager": "Manager",
         "Owner": "Owner"
       }
     }
+  },
+  "managementEmployees": {
+    "teamAccess": {
+      "acceptAsCurrent": "Accept as current account",
+      "acceptFailed": "Could not accept the invitation.",
+      "accepted": "Invitation accepted.",
+      "cancel": "Cancel",
+      "cancelFailed": "Could not cancel the invitation.",
+      "checkPreview": "Check token",
+      "copied": "Link copied.",
+      "copy": "Copy link",
+      "description": "Temporary panel for testing invitations without real e-mail delivery.",
+      "email": "E-mail address",
+      "emailPlaceholder": "anna@example.com",
+      "empty": "Add team members in business setup first.",
+      "generatedTitle": "Generated test link",
+      "invite": "Invite",
+      "inviteCreated": "Invitation generated.",
+      "inviteFailed": "Could not generate the invitation.",
+      "invitationStatuses": {
+        "ACCEPTED": "accepted",
+        "CANCELLED": "cancelled",
+        "EXPIRED": "expired",
+        "PENDING": "active"
+      },
+      "loadFailed": "Could not load the team.",
+      "loading": "Loading team...",
+      "noServices": "does not provide services",
+      "preview": "{businessName} · status: {status}",
+      "previewFailed": "Could not check the token.",
+      "providesServices": "provides services",
+      "resend": "Resend",
+      "statuses": {
+        "ACTIVE": "Access active",
+        "INVITED": "Invitation sent",
+        "NO_ACCESS": "Access inactive"
+      },
+      "title": "Panel access"
+    },
+    "title": "Employees"
   },
   "businessSetup": {
     "actions": {
@@ -146,13 +187,13 @@
     "location": {
       "description": "Add the address and arrival details that clients will see before their appointment.",
       "descriptions": {
-        "apartmentNumber": "Optional — enter the unit or studio number.",
-        "buildingNumber": "The building number required for a complete address.",
+        "apartmentNumber": "Optional — unit number.",
+        "buildingNumber": "Building number, e.g. 12A.",
         "city": "The city where you see clients.",
         "locationNote": "Optional — add directions such as the entrance, intercom or floor.",
         "parkingNote": "Optional — explain where clients can park and whether parking is paid.",
         "postalCode": "Helps save and locate the address correctly.",
-        "street": "Enter the street where the salon is located."
+        "street": "Enter the street name."
       },
       "fields": {
         "apartmentNumber": "Apartment number",
@@ -173,6 +214,49 @@
         "street": "Beauty Street"
       },
       "title": "Location"
+    },
+    "team": {
+      "add": "Add person",
+      "addTitle": "Add team members",
+      "cancelAdd": "Cancel",
+      "currentTitle": "Current team",
+      "description": "Add people working in your business and define their roles and whether they provide services.",
+      "edit": "Edit",
+      "empty": "No team members have been added yet.",
+      "fields": {
+        "email": "E-mail optional",
+        "fullName": "Full name",
+        "providesServices": "Provides services?",
+        "role": "Role"
+      },
+      "info": "System role and providing services are independent settings. You can add someone who only manages the business or someone clients can book with.",
+      "nextItems": {
+        "availability": "Working hours will be configured in Hours and availability.",
+        "services": "Later you will assign services to employees.",
+        "workstations": "In the next step you will configure workstations for team businesses."
+      },
+      "nextTitle": "What happens next?",
+      "noEmail": "No e-mail",
+      "ownerFallback": "Business owner",
+      "ownerNote": "The owner account was created automatically during business setup.",
+      "ownerTitle": "Owner",
+      "placeholders": {
+        "email": "Enter e-mail",
+        "fullName": "Enter full name"
+      },
+      "providesServices": {
+        "false": "No",
+        "true": "Yes"
+      },
+      "providesServicesBadge": "Provides services: {value}",
+      "remove": "Remove",
+      "roles": {
+        "Employee": "Employee",
+        "Intern": "Intern",
+        "Manager": "Manager",
+        "Owner": "Owner"
+      },
+      "title": "Team"
     },
     "workstations": {
       "add": "Add workstation",
@@ -234,6 +318,33 @@
       "workstationTypes": {
         "ANY": "Any matching workstation"
       }
+    },
+    "addons": {
+      "add": "Add add-on",
+      "addonDescription": "Affects the duration or price of the selected service.",
+      "description": "Add optional extensions to services. Add-ons can increase the price and extend the appointment time.",
+      "descriptions": {
+        "isActive": "An inactive add-on will not be available during booking."
+      },
+      "empty": "No add-ons for this service.",
+      "fields": {
+        "durationMinutes": "Additional time",
+        "isActive": "This add-on is active",
+        "name": "Add-on name",
+        "price": "Additional price"
+      },
+      "info": "You can skip this step and add add-ons later.",
+      "newAddon": "New add-on",
+      "optional": "Optional step",
+      "placeholders": {
+        "durationMinutes": "15",
+        "name": "French",
+        "price": "20"
+      },
+      "remove": "Remove add-on",
+      "serviceDuration": "{duration} min",
+      "servicePrice": "PLN {price}",
+      "title": "Add-ons"
     },
     "placeholder": {
       "description": "This step will be implemented next. You can return to the previous step for now.",
@@ -515,16 +626,21 @@
       "nameMinLength": "Business name must contain at least 2 characters.",
       "ownerProvidesServicesRequired": "Select whether you also provide services.",
       "location": {
-        "apartmentNumberMaxLength": "Apartment number can contain up to 20 characters.",
-        "buildingNumberMaxLength": "Building number can contain up to 20 characters.",
+        "apartmentNumberInvalid": "Apartment number can contain digits from 1 to 9999 only.",
+        "apartmentNumberMaxLength": "Apartment number can contain up to 4 digits.",
+        "buildingNumberInvalid": "Enter digits and optionally one letter.",
+        "buildingNumberMaxLength": "Building number can contain up to 6 characters.",
         "buildingNumberRequired": "Enter the building number.",
-        "cityMaxLength": "City can contain up to 80 characters.",
+        "cityCapitalized": "City must start with an uppercase letter.",
+        "cityInvalid": "City can contain letters, spaces and a hyphen only.",
+        "cityMaxLength": "City can contain up to 50 characters.",
         "cityMinLength": "City must contain at least 2 characters.",
         "locationNoteMaxLength": "Arrival note can contain up to 500 characters.",
+        "noteInvalid": "Note can contain text, digits and basic punctuation only.",
         "parkingNoteMaxLength": "Parking note can contain up to 500 characters.",
-        "postalCodeMaxLength": "Postal code can contain up to 16 characters.",
-        "postalCodeMinLength": "Postal code must contain at least 3 characters.",
-        "streetMaxLength": "Street can contain up to 120 characters.",
+        "postalCodeInvalid": "Enter postal code in the 00-000 format.",
+        "streetInvalid": "Street can contain letters, digits, spaces, a hyphen and a dot.",
+        "streetMaxLength": "Street can contain up to 60 characters.",
         "streetMinLength": "Street must contain at least 2 characters."
       },
       "workstations": {
@@ -534,16 +650,36 @@
         "nameMinLength": "Workstation name must contain at least 2 characters.",
         "noteMaxLength": "Internal note can contain up to 300 characters."
       },
+      "team": {
+        "emailDuplicate": "This e-mail address is already assigned to a team member.",
+        "emailInvalid": "Enter a valid e-mail address.",
+        "fullNameInvalid": "Full name can contain letters, spaces, apostrophes and hyphens.",
+        "fullNameMaxLength": "Full name can contain up to 80 characters.",
+        "fullNameMinLength": "Full name must contain at least 2 characters.",
+        "maxItems": "You can add up to 50 people."
+      },
       "services": {
         "descriptionMaxLength": "Description can contain up to 500 characters.",
         "durationInvalid": "Enter duration as a whole number of minutes.",
-        "durationMax": "Duration can be up to 1440 minutes.",
+        "durationMax": "Duration must be between 1 and 600 minutes.",
         "maxItems": "You can add up to 100 services.",
         "minItems": "Add at least one service.",
-        "nameMaxLength": "Service name can contain up to 100 characters.",
+        "nameInvalid": "Service name can contain letters, digits, spaces and a hyphen.",
+        "nameMaxLength": "Service name can contain up to 60 characters.",
         "nameMinLength": "Service name must contain at least 2 characters.",
         "priceInvalid": "Enter a valid price.",
-        "priceMin": "Price must be greater than 0."
+        "priceMax": "Price must be between 0 and 9999.99."
+      },
+      "addons": {
+        "durationInvalid": "Enter duration as a whole number of minutes.",
+        "durationMax": "Additional time must be between 0 and 600 minutes.",
+        "maxItems": "You can add up to 300 add-ons.",
+        "nameInvalid": "Add-on name can contain letters, digits, spaces and a hyphen.",
+        "nameMaxLength": "Add-on name can contain up to 60 characters.",
+        "nameMinLength": "Add-on name must contain at least 2 characters.",
+        "priceInvalid": "Enter a valid price.",
+        "priceMax": "Price must be between 0 and 9999.99.",
+        "serviceRequired": "Select a service for this add-on."
       }
     }
   }

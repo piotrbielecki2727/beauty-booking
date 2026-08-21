@@ -1,14 +1,14 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 
 import { ConfirmationDialog } from "@/components/reusable";
 import {
   BUSINESS_SETUP_ACTIVE_FORM_ID,
   businessSetupFormSteps,
-  businessSetupStepItems,
   getBusinessSetupStepItem,
+  getVisibleBusinessSetupStepItems,
 } from "@/features/businessSetup/businessSetupConfig";
 import {
   BusinessSetupStepActions,
@@ -16,9 +16,11 @@ import {
   BusinessSetupStepRequirementsState,
 } from "@/features/businessSetup/components/reusable";
 import { BusinessSetupWizardShell } from "@/features/businessSetup/components/BusinessSetupWizardShell";
+import { BusinessAddonsStep } from "@/features/businessSetup/components/steps/BusinessAddonsStep";
 import { BusinessBasicsStep } from "@/features/businessSetup/components/steps/BusinessBasicsStep";
 import { BusinessLocationStep } from "@/features/businessSetup/components/steps/BusinessLocationStep";
 import { BusinessServicesStep } from "@/features/businessSetup/components/steps/BusinessServicesStep";
+import { BusinessTeamStep } from "@/features/businessSetup/components/steps/BusinessTeamStep";
 import { BusinessWorkstationsStep } from "@/features/businessSetup/components/steps/BusinessWorkstationsStep";
 import { useBusinessSetup } from "@/features/businessSetup/providers";
 import { useUnsavedChangesGuard } from "@/hooks/useUnsavedChangesGuard";
@@ -28,8 +30,11 @@ import type {
   BusinessBasicsForm,
   BusinessLocationForm,
   BusinessServicesForm,
+  BusinessSetupStep,
   BusinessWorkstationsForm,
 } from "@beauty-booking/shared";
+import type { BusinessAddonsForm } from "@/features/businessSetup/businessSetupAddonsSchema";
+import type { BusinessTeamForm } from "@/features/businessSetup/businessSetupTeamSchema";
 
 export const BusinessSetupWizard = () => {
   const t = useTranslations();
@@ -41,25 +46,43 @@ export const BusinessSetupWizard = () => {
     hasUnsavedChanges,
     isSaving,
     isSetupLoading,
+    savedAddons,
+    savedTeam,
+    saveAddons,
     saveBasics,
     saveLocation,
     saveServices,
+    saveTeam,
     saveWorkstations,
     setActiveStep,
     setDraft,
     setup,
   } = useBusinessSetup();
+  const selectedBusinessType =
+    drafts.BUSINESS_BASICS?.businessType ?? setup?.basics.businessType;
+  const visibleStepItems = useMemo(
+    () => getVisibleBusinessSetupStepItems(selectedBusinessType),
+    [selectedBusinessType],
+  );
   const navigationGuard = useUnsavedChangesGuard({
     hasUnsavedChanges,
     isNavigationBlocked: isSaving,
   });
-  const completedSteps = setup?.setup.completedSteps ?? [];
-  const currentStepItem = getBusinessSetupStepItem(activeStep);
-  const currentStepIndex = businessSetupStepItems.findIndex(
+  const completedSteps = useMemo(
+    () =>
+      (setup?.setup.completedSteps ?? []).filter((step) =>
+        visibleStepItems.some((item) => item.key === step),
+      ),
+    [setup?.setup.completedSteps, visibleStepItems],
+  );
+  const currentStepItem =
+    visibleStepItems.find((item) => item.key === activeStep) ??
+    getBusinessSetupStepItem(activeStep);
+  const currentStepIndex = visibleStepItems.findIndex(
     (step) => step.key === activeStep,
   );
-  const previousStep = businessSetupStepItems[currentStepIndex - 1]?.key;
-  const nextStep = businessSetupStepItems[currentStepIndex + 1]?.key;
+  const previousStep = visibleStepItems[currentStepIndex - 1]?.key;
+  const nextStep = visibleStepItems[currentStepIndex + 1]?.key;
   const missingRequiredSteps = (currentStepItem?.requiredSteps ?? []).filter(
     (step) => !completedSteps.includes(step),
   );
@@ -70,9 +93,37 @@ export const BusinessSetupWizard = () => {
     (values: BusinessBasicsForm) => setDraft("BUSINESS_BASICS", values),
     [setDraft],
   );
+  const handleAddonsDraftChange = useCallback(
+    (values: BusinessAddonsForm) => setDraft("ADDONS", values),
+    [setDraft],
+  );
+  const handleAddonsSave = useCallback(
+    async (values: BusinessAddonsForm) => {
+      await saveAddons(values);
+
+      if (nextStep) {
+        setActiveStep(nextStep);
+      }
+    },
+    [nextStep, saveAddons, setActiveStep],
+  );
   const handleLocationDraftChange = useCallback(
     (values: BusinessLocationForm) => setDraft("LOCATION", values),
     [setDraft],
+  );
+  const handleTeamDraftChange = useCallback(
+    (values: BusinessTeamForm) => setDraft("TEAM", values),
+    [setDraft],
+  );
+  const handleTeamSave = useCallback(
+    async (values: BusinessTeamForm) => {
+      await saveTeam(values);
+
+      if (nextStep) {
+        setActiveStep(nextStep);
+      }
+    },
+    [nextStep, saveTeam, setActiveStep],
   );
   const handleServicesDraftChange = useCallback(
     (values: BusinessServicesForm) => setDraft("SERVICES", values),
@@ -82,6 +133,19 @@ export const BusinessSetupWizard = () => {
     (values: BusinessWorkstationsForm) => setDraft("WORKSTATIONS", values),
     [setDraft],
   );
+
+  useEffect(() => {
+    if (visibleStepItems.some((item) => item.key === activeStep)) {
+      return;
+    }
+
+    const fallbackStep: BusinessSetupStep =
+      visibleStepItems.find((item) => item.key === "SERVICES")?.key ??
+      visibleStepItems[0]?.key ??
+      "BUSINESS_BASICS";
+
+    setActiveStep(fallbackStep);
+  }, [activeStep, setActiveStep, visibleStepItems]);
 
   let stepContent: ReactNode;
 
@@ -139,6 +203,23 @@ export const BusinessSetupWizard = () => {
           </>
         );
         break;
+      case "TEAM":
+        stepContent = (
+          <>
+            <BusinessSetupStepIntroduction
+              description={t("businessSetup.team.description")}
+              title={t("businessSetup.team.title")}
+            />
+            <BusinessTeamStep
+              draft={drafts.TEAM}
+              initialSetup={setup}
+              initialValues={savedTeam}
+              onDraftChange={handleTeamDraftChange}
+              onSave={handleTeamSave}
+            />
+          </>
+        );
+        break;
       case "SERVICES":
         stepContent = (
           <>
@@ -151,6 +232,32 @@ export const BusinessSetupWizard = () => {
               initialSetup={setup}
               onDraftChange={handleServicesDraftChange}
               onSave={saveServices}
+            />
+          </>
+        );
+        break;
+      case "ADDONS":
+        stepContent = (
+          <>
+            <div className="grid gap-1">
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="font-brand text-2xl font-semibold text-brand">
+                  {t("businessSetup.addons.title")}
+                </h2>
+                <span className="rounded-md border border-line bg-surface px-2.5 py-1 text-xs font-medium text-brand">
+                  {t("businessSetup.addons.optional")}
+                </span>
+              </div>
+              <p className="max-w-3xl text-sm leading-5 text-copy-muted">
+                {t("businessSetup.addons.description")}
+              </p>
+            </div>
+            <BusinessAddonsStep
+              draft={drafts.ADDONS}
+              initialValues={savedAddons}
+              onDraftChange={handleAddonsDraftChange}
+              onSave={handleAddonsSave}
+              services={setup?.services ?? []}
             />
           </>
         );
@@ -182,7 +289,9 @@ export const BusinessSetupWizard = () => {
             formId={hasActiveForm ? BUSINESS_SETUP_ACTIVE_FORM_ID : undefined}
             hasChanges={dirtySteps.includes(activeStep)}
             isNextDisabled={
-              !hasActiveForm || hasActiveStepValidationErrors || !nextStep
+              missingRequiredSteps.length > 0 ||
+              (hasActiveForm && hasActiveStepValidationErrors) ||
+              !nextStep
             }
             isPreviousDisabled={!previousStep}
             isSaving={isSaving}
@@ -195,6 +304,7 @@ export const BusinessSetupWizard = () => {
         isInteractionDisabled={isSaving}
         isLoading={isSetupLoading}
         onStepChange={setActiveStep}
+        steps={visibleStepItems}
       >
         <div className="grid gap-6">{stepContent}</div>
       </BusinessSetupWizardShell>

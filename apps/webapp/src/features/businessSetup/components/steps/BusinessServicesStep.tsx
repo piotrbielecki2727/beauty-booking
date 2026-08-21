@@ -56,6 +56,28 @@ const defaultService: BusinessServiceFormItem = {
   workstationType: "ANY",
 };
 
+const serviceNameCharactersRegex = /[^A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż0-9 -]/gu;
+
+const formatServiceNameValue = (value: string) =>
+  value.replace(serviceNameCharactersRegex, "").slice(0, 60);
+
+const formatDurationValue = (value: string) =>
+  value.replace(/\D/g, "").slice(0, 3);
+
+const formatPriceValue = (value: string) => {
+  const normalizedValue = value.replace(",", ".");
+  const [integerPart = "", decimalPart] = normalizedValue.split(".");
+  const nextIntegerPart = integerPart.replace(/\D/g, "").slice(0, 4);
+
+  if (decimalPart === undefined) {
+    return nextIntegerPart;
+  }
+
+  const nextDecimalPart = decimalPart.replace(/\D/g, "").slice(0, 2);
+
+  return `${nextIntegerPart},${nextDecimalPart}`;
+};
+
 const getPriceValue = (priceAmount: number) =>
   String(priceAmount / 100).replace(".", ",");
 
@@ -146,159 +168,162 @@ export const BusinessServicesStep = ({
       onSubmit={handleSubmit}
     >
       <div className={businessSetupCardsClassNames}>
-          {fields.map((field, index) => {
-            const canRemove = fields.length > 1;
+        {fields.map((field, index) => {
+          const canRemove = fields.length > 1;
 
-            return (
-              <section
-                key={field.formId}
-                className={businessSetupCardClassNames}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand">
-                      <ScissorsIcon className="size-5" aria-hidden="true" />
-                    </span>
-                    <div className="min-w-0">
-                      <h3 className="font-medium text-copy">
-                        {t("businessSetup.services.cardTitle", {
-                          number: index + 1,
-                        })}
-                      </h3>
-                      <p className="text-sm text-copy-muted">
-                        {t("businessSetup.services.cardDescription")}
-                      </p>
-                    </div>
+          return (
+            <section
+              key={field.formId}
+              className={businessSetupCardClassNames}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand">
+                    <ScissorsIcon className="size-5" aria-hidden="true" />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="font-medium text-copy">
+                      {t("businessSetup.services.cardTitle", {
+                        number: index + 1,
+                      })}
+                    </h3>
+                    <p className="text-sm text-copy-muted">
+                      {t("businessSetup.services.cardDescription")}
+                    </p>
                   </div>
-
-                  <Button
-                    isDisabled={!canRemove}
-                    size="icon-sm"
-                    type="button"
-                    variant="ghost"
-                    aria-label={t("businessSetup.services.remove")}
-                    className="text-copy-muted hover:bg-surface-soft hover:text-brand"
-                    onClick={() => remove(index)}
-                  >
-                    <Trash2Icon className="size-4" aria-hidden="true" />
-                  </Button>
                 </div>
 
-                <div
-                  className={cn(
-                    businessSetupFieldRowClassNames,
-                    "@min-[40rem]/step:grid-cols-[minmax(0,1fr)_14rem]",
-                  )}
+                <Button
+                  isDisabled={!canRemove}
+                  size="icon-sm"
+                  type="button"
+                  variant="ghost"
+                  aria-label={t("businessSetup.services.remove")}
+                  className="text-copy-muted hover:bg-surface-soft hover:text-brand"
+                  onClick={() => remove(index)}
                 >
-                  <InputControl
-                    control={form.control}
-                    description={t(
-                      "businessSetup.services.descriptions.name",
-                    )}
-                    feedbackMode={businessSetupFeedbackMode}
-                    inputClassName={businessSetupFieldClassNames}
-                    isRequired
-                    label={t("businessSetup.services.fields.name")}
-                    name={`services.${index}.name`}
-                    placeholder={t("businessSetup.services.placeholders.name")}
-                  />
+                  <Trash2Icon className="size-4" aria-hidden="true" />
+                </Button>
+              </div>
 
-                  <SelectControl
-                    control={form.control}
-                    description={t(
-                      "businessSetup.services.descriptions.specialization",
-                    )}
-                    feedbackMode={businessSetupFeedbackMode}
-                    label={t("businessSetup.services.fields.specialization")}
-                    name={`services.${index}.specialization`}
-                    options={specializationOptions}
-                    triggerClassName={businessSetupFieldClassNames}
-                  />
-                </div>
+              <div
+                className={cn(
+                  businessSetupFieldRowClassNames,
+                  "[grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr))]",
+                )}
+              >
+                <InputControl
+                  control={form.control}
+                  description={t("businessSetup.services.descriptions.name")}
+                  feedbackMode={businessSetupFeedbackMode}
+                  formatValue={formatServiceNameValue}
+                  inputClassName={businessSetupFieldClassNames}
+                  isRequired
+                  label={t("businessSetup.services.fields.name")}
+                  maxLength={60}
+                  name={`services.${index}.name`}
+                  placeholder={t("businessSetup.services.placeholders.name")}
+                />
 
-                <div
-                  className={cn(
-                    businessSetupFieldRowClassNames,
-                    "@min-[48rem]/step:grid-cols-3",
-                  )}
-                >
-                  <InputControl
-                    control={form.control}
-                    description={t(
-                      "businessSetup.services.descriptions.durationMinutes",
-                    )}
-                    feedbackMode={businessSetupFeedbackMode}
-                    inputClassName={businessSetupFieldClassNames}
-                    isRequired
-                    label={t("businessSetup.services.fields.durationMinutes")}
-                    name={`services.${index}.durationMinutes`}
-                    placeholder={t(
-                      "businessSetup.services.placeholders.durationMinutes",
-                    )}
-                  />
-                  <InputControl
-                    control={form.control}
-                    description={t(
-                      "businessSetup.services.descriptions.price",
-                    )}
-                    feedbackMode={businessSetupFeedbackMode}
-                    inputClassName={businessSetupFieldClassNames}
-                    isRequired
-                    label={t("businessSetup.services.fields.price")}
-                    name={`services.${index}.price`}
-                    placeholder={t("businessSetup.services.placeholders.price")}
-                  />
-                  <SelectControl
-                    control={form.control}
-                    description={t(
-                      "businessSetup.services.descriptions.workstationType",
-                    )}
-                    feedbackMode={businessSetupFeedbackMode}
-                    label={t("businessSetup.services.fields.workstationType")}
-                    name={`services.${index}.workstationType`}
-                    options={workstationTypeOptions}
-                    triggerClassName={businessSetupFieldClassNames}
-                  />
-                </div>
-
-                <TextareaControl
+                <SelectControl
                   control={form.control}
                   description={t(
-                    "businessSetup.services.descriptions.description",
+                    "businessSetup.services.descriptions.specialization",
                   )}
                   feedbackMode={businessSetupFeedbackMode}
-                  label={t("businessSetup.services.fields.description")}
-                  name={`services.${index}.description`}
-                  placeholder={t(
-                    "businessSetup.services.placeholders.description",
-                  )}
-                  textareaClassName={cn(
-                    businessSetupFieldClassNames,
-                    "min-h-20 resize-none",
-                  )}
+                  label={t("businessSetup.services.fields.specialization")}
+                  name={`services.${index}.specialization`}
+                  options={specializationOptions}
+                  triggerClassName={businessSetupFieldClassNames}
                 />
+              </div>
 
-                <CheckboxControl
+              <div
+                className={cn(
+                  businessSetupFieldRowClassNames,
+                  "[grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))]",
+                )}
+              >
+                <InputControl
                   control={form.control}
                   description={t(
-                    "businessSetup.services.descriptions.isActive",
+                    "businessSetup.services.descriptions.durationMinutes",
                   )}
-                  label={t("businessSetup.services.fields.isActive")}
-                  name={`services.${index}.isActive`}
+                  feedbackMode={businessSetupFeedbackMode}
+                  formatValue={formatDurationValue}
+                  inputClassName={businessSetupFieldClassNames}
+                  inputMode="numeric"
+                  isRequired
+                  label={t("businessSetup.services.fields.durationMinutes")}
+                  maxLength={3}
+                  name={`services.${index}.durationMinutes`}
+                  placeholder={t(
+                    "businessSetup.services.placeholders.durationMinutes",
+                  )}
                 />
-              </section>
-            );
-          })}
+                <InputControl
+                  control={form.control}
+                  description={t("businessSetup.services.descriptions.price")}
+                  feedbackMode={businessSetupFeedbackMode}
+                  formatValue={formatPriceValue}
+                  inputClassName={businessSetupFieldClassNames}
+                  inputMode="decimal"
+                  isRequired
+                  label={t("businessSetup.services.fields.price")}
+                  maxLength={7}
+                  name={`services.${index}.price`}
+                  placeholder={t("businessSetup.services.placeholders.price")}
+                />
+                <SelectControl
+                  control={form.control}
+                  description={t(
+                    "businessSetup.services.descriptions.workstationType",
+                  )}
+                  feedbackMode={businessSetupFeedbackMode}
+                  label={t("businessSetup.services.fields.workstationType")}
+                  name={`services.${index}.workstationType`}
+                  options={workstationTypeOptions}
+                  triggerClassName={businessSetupFieldClassNames}
+                />
+              </div>
 
-          <Button
-            type="button"
-            variant="outline"
-            className="justify-center border-dashed"
-            onClick={handleAddService}
-          >
-            <PlusIcon className="size-4" aria-hidden="true" />
-            {t("businessSetup.services.add")}
-          </Button>
+              <TextareaControl
+                control={form.control}
+                description={t(
+                  "businessSetup.services.descriptions.description",
+                )}
+                feedbackMode={businessSetupFeedbackMode}
+                label={t("businessSetup.services.fields.description")}
+                maxLength={500}
+                name={`services.${index}.description`}
+                placeholder={t(
+                  "businessSetup.services.placeholders.description",
+                )}
+                textareaClassName={cn(
+                  businessSetupFieldClassNames,
+                  "min-h-20 resize-none",
+                )}
+              />
+
+              <CheckboxControl
+                control={form.control}
+                description={t("businessSetup.services.descriptions.isActive")}
+                label={t("businessSetup.services.fields.isActive")}
+                name={`services.${index}.isActive`}
+              />
+            </section>
+          );
+        })}
+
+        <Button
+          type="button"
+          variant="outline"
+          className="justify-center border-dashed"
+          onClick={handleAddService}
+        >
+          <PlusIcon className="size-4" aria-hidden="true" />
+          {t("businessSetup.services.add")}
+        </Button>
       </div>
     </form>
   );

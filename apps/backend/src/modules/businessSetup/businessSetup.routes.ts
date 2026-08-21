@@ -5,12 +5,14 @@ import {
   saveBusinessBasicsController,
   saveBusinessLocationController,
   saveBusinessServicesController,
+  saveBusinessTeamController,
   saveBusinessWorkstationsController,
 } from "@/modules/businessSetup/businessSetup.controller";
 import {
   businessBasicsFormSchema,
   businessLocationFormSchema,
   businessServicesFormSchema,
+  businessTeamFormSchema,
   businessWorkstationsFormSchema,
 } from "@/modules/businessSetup/businessSetup.schemas";
 import { requireAuth } from "@/modules/auth/auth.middleware";
@@ -37,6 +39,13 @@ businessSetupRouter.patch(
   asyncHandler(requireAuth),
   validateBody(businessLocationFormSchema),
   asyncHandler(saveBusinessLocationController),
+);
+
+businessSetupRouter.patch(
+  "/setup/team",
+  asyncHandler(requireAuth),
+  validateBody(businessTeamFormSchema),
+  asyncHandler(saveBusinessTeamController),
 );
 
 businessSetupRouter.patch(

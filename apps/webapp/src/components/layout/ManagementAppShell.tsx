@@ -5,10 +5,6 @@ import { useSession } from "next-auth/react";
 import { ManagementSidebar } from "@/components/layout/managementSidebar";
 import { MANAGEMENT_SIDEBAR_COLLAPSED_KEY } from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { LoadingOverlay } from "@/components/reusable";
-import {
-  BusinessSetupProvider,
-  useBusinessSetup,
-} from "@/features/businessSetup/providers";
 import { useTenantContext } from "@/features/tenant";
 import { usePersistentBoolean } from "@/hooks/usePersistentBoolean";
 import { cn } from "@/lib/utils";
@@ -32,10 +28,9 @@ const ManagementAppShellContent = ({
   onIsSidebarCollapsedChange,
 }: ManagementAppShellContentProperties) => {
   const { status } = useSession();
-  const { isSetupLoading } = useBusinessSetup();
   const { isTenantContextLoading } = useTenantContext();
   const isSidebarDataLoading =
-    status === "loading" || isSetupLoading || isTenantContextLoading;
+    status === "loading" || isTenantContextLoading;
 
   if (isSidebarDataLoading) {
     return <LoadingOverlay variant="bare" />;
@@ -68,14 +63,12 @@ export const ManagementAppShell = ({
   );
 
   return (
-    <BusinessSetupProvider>
-      <ManagementAppShellContent
-        isSidebarCollapsed={isSidebarCollapsed}
-        onIsSidebarCollapsedChange={setIsSidebarCollapsed}
-      >
-        {children}
-      </ManagementAppShellContent>
-    </BusinessSetupProvider>
+    <ManagementAppShellContent
+      isSidebarCollapsed={isSidebarCollapsed}
+      onIsSidebarCollapsedChange={setIsSidebarCollapsed}
+    >
+      {children}
+    </ManagementAppShellContent>
   );
 };
 

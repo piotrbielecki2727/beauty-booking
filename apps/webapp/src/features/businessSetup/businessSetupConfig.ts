@@ -1,18 +1,21 @@
-import type { BusinessSetupStep } from "@beauty-booking/shared";
+import type { BusinessSetupStep, BusinessType } from "@beauty-booking/shared";
 
 export const BUSINESS_SETUP_ACTIVE_FORM_ID = "business-setup-active-form";
 
 export const businessSetupFormSteps = [
   "BUSINESS_BASICS",
   "LOCATION",
+  "TEAM",
   "WORKSTATIONS",
   "SERVICES",
+  "ADDONS",
 ] satisfies BusinessSetupStep[];
 
 type BusinessSetupStepDefinition = {
   key: BusinessSetupStep;
   labelKey: string;
   requiredSteps?: BusinessSetupStep[];
+  supportedBusinessTypes?: BusinessType[];
 };
 
 export const businessSetupStepItems = [
@@ -25,12 +28,21 @@ export const businessSetupStepItems = [
     labelKey: "businessSetup.steps.location",
   },
   {
+    key: "TEAM",
+    labelKey: "businessSetup.steps.team",
+    requiredSteps: ["BUSINESS_BASICS"],
+    supportedBusinessTypes: ["TEAM"],
+  },
+  {
     key: "WORKSTATIONS",
     labelKey: "businessSetup.steps.workstations",
+    requiredSteps: ["LOCATION"],
+    supportedBusinessTypes: ["TEAM"],
   },
   {
     key: "SERVICES",
     labelKey: "businessSetup.steps.services",
+    requiredSteps: ["LOCATION"],
   },
   {
     key: "ADDONS",
@@ -38,14 +50,10 @@ export const businessSetupStepItems = [
     requiredSteps: ["SERVICES"],
   },
   {
-    key: "TEAM",
-    labelKey: "businessSetup.steps.team",
-    requiredSteps: ["BUSINESS_BASICS"],
-  },
-  {
     key: "TEAM_SERVICES",
     labelKey: "businessSetup.steps.teamServices",
     requiredSteps: ["TEAM", "SERVICES"],
+    supportedBusinessTypes: ["TEAM"],
   },
   {
     key: "AVAILABILITY",
@@ -79,5 +87,30 @@ export const businessSetupStepItems = [
 
 export const getBusinessSetupStepItem = (step: BusinessSetupStep) =>
   businessSetupStepItems.find((item) => item.key === step);
+
+export const getVisibleBusinessSetupStepItems = (
+  businessType: BusinessType | null | undefined,
+) => {
+  const isTeamBusiness = businessType === "TEAM";
+  const visibleItems = businessSetupStepItems.filter(
+    (item) =>
+      !item.supportedBusinessTypes ||
+      (businessType &&
+        item.supportedBusinessTypes.some(
+          (supportedBusinessType) => supportedBusinessType === businessType,
+        )),
+  );
+
+  return visibleItems.map((item) => {
+    if (item.key === "SERVICES" && isTeamBusiness) {
+      return {
+        ...item,
+        requiredSteps: ["LOCATION", "WORKSTATIONS"],
+      } satisfies BusinessSetupStepDefinition;
+    }
+
+    return item;
+  });
+};
 
 export type { BusinessSetupStepDefinition };

@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 import type { ReactNode } from "react";
 import type { BusinessSetupStep } from "@beauty-booking/shared";
+import type { BusinessSetupStepDefinition } from "@/features/businessSetup/businessSetupConfig";
 
 type BusinessSetupWizardShellProperties = {
   children: ReactNode;
@@ -20,6 +21,7 @@ type BusinessSetupWizardShellProperties = {
   isInteractionDisabled?: boolean;
   isLoading?: boolean;
   onStepChange: (step: BusinessSetupStep) => void;
+  steps: BusinessSetupStepDefinition[];
 };
 
 export const BusinessSetupWizardShell = ({
@@ -31,6 +33,7 @@ export const BusinessSetupWizardShell = ({
   isInteractionDisabled = false,
   isLoading = false,
   onStepChange,
+  steps,
 }: BusinessSetupWizardShellProperties) => {
   const t = useTranslations();
 
@@ -69,6 +72,7 @@ export const BusinessSetupWizardShell = ({
                     dirtySteps={dirtySteps}
                     isDisabled={isInteractionDisabled}
                     onStepChange={onStepChange}
+                    steps={steps}
                   />
                 </aside>
                 <div

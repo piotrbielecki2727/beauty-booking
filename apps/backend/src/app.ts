@@ -9,6 +9,10 @@ import { errorMiddleware } from "@/middlewares/error.middleware";
 import { notFoundMiddleware } from "@/middlewares/notFound.middleware";
 import { authRouter } from "@/modules/auth/auth.routes";
 import { businessSetupRouter } from "@/modules/businessSetup/businessSetup.routes";
+import {
+  businessTeamRouter,
+  teamInvitationsRouter,
+} from "@/modules/businessTeam/businessTeam.routes";
 import { tenantRouter } from "@/modules/tenant/tenant.routes";
 
 const createApp = () => {
@@ -34,6 +38,8 @@ const createApp = () => {
 
   app.use("/auth", authRouter);
   app.use("/business", businessSetupRouter);
+  app.use("/business/team", businessTeamRouter);
+  app.use("/team-invitations", teamInvitationsRouter);
   app.use("/tenant", tenantRouter);
   app.use(notFoundMiddleware);
   app.use(errorMiddleware);

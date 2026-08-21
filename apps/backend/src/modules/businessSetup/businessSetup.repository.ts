@@ -3,6 +3,7 @@ import type {
   BusinessServicesForm,
   BusinessSetupStep,
   BusinessSpecialization,
+  BusinessTeamForm,
   BusinessType,
   BusinessWorkstationsForm,
 } from "@beauty-booking/shared";
@@ -39,6 +40,18 @@ const businessSetupSelect = {
   },
   specialization: true,
   street: true,
+  teamMembers: {
+    orderBy: {
+      createdAt: "asc",
+    },
+    select: {
+      email: true,
+      fullName: true,
+      id: true,
+      providesServices: true,
+      role: true,
+    },
+  },
   workstations: {
     orderBy: {
       createdAt: "asc",
@@ -149,6 +162,9 @@ const updateBusinessBasics = async ({
 
 const toNullableText = (value: string | undefined) => value?.trim() || null;
 
+const toNullableEmail = (value: string | undefined) =>
+  value?.trim().toLowerCase() || null;
+
 const toPriceAmount = (price: string) =>
   Math.round(Number(price.replace(",", ".")) * 100);
 
@@ -167,7 +183,7 @@ const updateBusinessLocation = ({
   businessId: string;
   completedSteps: BusinessSetupStep[];
   location: BusinessLocationForm;
-  onboardingCurrentStep: "WORKSTATIONS" | null;
+  onboardingCurrentStep: BusinessSetupStep | null;
   onboardingStatus: "IN_PROGRESS" | "COMPLETED";
   userId: string;
 }) =>
@@ -334,10 +350,77 @@ const updateBusinessServices = ({
     });
   });
 
+const updateBusinessTeam = ({
+  businessId,
+  completedSteps,
+  onboardingCurrentStep,
+  onboardingStatus,
+  teamMembers,
+  userId,
+}: {
+  businessId: string;
+  completedSteps: BusinessSetupStep[];
+  onboardingCurrentStep: "WORKSTATIONS" | null;
+  onboardingStatus: "IN_PROGRESS" | "COMPLETED";
+  teamMembers: BusinessTeamForm["teamMembers"];
+  userId: string;
+}) =>
+  prisma.$transaction(async (transaction) => {
+    await transaction.businessTeamMember.deleteMany({
+      where: {
+        businessId,
+      },
+    });
+
+    if (teamMembers.length > 0) {
+      await transaction.businessTeamMember.createMany({
+        data: teamMembers.map((member) => ({
+          businessId,
+          email: toNullableEmail(member.email),
+          fullName: member.fullName,
+          providesServices: member.providesServices,
+          role: member.role,
+        })),
+      });
+    }
+
+    await transaction.business.update({
+      data: {
+        onboardingCompletedSteps: {
+          set: completedSteps,
+        },
+        onboardingCurrentStep,
+        onboardingStatus,
+      },
+      where: {
+        id: businessId,
+      },
+    });
+
+    return transaction.business.findUnique({
+      select: {
+        ...businessSetupSelect,
+        memberships: {
+          select: {
+            providesServices: true,
+          },
+          take: 1,
+          where: {
+            userId,
+          },
+        },
+      },
+      where: {
+        id: businessId,
+      },
+    });
+  });
+
 export {
   findBusinessSetupById,
   updateBusinessBasics,
   updateBusinessLocation,
   updateBusinessServices,
+  updateBusinessTeam,
   updateBusinessWorkstations,
 };

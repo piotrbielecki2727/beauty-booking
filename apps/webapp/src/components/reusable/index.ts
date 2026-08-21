@@ -1,3 +1,4 @@
+export * from "./Accordion";
 export * from "./Card";
 export * from "./Button";
 export * from "./Checkbox";
@@ -11,6 +12,7 @@ export * from "./LoadingOverlay";
 export * from "./Logo";
 export * from "./PhoneNumberInput";
 export * from "./Select";
+export * from "./SegmentedControl";
 export * from "./Tooltip";
 export * from "./Textarea";
 export * from "./TimePicker";

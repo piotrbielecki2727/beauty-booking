@@ -24,7 +24,6 @@ export const managementNavItems: ManagementNavItemConfig[] = [
     href: "/management/setup",
     icon: ListChecksIcon,
     labelKey: "initialSetup",
-    shouldHideWhenSetupCompleted: true,
   },
   {
     href: "/management/calendar",

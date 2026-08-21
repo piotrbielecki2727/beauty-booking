@@ -145,116 +145,114 @@ export const BusinessWorkstationsStep = ({
       onSubmit={handleSubmit}
     >
       <div className={businessSetupCardsClassNames}>
-          {fields.map((field, index) => {
-            const type = workstations?.[index]?.type ?? field.type;
-            const TypeIcon = workstationTypeIcons[type];
-            const canRemove = fields.length > 1;
+        {fields.map((field, index) => {
+          const type = workstations?.[index]?.type ?? field.type;
+          const TypeIcon = workstationTypeIcons[type];
+          const canRemove = fields.length > 1;
 
-            return (
-              <section
-                key={field.formId}
-                className={businessSetupCardClassNames}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand">
-                      <TypeIcon className="size-5" aria-hidden="true" />
-                    </span>
-                    <div className="min-w-0">
-                      <h3 className="font-medium text-copy">
-                        {t("businessSetup.workstations.cardTitle", {
-                          number: index + 1,
-                        })}
-                      </h3>
-                      <p className="text-sm text-copy-muted">
-                        {t("businessSetup.workstations.cardDescription")}
-                      </p>
-                    </div>
+          return (
+            <section
+              key={field.formId}
+              className={businessSetupCardClassNames}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand">
+                    <TypeIcon className="size-5" aria-hidden="true" />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="font-medium text-copy">
+                      {t("businessSetup.workstations.cardTitle", {
+                        number: index + 1,
+                      })}
+                    </h3>
+                    <p className="text-sm text-copy-muted">
+                      {t("businessSetup.workstations.cardDescription")}
+                    </p>
                   </div>
-
-                  <Button
-                    isDisabled={!canRemove}
-                    size="icon-sm"
-                    type="button"
-                    variant="ghost"
-                    aria-label={t("businessSetup.workstations.remove")}
-                    className="text-copy-muted hover:bg-surface-soft hover:text-brand"
-                    onClick={() => remove(index)}
-                  >
-                    <Trash2Icon className="size-4" aria-hidden="true" />
-                  </Button>
                 </div>
 
-                <div
-                  className={cn(
-                    businessSetupFieldRowClassNames,
-                    "@min-[40rem]/step:grid-cols-[minmax(0,1fr)_14rem]",
-                  )}
+                <Button
+                  isDisabled={!canRemove}
+                  size="icon-sm"
+                  type="button"
+                  variant="ghost"
+                  aria-label={t("businessSetup.workstations.remove")}
+                  className="text-copy-muted hover:bg-surface-soft hover:text-brand"
+                  onClick={() => remove(index)}
                 >
-                  <InputControl
-                    control={form.control}
-                    description={t(
-                      "businessSetup.workstations.descriptions.name",
-                    )}
-                    feedbackMode={businessSetupFeedbackMode}
-                    inputClassName={businessSetupFieldClassNames}
-                    isRequired
-                    label={t("businessSetup.workstations.fields.name")}
-                    name={`workstations.${index}.name`}
-                    placeholder={t(
-                      "businessSetup.workstations.placeholders.name",
-                    )}
-                  />
+                  <Trash2Icon className="size-4" aria-hidden="true" />
+                </Button>
+              </div>
 
-                  <SelectControl
-                    control={form.control}
-                    description={t(
-                      "businessSetup.workstations.descriptions.type",
-                    )}
-                    feedbackMode={businessSetupFeedbackMode}
-                    label={t("businessSetup.workstations.fields.type")}
-                    name={`workstations.${index}.type`}
-                    options={workstationTypeOptions}
-                    triggerClassName={businessSetupFieldClassNames}
-                  />
-                </div>
-
-                <TextareaControl
+              <div
+                className={cn(
+                  businessSetupFieldRowClassNames,
+                  "[grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr))]",
+                )}
+              >
+                <InputControl
                   control={form.control}
                   description={t(
-                    "businessSetup.workstations.descriptions.note",
+                    "businessSetup.workstations.descriptions.name",
                   )}
                   feedbackMode={businessSetupFeedbackMode}
-                  label={t("businessSetup.workstations.fields.note")}
-                  name={`workstations.${index}.note`}
-                  placeholder={t("businessSetup.workstations.placeholders.note")}
-                  textareaClassName={cn(
-                    businessSetupFieldClassNames,
-                    "min-h-20 resize-none",
+                  inputClassName={businessSetupFieldClassNames}
+                  isRequired
+                  label={t("businessSetup.workstations.fields.name")}
+                  name={`workstations.${index}.name`}
+                  placeholder={t(
+                    "businessSetup.workstations.placeholders.name",
                   )}
                 />
 
-                <CheckboxControl
+                <SelectControl
                   control={form.control}
                   description={t(
-                    "businessSetup.workstations.descriptions.isActive",
+                    "businessSetup.workstations.descriptions.type",
                   )}
-                  label={t("businessSetup.workstations.fields.isActive")}
-                  name={`workstations.${index}.isActive`}
+                  feedbackMode={businessSetupFeedbackMode}
+                  label={t("businessSetup.workstations.fields.type")}
+                  name={`workstations.${index}.type`}
+                  options={workstationTypeOptions}
+                  triggerClassName={businessSetupFieldClassNames}
                 />
-              </section>
-            );
-          })}
+              </div>
 
-          <Button
-            type="button"
-            variant="outline"
-            className="justify-center border-dashed"
-            onClick={handleAddWorkstation}
-          >
-            <PlusIcon className="size-4" aria-hidden="true" />
-            {t("businessSetup.workstations.add")}
-          </Button>
+              <TextareaControl
+                control={form.control}
+                description={t("businessSetup.workstations.descriptions.note")}
+                feedbackMode={businessSetupFeedbackMode}
+                label={t("businessSetup.workstations.fields.note")}
+                name={`workstations.${index}.note`}
+                placeholder={t("businessSetup.workstations.placeholders.note")}
+                textareaClassName={cn(
+                  businessSetupFieldClassNames,
+                  "min-h-20 resize-none",
+                )}
+              />
+
+              <CheckboxControl
+                control={form.control}
+                description={t(
+                  "businessSetup.workstations.descriptions.isActive",
+                )}
+                label={t("businessSetup.workstations.fields.isActive")}
+                name={`workstations.${index}.isActive`}
+              />
+            </section>
+          );
+        })}
+
+        <Button
+          type="button"
+          variant="outline"
+          className="justify-center border-dashed"
+          onClick={handleAddWorkstation}
+        >
+          <PlusIcon className="size-4" aria-hidden="true" />
+          {t("businessSetup.workstations.add")}
+        </Button>
       </div>
     </form>
   );

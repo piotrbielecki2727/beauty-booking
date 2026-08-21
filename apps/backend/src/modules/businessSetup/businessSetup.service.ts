@@ -6,6 +6,8 @@ import {
   type BusinessServicesForm,
   type BusinessSetupResponse,
   type BusinessSetupStep,
+  type BusinessTeamForm,
+  type BusinessTeamMemberRole,
   type BusinessWorkstationsForm,
 } from "@beauty-booking/shared";
 
@@ -14,6 +16,7 @@ import {
   updateBusinessBasics,
   updateBusinessLocation,
   updateBusinessServices,
+  updateBusinessTeam,
   updateBusinessWorkstations,
 } from "@/modules/businessSetup/businessSetup.repository";
 import { ApiError } from "@/utils/apiError";
@@ -55,6 +58,11 @@ const toBusinessSetupResponse = (
       business.onboardingCompletedAt?.toISOString() ?? null,
     status: business.onboardingStatus,
   },
+  teamMembers: business.teamMembers.map((member) => ({
+    ...member,
+    email: member.email ?? "",
+    role: member.role as BusinessTeamMemberRole,
+  })),
   workstations: business.workstations,
 });
 
@@ -78,6 +86,51 @@ const getCompletedSteps = (
   nextStep: BusinessSetupStep,
 ): BusinessSetupStep[] =>
   Array.from(new Set([...completedSteps, nextStep]));
+
+const getNextStepAfterLocation = (
+  businessType: BusinessSetupRecord["businessType"],
+): BusinessSetupStep => (businessType === "TEAM" ? "TEAM" : "SERVICES");
+
+const normalizeEmail = (email: string | undefined) =>
+  email?.trim().toLowerCase() || "";
+
+const assertBusinessTeamCanBeSaved = ({
+  currentBusiness,
+  user,
+  values,
+}: {
+  currentBusiness: BusinessSetupRecord;
+  user: AuthUser;
+  values: BusinessTeamForm;
+}) => {
+  if (currentBusiness.businessType !== "TEAM") {
+    throw new ApiError(400, "Krok zespołu wymaga działalności zespołowej.");
+  }
+
+  const ownerEmail = normalizeEmail(user.email);
+  const emails = new Set<string>();
+
+  values.teamMembers.forEach((member) => {
+    const email = normalizeEmail(member.email);
+
+    if (!email) {
+      return;
+    }
+
+    if (email === ownerEmail) {
+      throw new ApiError(409, "Właściciel jest już częścią zespołu.");
+    }
+
+    if (emails.has(email)) {
+      throw new ApiError(
+        409,
+        "Ten adres e-mail jest już przypisany do członka zespołu.",
+      );
+    }
+
+    emails.add(email);
+  });
+};
 
 const saveBusinessBasics = async (
   user: AuthUser,
@@ -143,7 +196,9 @@ const saveBusinessLocation = async (
     ),
     location: values,
     onboardingCurrentStep:
-      currentBusiness.onboardingStatus === "COMPLETED" ? null : "WORKSTATIONS",
+      currentBusiness.onboardingStatus === "COMPLETED"
+        ? null
+        : getNextStepAfterLocation(currentBusiness.businessType),
     onboardingStatus:
       currentBusiness.onboardingStatus === "COMPLETED"
         ? "COMPLETED"
@@ -230,10 +285,57 @@ const saveBusinessServices = async (
   return toBusinessSetupResponse(updatedBusiness);
 };
 
+const saveBusinessTeam = async (
+  user: AuthUser,
+  values: BusinessTeamForm,
+) => {
+  assertCanManageBusinessSetup(user);
+
+  const currentBusiness = await findBusinessSetupById({
+    businessId: user.businessId,
+    userId: user.id,
+  });
+
+  if (!currentBusiness) {
+    throw new ApiError(404, "Nie znaleziono biznesu.");
+  }
+
+  assertBusinessTeamCanBeSaved({
+    currentBusiness,
+    user,
+    values,
+  });
+
+  const updatedBusiness = await updateBusinessTeam({
+    businessId: user.businessId,
+    completedSteps: getCompletedSteps(
+      currentBusiness.onboardingCompletedSteps,
+      "TEAM",
+    ),
+    onboardingCurrentStep:
+      currentBusiness.onboardingStatus === "COMPLETED"
+        ? null
+        : "WORKSTATIONS",
+    onboardingStatus:
+      currentBusiness.onboardingStatus === "COMPLETED"
+        ? "COMPLETED"
+        : "IN_PROGRESS",
+    teamMembers: values.teamMembers,
+    userId: user.id,
+  });
+
+  if (!updatedBusiness) {
+    throw new ApiError(404, "Nie znaleziono biznesu.");
+  }
+
+  return toBusinessSetupResponse(updatedBusiness);
+};
+
 export {
   getBusinessSetup,
   saveBusinessBasics,
   saveBusinessLocation,
   saveBusinessServices,
+  saveBusinessTeam,
   saveBusinessWorkstations,
 };

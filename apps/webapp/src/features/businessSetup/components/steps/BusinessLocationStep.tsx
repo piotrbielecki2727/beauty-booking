@@ -31,6 +31,37 @@ type BusinessLocationStepProperties = {
   onSave: (values: BusinessLocationForm) => Promise<void>;
 };
 
+const cityCharactersRegex = /[^A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż -]/gu;
+const streetCharactersRegex = /[^A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż0-9 .-]/gu;
+
+const formatCityValue = (value: string) => {
+  const filteredValue = value.replace(cityCharactersRegex, "").slice(0, 50);
+
+  return filteredValue
+    ? `${filteredValue.charAt(0).toLocaleUpperCase("pl-PL")}${filteredValue.slice(1)}`
+    : "";
+};
+
+const formatPostalCodeValue = (value: string) => {
+  const digits = value.replace(/\D/g, "").slice(0, 5);
+
+  return digits.length > 2 ? `${digits.slice(0, 2)}-${digits.slice(2)}` : digits;
+};
+
+const formatStreetValue = (value: string) =>
+  value.replace(streetCharactersRegex, "").slice(0, 60);
+
+const formatBuildingNumberValue = (value: string) => {
+  const normalizedValue = value.replace(/[^0-9A-Za-z]/g, "").toUpperCase();
+  const [, digits = "", letter = ""] =
+    normalizedValue.match(/^(\d*)([A-Z]?)/) ?? [];
+
+  return `${digits}${letter}`.slice(0, 6);
+};
+
+const formatApartmentNumberValue = (value: string) =>
+  value.replace(/\D/g, "").slice(0, 4);
+
 const getDefaultValues = (
   setup: BusinessSetupResponse | null,
 ): BusinessLocationForm => ({
@@ -81,110 +112,118 @@ export const BusinessLocationStep = ({
       onSubmit={handleSubmit}
     >
       <div className={businessSetupSectionsClassNames}>
-          <div
-            className={cn(
-              businessSetupFieldRowClassNames,
-              "@min-[36rem]/step:grid-cols-2",
-            )}
-          >
-            <InputControl
-              control={form.control}
-              description={t("businessSetup.location.descriptions.city")}
-              feedbackMode={businessSetupFeedbackMode}
-              inputClassName={businessSetupFieldClassNames}
-              isRequired
-              label={t("businessSetup.location.fields.city")}
-              name="city"
-              placeholder={t("businessSetup.location.placeholders.city")}
-            />
-            <InputControl
-              control={form.control}
-              description={t(
-                "businessSetup.location.descriptions.postalCode",
-              )}
-              feedbackMode={businessSetupFeedbackMode}
-              inputClassName={businessSetupFieldClassNames}
-              isRequired
-              label={t("businessSetup.location.fields.postalCode")}
-              name="postalCode"
-              placeholder={t("businessSetup.location.placeholders.postalCode")}
-            />
-          </div>
+        <div
+          className={cn(
+            businessSetupFieldRowClassNames,
+            "@min-[36rem]/step:grid-cols-2",
+          )}
+        >
+          <InputControl
+            control={form.control}
+            description={t("businessSetup.location.descriptions.city")}
+            feedbackMode={businessSetupFeedbackMode}
+            formatValue={formatCityValue}
+            inputClassName={businessSetupFieldClassNames}
+            isRequired
+            label={t("businessSetup.location.fields.city")}
+            maxLength={50}
+            name="city"
+            placeholder={t("businessSetup.location.placeholders.city")}
+          />
+          <InputControl
+            control={form.control}
+            description={t("businessSetup.location.descriptions.postalCode")}
+            feedbackMode={businessSetupFeedbackMode}
+            formatValue={formatPostalCodeValue}
+            inputClassName={businessSetupFieldClassNames}
+            inputMode="numeric"
+            isRequired
+            label={t("businessSetup.location.fields.postalCode")}
+            maxLength={6}
+            name="postalCode"
+            placeholder={t("businessSetup.location.placeholders.postalCode")}
+          />
+        </div>
 
-          <div
-            className={cn(
-              businessSetupFieldRowClassNames,
-              "@min-[44rem]/step:grid-cols-[minmax(0,1fr)_10rem_10rem]",
-            )}
-          >
-            <InputControl
-              control={form.control}
-              description={t("businessSetup.location.descriptions.street")}
-              feedbackMode={businessSetupFeedbackMode}
-              inputClassName={businessSetupFieldClassNames}
-              isRequired
-              label={t("businessSetup.location.fields.street")}
-              name="street"
-              placeholder={t("businessSetup.location.placeholders.street")}
-            />
-            <InputControl
-              control={form.control}
-              description={t(
-                "businessSetup.location.descriptions.buildingNumber",
-              )}
-              feedbackMode={businessSetupFeedbackMode}
-              inputClassName={businessSetupFieldClassNames}
-              isRequired
-              label={t("businessSetup.location.fields.buildingNumber")}
-              name="buildingNumber"
-              placeholder={t(
-                "businessSetup.location.placeholders.buildingNumber",
-              )}
-            />
-            <InputControl
-              control={form.control}
-              description={t(
-                "businessSetup.location.descriptions.apartmentNumber",
-              )}
-              feedbackMode={businessSetupFeedbackMode}
-              inputClassName={businessSetupFieldClassNames}
-              label={t("businessSetup.location.fields.apartmentNumber")}
-              name="apartmentNumber"
-              placeholder={t(
-                "businessSetup.location.placeholders.apartmentNumber",
-              )}
-            />
-          </div>
-
-          <TextareaControl
+        <div
+          className={cn(
+            businessSetupFieldRowClassNames,
+            "@min-[44rem]/step:grid-cols-[minmax(12rem,0.8fr)_12rem_12rem]",
+          )}
+        >
+          <InputControl
+            control={form.control}
+            description={t("businessSetup.location.descriptions.street")}
+            feedbackMode={businessSetupFeedbackMode}
+            formatValue={formatStreetValue}
+            inputClassName={businessSetupFieldClassNames}
+            isRequired
+            label={t("businessSetup.location.fields.street")}
+            maxLength={60}
+            name="street"
+            placeholder={t("businessSetup.location.placeholders.street")}
+          />
+          <InputControl
             control={form.control}
             description={t(
-              "businessSetup.location.descriptions.parkingNote",
+              "businessSetup.location.descriptions.buildingNumber",
             )}
             feedbackMode={businessSetupFeedbackMode}
-            label={t("businessSetup.location.fields.parkingNote")}
-            name="parkingNote"
-            placeholder={t("businessSetup.location.placeholders.parkingNote")}
-            textareaClassName={cn(
-              businessSetupFieldClassNames,
-              "min-h-24 resize-none",
+            formatValue={formatBuildingNumberValue}
+            inputClassName={businessSetupFieldClassNames}
+            isRequired
+            label={t("businessSetup.location.fields.buildingNumber")}
+            maxLength={6}
+            name="buildingNumber"
+            placeholder={t(
+              "businessSetup.location.placeholders.buildingNumber",
             )}
           />
-
-          <TextareaControl
+          <InputControl
             control={form.control}
             description={t(
-              "businessSetup.location.descriptions.locationNote",
+              "businessSetup.location.descriptions.apartmentNumber",
             )}
             feedbackMode={businessSetupFeedbackMode}
-            label={t("businessSetup.location.fields.locationNote")}
-            name="locationNote"
-            placeholder={t("businessSetup.location.placeholders.locationNote")}
-            textareaClassName={cn(
-              businessSetupFieldClassNames,
-              "min-h-24 resize-none",
+            formatValue={formatApartmentNumberValue}
+            inputClassName={businessSetupFieldClassNames}
+            inputMode="numeric"
+            label={t("businessSetup.location.fields.apartmentNumber")}
+            maxLength={4}
+            name="apartmentNumber"
+            placeholder={t(
+              "businessSetup.location.placeholders.apartmentNumber",
             )}
           />
+        </div>
+
+        <TextareaControl
+          control={form.control}
+          description={t("businessSetup.location.descriptions.parkingNote")}
+          feedbackMode={businessSetupFeedbackMode}
+          label={t("businessSetup.location.fields.parkingNote")}
+          maxLength={500}
+          name="parkingNote"
+          placeholder={t("businessSetup.location.placeholders.parkingNote")}
+          textareaClassName={cn(
+            businessSetupFieldClassNames,
+            "min-h-24 resize-none",
+          )}
+        />
+
+        <TextareaControl
+          control={form.control}
+          description={t("businessSetup.location.descriptions.locationNote")}
+          feedbackMode={businessSetupFeedbackMode}
+          label={t("businessSetup.location.fields.locationNote")}
+          maxLength={500}
+          name="locationNote"
+          placeholder={t("businessSetup.location.placeholders.locationNote")}
+          textareaClassName={cn(
+            businessSetupFieldClassNames,
+            "min-h-24 resize-none",
+          )}
+        />
       </div>
     </form>
   );

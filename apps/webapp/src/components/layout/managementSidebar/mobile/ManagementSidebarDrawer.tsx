@@ -5,12 +5,12 @@ import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { sidebarControlClassNames } from "@/components/layout/layoutControlVariantStyles";
+import { managementNavItems } from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { ManagementNavItem } from "@/components/layout/managementSidebar/shared/ManagementNavItem";
 import { ManagementSidebarLogoutButton } from "@/components/layout/managementSidebar/shared/ManagementSidebarLogoutButton";
 import { ManagementSidebarSettingsControls } from "@/components/layout/managementSidebar/shared/ManagementSidebarSettingsControls";
 import { isNavItemActive } from "@/components/layout/managementSidebar/shared/isNavItemActive";
 import { Logo } from "@/components/reusable/Logo";
-import { useManagementSetupNavItems } from "@/features/businessSetup/hooks/useManagementSetupNavItems";
 import { useTenantContext } from "@/features/tenant";
 import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -26,7 +26,6 @@ export const ManagementSidebarDrawer = ({
   const t = useTranslations();
   const { business } = useTenantContext();
   const brandLabel = business?.name ?? t("common.appName");
-  const navItems = useManagementSetupNavItems();
 
   return (
     <Drawer.Portal>
@@ -55,7 +54,7 @@ export const ManagementSidebarDrawer = ({
               className="flex flex-col gap-1"
               aria-label={t("navigation.management")}
             >
-              {navItems.map((item) => (
+              {managementNavItems.map((item) => (
                 <ManagementNavItem
                   key={item.href}
                   isActive={isNavItemActive(pathname, item.href)}

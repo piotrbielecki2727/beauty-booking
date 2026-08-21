@@ -6,6 +6,7 @@ import {
   type BusinessLocationForm,
   type BusinessServicesForm,
   type BusinessSetupResponse,
+  type BusinessTeamForm,
   type BusinessWorkstationsForm,
 } from "@beauty-booking/shared";
 
@@ -218,6 +219,21 @@ export const saveBusinessServices = ({
     body: values,
     method: "PATCH",
     path: "/business/setup/services",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessTeam = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessTeamForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/team",
     schema: businessSetupResponseSchema,
   });
 

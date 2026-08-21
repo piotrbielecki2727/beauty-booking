@@ -53,14 +53,15 @@ Account roles are shared through `@beauty-booking/shared`:
 - `Owner`
 - `Manager`
 - `Employee`
+- `Intern`
 - `Customer`
 
 Frontend and backend should use these role names as the canonical role set.
 
 New public registrations receive `Customer`.
 
-Management accounts are not publicly registered. `Owner`, `Manager` and
-`Employee` accounts should be created through invite-based flows controlled by
+Management accounts are not publicly registered. `Owner`, `Manager`, `Employee`
+and `Intern` accounts should be created through invite-based flows controlled by
 `Admin` or an already-authorized salon owner/manager.
 
 Salon/team roles are:
@@ -69,11 +70,12 @@ Salon/team roles are:
 - `Owner`
 - `Manager`
 - `Employee`
+- `Intern`
 
 Application areas:
 
 - Customer area: `Customer`, `Admin`
-- Management area: `Admin`, `Owner`, `Manager`, `Employee`
+- Management area: `Admin`, `Owner`, `Manager`, `Employee`, `Intern`
 
 `Admin` belongs to the management area, but should also be allowed to access the
 customer area. The final UX and authorization model for switching between those
@@ -316,7 +318,7 @@ Current protected rules:
 
 - `/profile`: all roles
 - `/bookings`: `Customer`, `Admin`
-- `/management`: `Owner`, `Manager`, `Employee`, `Admin`
+- `/management`: `Owner`, `Manager`, `Employee`, `Intern`, `Admin`
 - `/management/settings`: `Owner`, `Admin`
 
 The request guard is locale-aware and protects the localized routes under `/pl` and `/en`.
@@ -330,6 +332,8 @@ Current Prisma models:
 - `Business`
 - `BusinessDomain`
 - `BusinessMembership`
+- `BusinessTeamMember`
+- `BusinessTeamInvitation`
 
 Important decisions:
 
@@ -342,6 +346,12 @@ Important decisions:
 - registration lifetime is based on `User.createdAt` plus 15 minutes.
 - `EmailVerificationCode` stores a hash, expiry, failed-attempt count and `usedAt`.
 - `BusinessMembership` stores management/team membership for business roles.
+- `BusinessTeamMember` stores team profiles created during setup. It may contain
+  an e-mail before a real `User` exists, but public registration must not
+  automatically grant management access from that match alone.
+- `BusinessTeamInvitation` stores hashed invite tokens for optional panel access.
+  Accepting an invite links the team profile to the authenticated user and
+  creates the business membership.
 
 ## Invite-Based Management Accounts
 
@@ -352,7 +362,7 @@ Public registration remains customer-only:
 - after login, backend/session role decides whether the user can access customer
   or management areas.
 
-Owner, manager and employee accounts should use invite links in the target
+Owner, manager, employee and intern accounts should use invite links in the target
 production flow.
 
 Temporary MVP owner provisioning:
@@ -394,7 +404,7 @@ Planned MVP flow:
 
 Important decisions:
 
-- users must not be able to choose `Owner`, `Manager` or `Employee` from a
+- users must not be able to choose `Owner`, `Manager`, `Employee` or `Intern` from a
   public registration form,
 - `Owner` accounts should not be created manually with a known password,
 - manual invite generation is acceptable for MVP because it preserves control

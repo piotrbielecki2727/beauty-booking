@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import type { AccountRole } from "../roles";
+
 export const businessSpecializations = [
   "NAILS",
   "BROWS_AND_LASHES",
@@ -10,6 +12,12 @@ export const serviceWorkstationTypes = [
   "ANY",
   ...businessSpecializations,
 ] as const;
+
+export const businessTeamMemberRoles = [
+  "Manager",
+  "Employee",
+  "Intern",
+] as const satisfies readonly AccountRole[];
 
 export const businessTypes = ["SOLO", "TEAM"] as const;
 
@@ -22,10 +30,10 @@ export const businessOnboardingStatuses = [
 export const businessSetupSteps = [
   "BUSINESS_BASICS",
   "LOCATION",
+  "TEAM",
   "WORKSTATIONS",
   "SERVICES",
   "ADDONS",
-  "TEAM",
   "TEAM_SERVICES",
   "AVAILABILITY",
   "BOOKING_RULES",
@@ -43,6 +51,52 @@ export const businessSetupStepSchema = z.enum(businessSetupSteps);
 
 const optionalBusinessSetupTextSchema = (maxLength: number, message: string) =>
   z.string().trim().max(maxLength, message).optional().or(z.literal(""));
+
+const cityCharactersRegex = /^[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż -]+$/u;
+const cityStartsWithUppercaseRegex = /^[A-ZĄĆĘŁŃÓŚŹŻ]/u;
+const streetCharactersRegex = /^[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż0-9 .-]+$/u;
+const buildingNumberRegex = /^\d+[A-Za-z]?$/;
+const apartmentNumberRegex = /^[1-9]\d{0,3}$/;
+const postalCodeRegex = /^\d{2}-\d{3}$/;
+const noteCharactersRegex = /^[\p{L}\p{N}\s.,;:!?'"()/-]+$/u;
+const linkRegex = /(https?:\/\/|www\.)/i;
+const serviceNameRegex = /^[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż0-9 -]{2,60}$/u;
+const teamMemberNameRegex = /^[\p{L}\p{M}'\u2019 -]{2,80}$/u;
+
+const optionalBusinessSetupPatternTextSchema = ({
+  invalidMessage,
+  maxLength,
+  maxLengthMessage,
+  pattern,
+}: {
+  invalidMessage: string;
+  maxLength: number;
+  maxLengthMessage: string;
+  pattern: RegExp;
+}) =>
+  z
+    .string()
+    .trim()
+    .max(maxLength, maxLengthMessage)
+    .regex(pattern, invalidMessage)
+    .optional()
+    .or(z.literal(""));
+
+const optionalBusinessSetupNoteSchema = (maxLengthMessage: string) =>
+  z
+    .string()
+    .trim()
+    .max(500, maxLengthMessage)
+    .refine(
+      (value) => value === "" || noteCharactersRegex.test(value),
+      "validation.business.location.noteInvalid",
+    )
+    .refine(
+      (value) => !linkRegex.test(value),
+      "validation.business.location.noteInvalid",
+    )
+    .optional()
+    .or(z.literal(""));
 
 export const businessSetupStateSchema = z.object({
   status: businessOnboardingStatusSchema,
@@ -77,38 +131,47 @@ export const businessBasicsResponseSchema = z.object({
 });
 
 export const businessLocationFormSchema = z.object({
-  apartmentNumber: optionalBusinessSetupTextSchema(
-    20,
-    "validation.business.location.apartmentNumberMaxLength",
-  ),
+  apartmentNumber: optionalBusinessSetupPatternTextSchema({
+    invalidMessage: "validation.business.location.apartmentNumberInvalid",
+    maxLength: 4,
+    maxLengthMessage: "validation.business.location.apartmentNumberMaxLength",
+    pattern: apartmentNumberRegex,
+  }),
   buildingNumber: z
     .string()
     .trim()
     .min(1, "validation.business.location.buildingNumberRequired")
-    .max(20, "validation.business.location.buildingNumberMaxLength"),
+    .max(6, "validation.business.location.buildingNumberMaxLength")
+    .regex(
+      buildingNumberRegex,
+      "validation.business.location.buildingNumberInvalid",
+    ),
   city: z
     .string()
     .trim()
     .min(2, "validation.business.location.cityMinLength")
-    .max(80, "validation.business.location.cityMaxLength"),
-  locationNote: optionalBusinessSetupTextSchema(
-    500,
+    .max(50, "validation.business.location.cityMaxLength")
+    .regex(cityCharactersRegex, "validation.business.location.cityInvalid")
+    .regex(
+      cityStartsWithUppercaseRegex,
+      "validation.business.location.cityCapitalized",
+    ),
+  locationNote: optionalBusinessSetupNoteSchema(
     "validation.business.location.locationNoteMaxLength",
   ),
-  parkingNote: optionalBusinessSetupTextSchema(
-    500,
+  parkingNote: optionalBusinessSetupNoteSchema(
     "validation.business.location.parkingNoteMaxLength",
   ),
   postalCode: z
     .string()
     .trim()
-    .min(3, "validation.business.location.postalCodeMinLength")
-    .max(16, "validation.business.location.postalCodeMaxLength"),
+    .regex(postalCodeRegex, "validation.business.location.postalCodeInvalid"),
   street: z
     .string()
     .trim()
     .min(2, "validation.business.location.streetMinLength")
-    .max(120, "validation.business.location.streetMaxLength"),
+    .max(60, "validation.business.location.streetMaxLength")
+    .regex(streetCharactersRegex, "validation.business.location.streetInvalid"),
 });
 
 export const businessLocationResponseSchema = z.object({
@@ -163,9 +226,9 @@ export const businessServiceFormItemSchema = z.object({
   durationMinutes: z
     .string()
     .trim()
-    .regex(/^[1-9]\d{0,3}$/, "validation.business.services.durationInvalid")
+    .regex(/^\d{1,3}$/, "validation.business.services.durationInvalid")
     .refine(
-      (value) => Number(value) <= 1440,
+      (value) => Number(value) >= 1 && Number(value) <= 600,
       "validation.business.services.durationMax",
     ),
   id: z.string().uuid().optional(),
@@ -174,17 +237,18 @@ export const businessServiceFormItemSchema = z.object({
     .string()
     .trim()
     .min(2, "validation.business.services.nameMinLength")
-    .max(100, "validation.business.services.nameMaxLength"),
+    .max(60, "validation.business.services.nameMaxLength")
+    .regex(serviceNameRegex, "validation.business.services.nameInvalid"),
   price: z
     .string()
     .trim()
     .regex(
-      /^\d{1,5}([,.]\d{1,2})?$/,
+      /^\d{1,4}([,.]\d{1,2})?$/,
       "validation.business.services.priceInvalid",
     )
     .refine(
-      (value) => Number(value.replace(",", ".")) > 0,
-      "validation.business.services.priceMin",
+      (value) => Number(value.replace(",", ".")) <= 9999.99,
+      "validation.business.services.priceMax",
     ),
   specialization: businessSpecializationSchema,
   workstationType: serviceWorkstationTypeSchema,
@@ -212,11 +276,75 @@ export const businessServicesResponseSchema = z.array(
   businessServiceResponseSchema,
 );
 
+const optionalBusinessTeamMemberEmailSchema = z
+  .string()
+  .trim()
+  .email("validation.business.team.emailInvalid")
+  .optional()
+  .or(z.literal(""));
+
+export const businessTeamMemberFormItemSchema = z.object({
+  email: optionalBusinessTeamMemberEmailSchema,
+  fullName: z
+    .string()
+    .trim()
+    .min(2, "validation.business.team.fullNameMinLength")
+    .max(80, "validation.business.team.fullNameMaxLength")
+    .regex(teamMemberNameRegex, "validation.business.team.fullNameInvalid"),
+  id: z.string().uuid().optional(),
+  providesServices: z.boolean(),
+  role: z.enum(businessTeamMemberRoles),
+});
+
+export const businessTeamFormSchema = z
+  .object({
+    teamMembers: z
+      .array(businessTeamMemberFormItemSchema)
+      .max(50, "validation.business.team.maxItems"),
+  })
+  .superRefine((values, context) => {
+    const emailIndexes = new Map<string, number>();
+
+    values.teamMembers.forEach((member, index) => {
+      const normalizedEmail = member.email?.trim().toLowerCase();
+
+      if (!normalizedEmail) {
+        return;
+      }
+
+      const duplicateIndex = emailIndexes.get(normalizedEmail);
+
+      if (duplicateIndex === undefined) {
+        emailIndexes.set(normalizedEmail, index);
+        return;
+      }
+
+      context.addIssue({
+        code: "custom",
+        message: "validation.business.team.emailDuplicate",
+        path: ["teamMembers", index, "email"],
+      });
+    });
+  });
+
+export const businessTeamMemberResponseSchema = z.object({
+  email: z.string(),
+  fullName: z.string(),
+  id: z.string().uuid(),
+  providesServices: z.boolean(),
+  role: z.enum(businessTeamMemberRoles),
+});
+
+export const businessSetupTeamResponseSchema = z.array(
+  businessTeamMemberResponseSchema,
+);
+
 export const businessSetupResponseSchema = z.object({
   basics: businessBasicsResponseSchema,
   location: businessLocationResponseSchema,
   services: businessServicesResponseSchema,
   setup: businessSetupStateSchema,
+  teamMembers: businessSetupTeamResponseSchema,
   workstations: businessWorkstationsResponseSchema,
 });
 
@@ -234,6 +362,14 @@ export type BusinessOnboardingStatus = z.infer<
 export type BusinessSetupResponse = z.infer<typeof businessSetupResponseSchema>;
 export type BusinessSetupState = z.infer<typeof businessSetupStateSchema>;
 export type BusinessSetupStep = z.infer<typeof businessSetupStepSchema>;
+export type BusinessTeamForm = z.infer<typeof businessTeamFormSchema>;
+export type BusinessTeamMemberFormItem = z.infer<
+  typeof businessTeamMemberFormItemSchema
+>;
+export type BusinessTeamMemberResponse = z.infer<
+  typeof businessTeamMemberResponseSchema
+>;
+export type BusinessTeamMemberRole = (typeof businessTeamMemberRoles)[number];
 export type BusinessServiceFormItem = z.infer<
   typeof businessServiceFormItemSchema
 >;

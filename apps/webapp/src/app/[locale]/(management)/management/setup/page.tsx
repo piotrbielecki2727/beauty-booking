@@ -1,5 +1,10 @@
 import { BusinessSetupWizard } from "@/features/businessSetup";
+import { BusinessSetupProvider } from "@/features/businessSetup/providers";
 
 export default function ManagementSetupPage() {
-  return <BusinessSetupWizard />;
+  return (
+    <BusinessSetupProvider>
+      <BusinessSetupWizard />
+    </BusinessSetupProvider>
+  );
 }

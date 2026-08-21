@@ -1,0 +1,1 @@
+ALTER TYPE "BusinessSpecialization" ADD VALUE IF NOT EXISTS 'BROWS_AND_LASHES';

@@ -91,10 +91,51 @@
         "Admin": "Administrator",
         "Customer": "Klient",
         "Employee": "Pracownik",
+        "Intern": "Stażysta",
         "Manager": "Menedżer",
         "Owner": "Właściciel"
       }
     }
+  },
+  "managementEmployees": {
+    "teamAccess": {
+      "acceptAsCurrent": "Akceptuj jako bieżące konto",
+      "acceptFailed": "Nie udało się zaakceptować zaproszenia.",
+      "accepted": "Zaproszenie zaakceptowane.",
+      "cancel": "Anuluj",
+      "cancelFailed": "Nie udało się anulować zaproszenia.",
+      "checkPreview": "Sprawdź token",
+      "copied": "Link skopiowany.",
+      "copy": "Kopiuj link",
+      "description": "Tymczasowy panel do testowania zaproszeń bez realnej wysyłki e-mail.",
+      "email": "Adres e-mail",
+      "emailPlaceholder": "anna@example.com",
+      "empty": "Najpierw dodaj członków zespołu w konfiguracji biznesu.",
+      "generatedTitle": "Wygenerowany link testowy",
+      "invite": "Zaproś",
+      "inviteCreated": "Zaproszenie wygenerowane.",
+      "inviteFailed": "Nie udało się wygenerować zaproszenia.",
+      "invitationStatuses": {
+        "ACCEPTED": "zaakceptowane",
+        "CANCELLED": "anulowane",
+        "EXPIRED": "wygasłe",
+        "PENDING": "aktywne"
+      },
+      "loadFailed": "Nie udało się pobrać zespołu.",
+      "loading": "Ładowanie zespołu...",
+      "noServices": "nie wykonuje usług",
+      "preview": "{businessName} · status: {status}",
+      "previewFailed": "Nie udało się sprawdzić tokenu.",
+      "providesServices": "wykonuje usługi",
+      "resend": "Wyślij ponownie",
+      "statuses": {
+        "ACTIVE": "Dostęp aktywny",
+        "INVITED": "Zaproszenie wysłane",
+        "NO_ACCESS": "Dostęp nieaktywny"
+      },
+      "title": "Dostęp do panelu"
+    },
+    "title": "Pracownicy"
   },
   "businessSetup": {
     "actions": {
@@ -146,13 +187,13 @@
     "location": {
       "description": "Dodaj adres i informacje dojazdowe, które klientki zobaczą przed wizytą.",
       "descriptions": {
-        "apartmentNumber": "Opcjonalnie — numer lokalu lub gabinetu.",
-        "buildingNumber": "Numer budynku wymagany do pełnego adresu.",
+        "apartmentNumber": "Opcjonalnie — numer lokalu.",
+        "buildingNumber": "Numer budynku, np. 12A.",
         "city": "Miasto, w którym przyjmujesz klientki.",
         "locationNote": "Opcjonalnie — dodaj wskazówki, np. wejście od podwórza, domofon lub piętro.",
         "parkingNote": "Opcjonalnie — wskaż, gdzie można zaparkować lub czy parking jest płatny.",
         "postalCode": "Ułatwia poprawne zapisanie i wyszukanie adresu.",
-        "street": "Podaj nazwę ulicy, przy której znajduje się salon."
+        "street": "Podaj nazwę ulicy."
       },
       "fields": {
         "apartmentNumber": "Numer lokalu",
@@ -173,6 +214,49 @@
         "street": "ul. Beauty"
       },
       "title": "Lokalizacja"
+    },
+    "team": {
+      "add": "Dodaj osobę",
+      "addTitle": "Dodaj członków zespołu",
+      "cancelAdd": "Anuluj",
+      "currentTitle": "Obecny zespół",
+      "description": "Dodaj osoby pracujące w Twoim biznesie i określ ich role oraz to, czy wykonują usługi.",
+      "edit": "Edytuj",
+      "empty": "Nie dodano jeszcze żadnej osoby do zespołu.",
+      "fields": {
+        "email": "E-mail opcjonalnie",
+        "fullName": "Imię i nazwisko",
+        "providesServices": "Czy wykonuje usługi?",
+        "role": "Rola"
+      },
+      "info": "Rola w systemie i wykonywanie usług to niezależne ustawienia. Możesz dodać osobę, która tylko zarządza biznesem lub osobę, do której klientki mogą się zapisywać.",
+      "nextItems": {
+        "availability": "Godziny pracy ustawisz w kroku Godziny i dostępność.",
+        "services": "Później przypiszesz usługi do pracowników.",
+        "workstations": "W kolejnym kroku skonfigurujesz stanowiska dla działalności zespołowej."
+      },
+      "nextTitle": "Co będzie dalej?",
+      "noEmail": "Brak e-maila",
+      "ownerFallback": "Właściciel biznesu",
+      "ownerNote": "Konto właściciela zostało utworzone automatycznie podczas konfiguracji biznesu.",
+      "ownerTitle": "Właściciel",
+      "placeholders": {
+        "email": "Wpisz e-mail",
+        "fullName": "Wpisz imię i nazwisko"
+      },
+      "providesServices": {
+        "false": "Nie",
+        "true": "Tak"
+      },
+      "providesServicesBadge": "Wykonuje usługi: {value}",
+      "remove": "Usuń",
+      "roles": {
+        "Employee": "Pracownik",
+        "Intern": "Stażysta",
+        "Manager": "Manager",
+        "Owner": "Właściciel"
+      },
+      "title": "Zespół"
     },
     "workstations": {
       "add": "Dodaj stanowisko",
@@ -234,6 +318,33 @@
       "workstationTypes": {
         "ANY": "Dowolne pasujące stanowisko"
       }
+    },
+    "addons": {
+      "add": "Dodaj dodatek",
+      "addonDescription": "Wpływa na czas lub cenę wybranej usługi.",
+      "description": "Dodaj opcjonalne rozszerzenia do usług. Dodatki mogą zwiększać cenę i wydłużać czas wizyty.",
+      "descriptions": {
+        "isActive": "Nieaktywny dodatek nie będzie dostępny podczas rezerwacji."
+      },
+      "empty": "Brak dodatków dla tej usługi.",
+      "fields": {
+        "durationMinutes": "Dodatkowy czas",
+        "isActive": "Ten dodatek jest aktywny",
+        "name": "Nazwa dodatku",
+        "price": "Dodatkowa cena"
+      },
+      "info": "Możesz pominąć ten krok i dodać dodatki później.",
+      "newAddon": "Nowy dodatek",
+      "optional": "Krok opcjonalny",
+      "placeholders": {
+        "durationMinutes": "15",
+        "name": "French",
+        "price": "20"
+      },
+      "remove": "Usuń dodatek",
+      "serviceDuration": "{duration} min",
+      "servicePrice": "{price} zł",
+      "title": "Dodatki"
     },
     "placeholder": {
       "description": "Ten krok zaimplementujemy jako następny. Na razie możesz wrócić do poprzedniego kroku.",
@@ -515,16 +626,21 @@
       "nameMinLength": "Nazwa biznesu musi mieć minimum 2 znaki.",
       "ownerProvidesServicesRequired": "Wybierz, czy również wykonujesz usługi.",
       "location": {
-        "apartmentNumberMaxLength": "Numer lokalu może mieć maksymalnie 20 znaków.",
-        "buildingNumberMaxLength": "Numer budynku może mieć maksymalnie 20 znaków.",
+        "apartmentNumberInvalid": "Numer lokalu może zawierać tylko cyfry od 1 do 9999.",
+        "apartmentNumberMaxLength": "Numer lokalu może mieć maksymalnie 4 cyfry.",
+        "buildingNumberInvalid": "Numer budynku wpisz jako cyfry i opcjonalnie jedną literę.",
+        "buildingNumberMaxLength": "Numer budynku może mieć maksymalnie 6 znaków.",
         "buildingNumberRequired": "Podaj numer budynku.",
-        "cityMaxLength": "Miasto może mieć maksymalnie 80 znaków.",
+        "cityCapitalized": "Miasto musi zaczynać się wielką literą.",
+        "cityInvalid": "Miasto może zawierać tylko litery, spacje i myślnik.",
+        "cityMaxLength": "Miasto może mieć maksymalnie 50 znaków.",
         "cityMinLength": "Miasto musi mieć minimum 2 znaki.",
         "locationNoteMaxLength": "Notatka dojazdowa może mieć maksymalnie 500 znaków.",
+        "noteInvalid": "Notatka może zawierać tylko tekst, cyfry i podstawową interpunkcję.",
         "parkingNoteMaxLength": "Informacja o parkingu może mieć maksymalnie 500 znaków.",
-        "postalCodeMaxLength": "Kod pocztowy może mieć maksymalnie 16 znaków.",
-        "postalCodeMinLength": "Kod pocztowy musi mieć minimum 3 znaki.",
-        "streetMaxLength": "Ulica może mieć maksymalnie 120 znaków.",
+        "postalCodeInvalid": "Kod pocztowy wpisz w formacie 00-000.",
+        "streetInvalid": "Ulica może zawierać litery, cyfry, spacje, myślnik i kropkę.",
+        "streetMaxLength": "Ulica może mieć maksymalnie 60 znaków.",
         "streetMinLength": "Ulica musi mieć minimum 2 znaki."
       },
       "workstations": {
@@ -534,16 +650,36 @@
         "nameMinLength": "Nazwa stanowiska musi mieć minimum 2 znaki.",
         "noteMaxLength": "Notatka wewnętrzna może mieć maksymalnie 300 znaków."
       },
+      "team": {
+        "emailDuplicate": "Ten adres e-mail jest już przypisany do członka zespołu.",
+        "emailInvalid": "Podaj poprawny adres e-mail.",
+        "fullNameInvalid": "Imię i nazwisko może zawierać litery, spacje, apostrof i myślnik.",
+        "fullNameMaxLength": "Imię i nazwisko może mieć maksymalnie 80 znaków.",
+        "fullNameMinLength": "Imię i nazwisko musi mieć minimum 2 znaki.",
+        "maxItems": "Możesz dodać maksymalnie 50 osób."
+      },
       "services": {
         "descriptionMaxLength": "Opis może mieć maksymalnie 500 znaków.",
         "durationInvalid": "Podaj czas jako pełną liczbę minut.",
-        "durationMax": "Czas trwania może mieć maksymalnie 1440 minut.",
+        "durationMax": "Czas trwania musi być w zakresie 1-600 minut.",
         "maxItems": "Możesz dodać maksymalnie 100 usług.",
         "minItems": "Dodaj co najmniej jedną usługę.",
-        "nameMaxLength": "Nazwa usługi może mieć maksymalnie 100 znaków.",
+        "nameInvalid": "Nazwa usługi może zawierać litery, cyfry, spacje i myślnik.",
+        "nameMaxLength": "Nazwa usługi może mieć maksymalnie 60 znaków.",
         "nameMinLength": "Nazwa usługi musi mieć minimum 2 znaki.",
         "priceInvalid": "Podaj poprawną cenę.",
-        "priceMin": "Cena musi być większa niż 0."
+        "priceMax": "Cena musi być w zakresie 0-9999,99."
+      },
+      "addons": {
+        "durationInvalid": "Podaj czas jako pełną liczbę minut.",
+        "durationMax": "Dodatkowy czas musi być w zakresie 0-600 minut.",
+        "maxItems": "Możesz dodać maksymalnie 300 dodatków.",
+        "nameInvalid": "Nazwa dodatku może zawierać litery, cyfry, spacje i myślnik.",
+        "nameMaxLength": "Nazwa dodatku może mieć maksymalnie 60 znaków.",
+        "nameMinLength": "Nazwa dodatku musi mieć minimum 2 znaki.",
+        "priceInvalid": "Podaj poprawną cenę.",
+        "priceMax": "Cena musi być w zakresie 0-9999,99.",
+        "serviceRequired": "Wybierz usługę dla dodatku."
       }
     }
   }

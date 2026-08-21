@@ -12,16 +12,14 @@ enum AccountRole {
   Owner
   Manager
   Employee
+  Intern
   Customer
 }
 
 enum BusinessSpecialization {
   NAILS
-  LASHES
-  BROWS
+  BROWS_AND_LASHES
   MAKEUP
-  COSMETOLOGY
-  OTHER
 }
 
 enum BusinessType {
@@ -65,6 +63,7 @@ model User {
   businessId                      String
   business                        Business                @relation(fields: [businessId], references: [id], onDelete: Restrict)
   businessMemberships             BusinessMembership[]
+  businessTeamMembers             BusinessTeamMember[]
   emailVerificationCodes          EmailVerificationCode[]
 
   @@unique([businessId, email])
@@ -107,6 +106,7 @@ model Business {
   domains                    BusinessDomain[]
   memberships                BusinessMembership[]
   services                   BusinessService[]
+  teamMembers                BusinessTeamMember[]
   users                      User[]
   workstations               BusinessWorkstation[]
 }
@@ -167,4 +167,39 @@ model BusinessMembership {
 
   @@unique([businessId, userId])
   @@index([userId])
+}
+
+model BusinessTeamMember {
+  id               String      @id @default(uuid())
+  fullName         String
+  email            String?
+  role             AccountRole
+  providesServices Boolean     @default(true)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  businessId       String
+  userId           String?
+  business         Business    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  user             User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  invitations      BusinessTeamInvitation[]
+
+  @@unique([businessId, email])
+  @@unique([businessId, userId])
+  @@index([businessId])
+  @@index([userId])
+}
+
+model BusinessTeamInvitation {
+  id           String             @id @default(uuid())
+  email        String
+  tokenHash    String             @unique
+  expiresAt    DateTime
+  acceptedAt   DateTime?
+  cancelledAt  DateTime?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  teamMemberId String
+  teamMember   BusinessTeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@index([teamMemberId])
 }

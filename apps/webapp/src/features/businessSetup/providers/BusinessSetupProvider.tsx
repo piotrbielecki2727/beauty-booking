@@ -18,17 +18,20 @@ import {
   saveBusinessBasics,
   saveBusinessLocation,
   saveBusinessServices,
+  saveBusinessTeam,
   saveBusinessWorkstations,
 } from "@/features/businessSetup/api";
 import { appToast } from "@/features/notifications";
 
 import type { ReactNode } from "react";
+import type { BusinessAddonsForm } from "@/features/businessSetup/businessSetupAddonsSchema";
 import type {
   BusinessBasicsForm,
   BusinessLocationForm,
   BusinessServicesForm,
   BusinessSetupResponse,
   BusinessSetupStep,
+  BusinessTeamForm,
   BusinessWorkstationsForm,
 } from "@beauty-booking/shared";
 
@@ -42,6 +45,8 @@ type BusinessSetupContextValue = {
   isSaving: boolean;
   isSetupLoading: boolean;
   saveBasics: (values: BusinessBasicsForm) => Promise<void>;
+  saveAddons: (values: BusinessAddonsForm) => Promise<void>;
+  saveTeam: (values: BusinessTeamForm) => Promise<void>;
   saveLocation: (values: BusinessLocationForm) => Promise<void>;
   saveServices: (values: BusinessServicesForm) => Promise<void>;
   saveWorkstations: (values: BusinessWorkstationsForm) => Promise<void>;
@@ -54,13 +59,17 @@ type BusinessSetupContextValue = {
     step: BusinessSetupDraftStep,
     hasValidationErrors: boolean,
   ) => void;
+  savedAddons: BusinessAddonsForm;
+  savedTeam: BusinessTeamForm;
   setup: BusinessSetupResponse | null;
 };
 
 type BusinessSetupDrafts = {
+  ADDONS?: BusinessAddonsForm;
   BUSINESS_BASICS?: BusinessBasicsForm;
   LOCATION?: BusinessLocationForm;
   SERVICES?: BusinessServicesForm;
+  TEAM?: BusinessTeamForm;
   WORKSTATIONS?: BusinessWorkstationsForm;
 };
 
@@ -80,6 +89,9 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
   const t = useTranslations();
   const { data: session, status } = useSession();
   const [setup, setSetup] = useState<BusinessSetupResponse | null>(null);
+  const [savedAddons, setSavedAddons] = useState<BusinessAddonsForm>({
+    addons: [],
+  });
   const [activeStep, setActiveStepState] = useState<BusinessSetupStep | null>(
     null,
   );
@@ -268,6 +280,12 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
 
   const resolvedActiveStep =
     activeStep ?? setup?.setup.currentStep ?? "BUSINESS_BASICS";
+  const savedTeam = useMemo<BusinessTeamForm>(
+    () => ({
+      teamMembers: setup?.teamMembers ?? [],
+    }),
+    [setup?.teamMembers],
+  );
   const hasUnsavedChanges = dirtySteps.length > 0;
   const hasActiveStepValidationErrors = stepsWithValidationErrors.includes(
     resolvedActiveStep,
@@ -276,6 +294,39 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
   const saveBasics = useCallback(
     (values: BusinessBasicsForm) =>
       saveStep("BUSINESS_BASICS", values, saveBusinessBasics),
+    [saveStep],
+  );
+  const saveAddons = useCallback(
+    async (values: BusinessAddonsForm) => {
+      if (isSaving) {
+        return;
+      }
+
+      setIsSaving(true);
+
+      try {
+        setSavedAddons(values);
+        setDrafts((currentDrafts) => {
+          const nextDrafts = { ...currentDrafts };
+
+          delete nextDrafts.ADDONS;
+
+          return nextDrafts;
+        });
+        setDirtySteps((currentSteps) =>
+          currentSteps.filter((currentStep) => currentStep !== "ADDONS"),
+        );
+        setStepsWithValidationErrors((currentSteps) =>
+          currentSteps.filter((currentStep) => currentStep !== "ADDONS"),
+        );
+      } finally {
+        setIsSaving(false);
+      }
+    },
+    [isSaving],
+  );
+  const saveTeam = useCallback(
+    (values: BusinessTeamForm) => saveStep("TEAM", values, saveBusinessTeam),
     [saveStep],
   );
   const saveLocation = useCallback(
@@ -304,9 +355,13 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       hasUnsavedChanges,
       isSaving,
       isSetupLoading,
+      savedAddons,
+      savedTeam,
+      saveAddons,
       saveBasics,
       saveLocation,
       saveServices,
+      saveTeam,
       saveWorkstations,
       setActiveStep,
       setDraft,
@@ -322,9 +377,13 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       isSaving,
       isSetupLoading,
       resolvedActiveStep,
+      savedAddons,
+      savedTeam,
+      saveAddons,
       saveBasics,
       saveLocation,
       saveServices,
+      saveTeam,
       saveWorkstations,
       setActiveStep,
       setDraft,

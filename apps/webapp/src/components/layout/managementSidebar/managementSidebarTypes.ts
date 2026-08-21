@@ -14,7 +14,6 @@ export type ManagementNavItemConfig = {
   href: string;
   icon: ComponentType<LucideProps>;
   labelKey: ManagementNavLabelKey;
-  shouldHideWhenSetupCompleted?: boolean;
 };
 
 export type ManagementSidebarTransition = {

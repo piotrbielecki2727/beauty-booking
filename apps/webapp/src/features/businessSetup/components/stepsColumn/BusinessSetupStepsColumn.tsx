@@ -1,9 +1,9 @@
 "use client";
 
-import { businessSetupStepItems } from "@/features/businessSetup/businessSetupConfig";
 import { BusinessSetupProgressSummary } from "@/features/businessSetup/components/stepsColumn/BusinessSetupProgressSummary";
 import { BusinessSetupStepsList } from "@/features/businessSetup/components/stepsColumn/BusinessSetupStepsList";
 
+import type { BusinessSetupStepDefinition } from "@/features/businessSetup/businessSetupConfig";
 import type { BusinessSetupStep } from "@beauty-booking/shared";
 
 type BusinessSetupStepsColumnProperties = {
@@ -12,6 +12,7 @@ type BusinessSetupStepsColumnProperties = {
   dirtySteps?: BusinessSetupStep[];
   isDisabled?: boolean;
   onStepChange: (step: BusinessSetupStep) => void;
+  steps: BusinessSetupStepDefinition[];
 };
 
 export const BusinessSetupStepsColumn = ({
@@ -20,12 +21,16 @@ export const BusinessSetupStepsColumn = ({
   dirtySteps = [],
   isDisabled = false,
   onStepChange,
+  steps,
 }: BusinessSetupStepsColumnProperties) => {
-  const currentStepIndex = businessSetupStepItems.findIndex(
+  const currentStepIndex = steps.findIndex(
     (step) => step.key === currentStep,
   );
+  const visibleCompletedSteps = completedSteps.filter((step) =>
+    steps.some((item) => item.key === step),
+  );
   const completedPercentage = Math.round(
-    (completedSteps.length / businessSetupStepItems.length) * 100,
+    (visibleCompletedSteps.length / steps.length) * 100,
   );
 
   return (
@@ -33,7 +38,7 @@ export const BusinessSetupStepsColumn = ({
       <BusinessSetupProgressSummary
         completedPercentage={completedPercentage}
         currentStepNumber={currentStepIndex + 1}
-        totalSteps={businessSetupStepItems.length}
+        totalSteps={steps.length}
       />
       <BusinessSetupStepsList
         completedSteps={completedSteps}
@@ -41,7 +46,7 @@ export const BusinessSetupStepsColumn = ({
         dirtySteps={dirtySteps}
         isDisabled={isDisabled}
         onStepChange={onStepChange}
-        steps={businessSetupStepItems}
+        steps={steps}
       />
     </div>
   );

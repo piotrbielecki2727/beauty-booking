@@ -5,6 +5,7 @@ import {
   saveBusinessBasics,
   saveBusinessLocation,
   saveBusinessServices,
+  saveBusinessTeam,
   saveBusinessWorkstations,
 } from "@/modules/businessSetup/businessSetup.service";
 import { ApiError } from "@/utils/apiError";
@@ -69,10 +70,23 @@ const saveBusinessServicesController = async (
   response.json(result);
 };
 
+const saveBusinessTeamController = async (
+  request: Request,
+  response: Response,
+) => {
+  if (!request.user) {
+    throw new ApiError(401, "Brak aktywnej sesji.");
+  }
+
+  const result = await saveBusinessTeam(request.user, request.body);
+  response.json(result);
+};
+
 export {
   getBusinessSetupController,
   saveBusinessBasicsController,
   saveBusinessLocationController,
   saveBusinessServicesController,
+  saveBusinessTeamController,
   saveBusinessWorkstationsController,
 };
