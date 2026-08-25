@@ -61,7 +61,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProperties) => {
   return (
     <div className="grid w-full max-w-md gap-6">
       <header className="grid justify-items-center gap-3 text-center">
-        <h1 className="font-brand text-5xl font-semibold leading-tight text-brand sm:text-6xl">
+        <h1 className="font-brand text-4xl font-semibold leading-tight text-brand sm:text-4xl">
           {t("auth.login.hero.title")}
         </h1>
         <p className="max-w-md text-sm leading-6 text-copy-muted sm:text-base">

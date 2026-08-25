@@ -82,7 +82,7 @@ type SelectContentProperties = SelectPrimitive.Popup.Props &
 
 const SelectContent = ({
   align = "center",
-  alignItemWithTrigger = true,
+  alignItemWithTrigger = false,
   alignOffset = 0,
   children,
   className,

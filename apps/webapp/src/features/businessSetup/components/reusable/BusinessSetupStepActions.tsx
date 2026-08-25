@@ -1,14 +1,14 @@
 "use client";
 
-import { ArrowRightIcon, Clock3Icon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/reusable";
-import { Link } from "@/i18n/navigation";
 
 type BusinessSetupStepActionsProperties = {
   formId?: string;
   hasChanges?: boolean;
+  isCompletionAction?: boolean;
   isNextDisabled?: boolean;
   isPreviousDisabled?: boolean;
   isSaving: boolean;
@@ -19,6 +19,7 @@ type BusinessSetupStepActionsProperties = {
 export const BusinessSetupStepActions = ({
   formId,
   hasChanges = false,
+  isCompletionAction = false,
   isNextDisabled = false,
   isPreviousDisabled = false,
   isSaving,
@@ -32,19 +33,10 @@ export const BusinessSetupStepActions = ({
     (hasChanges ? !formId : !onNext);
 
   return (
-    <div className="flex flex-col-reverse gap-3 border-t border-line pt-4 @min-[40rem]/wizard:flex-row @min-[40rem]/wizard:items-center @min-[40rem]/wizard:justify-between">
-      <Button
-        className="border-line bg-background text-brand hover:border-brand hover:bg-surface-soft hover:text-brand-hover"
-        variant="outline"
-        render={<Link href="/management" />}
-      >
-        <Clock3Icon className="size-4" aria-hidden="true" />
-        {t("businessSetup.actions.finishLater")}
-      </Button>
-
-      <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 @min-[40rem]/wizard:flex @min-[40rem]/wizard:justify-end">
+    <div className="flex justify-end border-t border-line pt-4 xl:border-0 xl:pt-0">
+      <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] gap-3 sm:flex sm:justify-end">
         <Button
-          isDisabled={isSaving || isPreviousDisabled || !onPrevious}
+          isDisabled={isPreviousDisabled || !onPrevious}
           variant="outline"
           type="button"
           onClick={onPrevious}
@@ -52,20 +44,30 @@ export const BusinessSetupStepActions = ({
           {t("businessSetup.actions.previous")}
         </Button>
         <Button
-          className="w-full @min-[40rem]/wizard:w-52"
+          className="w-full sm:w-52"
           form={hasChanges ? formId : undefined}
           isDisabled={isNextActionDisabled}
           isLoading={isSaving}
-          loadingText={t("businessSetup.actions.saving")}
+          loadingText={t(
+            isCompletionAction
+              ? "businessSetup.actions.finishing"
+              : "businessSetup.actions.saving",
+          )}
           onClick={hasChanges ? undefined : onNext}
           type={hasChanges ? "submit" : "button"}
         >
           {t(
-            hasChanges
-              ? "businessSetup.actions.saveAndContinue"
-              : "businessSetup.actions.next",
+            isCompletionAction
+              ? "businessSetup.actions.finish"
+              : hasChanges
+                ? "businessSetup.actions.saveAndContinue"
+                : "businessSetup.actions.next",
           )}
-          <ArrowRightIcon className="size-4" aria-hidden="true" />
+          {isCompletionAction ? (
+            <CheckIcon className="size-4" aria-hidden="true" />
+          ) : (
+            <ArrowRightIcon className="size-4" aria-hidden="true" />
+          )}
         </Button>
       </div>
     </div>

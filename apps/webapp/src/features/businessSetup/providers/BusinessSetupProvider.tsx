@@ -14,27 +14,38 @@ import { useLocale, useTranslations } from "next-intl";
 import { endAccountSession } from "@/features/account/lib";
 import {
   BusinessSetupApiError,
+  completeBusinessSetup,
   getBusinessSetup,
   saveBusinessBasics,
+  saveBusinessBookingRules,
+  saveBusinessDetails,
   saveBusinessLocation,
+  saveBusinessOpeningHours,
   saveBusinessServices,
-  saveBusinessWorkstations,
+  saveBusinessTeam,
+  startBusinessSetup,
 } from "@/features/businessSetup/api";
+import { notifyBusinessSetupStatusChanged } from "@/features/businessSetup/businessSetupStatusEvents";
 import { appToast } from "@/features/notifications";
 
 import type { ReactNode } from "react";
+import type { BusinessAddonsForm } from "@/features/businessSetup/businessSetupAddonsSchema";
 import type {
   BusinessBasicsForm,
+  BusinessBookingRulesForm,
+  BusinessDetailsForm,
   BusinessLocationForm,
+  BusinessOpeningHoursForm,
   BusinessServicesForm,
   BusinessSetupResponse,
   BusinessSetupStep,
-  BusinessWorkstationsForm,
+  BusinessTeamForm,
 } from "@beauty-booking/shared";
 
 type BusinessSetupContextValue = {
   activeStep: BusinessSetupStep;
   clearDraft: (step: BusinessSetupDraftStep) => void;
+  completeSetup: () => Promise<void>;
   dirtySteps: BusinessSetupStep[];
   drafts: BusinessSetupDrafts;
   hasActiveStepValidationErrors: boolean;
@@ -42,9 +53,13 @@ type BusinessSetupContextValue = {
   isSaving: boolean;
   isSetupLoading: boolean;
   saveBasics: (values: BusinessBasicsForm) => Promise<void>;
+  saveBookingRules: (values: BusinessBookingRulesForm) => Promise<void>;
+  saveDetails: (values: BusinessDetailsForm) => Promise<void>;
+  saveAddons: (values: BusinessAddonsForm) => Promise<void>;
+  saveTeam: (values: BusinessTeamForm) => Promise<void>;
   saveLocation: (values: BusinessLocationForm) => Promise<void>;
+  saveOpeningHours: (values: BusinessOpeningHoursForm) => Promise<void>;
   saveServices: (values: BusinessServicesForm) => Promise<void>;
-  saveWorkstations: (values: BusinessWorkstationsForm) => Promise<void>;
   setActiveStep: (step: BusinessSetupStep) => void;
   setDraft: <Step extends BusinessSetupDraftStep>(
     step: Step,
@@ -54,14 +69,21 @@ type BusinessSetupContextValue = {
     step: BusinessSetupDraftStep,
     hasValidationErrors: boolean,
   ) => void;
+  savedAddons: BusinessAddonsForm;
+  savedTeam: BusinessTeamForm;
   setup: BusinessSetupResponse | null;
+  startSetup: () => Promise<void>;
 };
 
 type BusinessSetupDrafts = {
+  ADDONS?: BusinessAddonsForm;
   BUSINESS_BASICS?: BusinessBasicsForm;
+  BOOKING_RULES?: BusinessBookingRulesForm;
   LOCATION?: BusinessLocationForm;
+  PUBLIC_PROFILE?: BusinessDetailsForm;
+  AVAILABILITY?: BusinessOpeningHoursForm;
   SERVICES?: BusinessServicesForm;
-  WORKSTATIONS?: BusinessWorkstationsForm;
+  TEAM?: BusinessTeamForm;
 };
 
 type BusinessSetupDraftStep = keyof BusinessSetupDrafts;
@@ -80,6 +102,9 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
   const t = useTranslations();
   const { data: session, status } = useSession();
   const [setup, setSetup] = useState<BusinessSetupResponse | null>(null);
+  const [savedAddons, setSavedAddons] = useState<BusinessAddonsForm>({
+    addons: [],
+  });
   const [activeStep, setActiveStepState] = useState<BusinessSetupStep | null>(
     null,
   );
@@ -95,11 +120,8 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
     status === "loading" || (Boolean(accessToken) && isSetupRequestLoading);
 
   const endExpiredSession = useCallback(async () => {
-    appToast.error({
-      title: t("businessSetup.feedback.sessionExpired"),
-    });
     await endAccountSession(`/${locale}/login`);
-  }, [locale, t]);
+  }, [locale]);
 
   const handleUnauthorizedError = useCallback(
     async (error: unknown) => {
@@ -177,7 +199,6 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
         const nextSetup = await request({ accessToken, values });
 
         setSetup(nextSetup);
-        setActiveStepState(nextSetup.setup.currentStep ?? step);
         setDrafts((currentDrafts) => {
           const nextDrafts = { ...currentDrafts };
 
@@ -191,6 +212,9 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
         setStepsWithValidationErrors((currentSteps) =>
           currentSteps.filter((currentStep) => currentStep !== step),
         );
+        appToast.success({
+          title: t("businessSetup.feedback.savedSuccessfully"),
+        });
       } catch (error: unknown) {
         if (!(await handleUnauthorizedError(error))) {
           throw error;
@@ -199,7 +223,7 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
         setIsSaving(false);
       }
     },
-    [accessToken, handleUnauthorizedError, isSaving],
+    [accessToken, handleUnauthorizedError, isSaving, t],
   );
 
   const setActiveStep = useCallback(
@@ -266,8 +290,56 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
     [],
   );
 
+  const completeSetup = useCallback(async () => {
+    if (!accessToken || isSaving) {
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const nextSetup = await completeBusinessSetup({ accessToken });
+
+      setSetup(nextSetup);
+      notifyBusinessSetupStatusChanged(nextSetup.setup.status);
+    } catch (error: unknown) {
+      if (!(await handleUnauthorizedError(error))) {
+        throw error;
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  }, [accessToken, handleUnauthorizedError, isSaving]);
+
+  const startSetup = useCallback(async () => {
+    if (!accessToken || isSaving) {
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const nextSetup = await startBusinessSetup({ accessToken });
+
+      setSetup(nextSetup);
+      notifyBusinessSetupStatusChanged(nextSetup.setup.status);
+    } catch (error: unknown) {
+      if (!(await handleUnauthorizedError(error))) {
+        throw error;
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  }, [accessToken, handleUnauthorizedError, isSaving]);
+
   const resolvedActiveStep =
     activeStep ?? setup?.setup.currentStep ?? "BUSINESS_BASICS";
+  const savedTeam = useMemo<BusinessTeamForm>(
+    () => ({
+      teamMembers: setup?.teamMembers ?? [],
+    }),
+    [setup?.teamMembers],
+  );
   const hasUnsavedChanges = dirtySteps.length > 0;
   const hasActiveStepValidationErrors = stepsWithValidationErrors.includes(
     resolvedActiveStep,
@@ -278,9 +350,60 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       saveStep("BUSINESS_BASICS", values, saveBusinessBasics),
     [saveStep],
   );
+  const saveBookingRules = useCallback(
+    (values: BusinessBookingRulesForm) =>
+      saveStep("BOOKING_RULES", values, saveBusinessBookingRules),
+    [saveStep],
+  );
+  const saveDetails = useCallback(
+    (values: BusinessDetailsForm) =>
+      saveStep("PUBLIC_PROFILE", values, saveBusinessDetails),
+    [saveStep],
+  );
+  const saveAddons = useCallback(
+    async (values: BusinessAddonsForm) => {
+      if (isSaving) {
+        return;
+      }
+
+      setIsSaving(true);
+
+      try {
+        setSavedAddons(values);
+        setDrafts((currentDrafts) => {
+          const nextDrafts = { ...currentDrafts };
+
+          delete nextDrafts.ADDONS;
+
+          return nextDrafts;
+        });
+        setDirtySteps((currentSteps) =>
+          currentSteps.filter((currentStep) => currentStep !== "ADDONS"),
+        );
+        setStepsWithValidationErrors((currentSteps) =>
+          currentSteps.filter((currentStep) => currentStep !== "ADDONS"),
+        );
+        appToast.success({
+          title: t("businessSetup.feedback.savedSuccessfully"),
+        });
+      } finally {
+        setIsSaving(false);
+      }
+    },
+    [isSaving, t],
+  );
+  const saveTeam = useCallback(
+    (values: BusinessTeamForm) => saveStep("TEAM", values, saveBusinessTeam),
+    [saveStep],
+  );
   const saveLocation = useCallback(
     (values: BusinessLocationForm) =>
       saveStep("LOCATION", values, saveBusinessLocation),
+    [saveStep],
+  );
+  const saveOpeningHours = useCallback(
+    (values: BusinessOpeningHoursForm) =>
+      saveStep("AVAILABILITY", values, saveBusinessOpeningHours),
     [saveStep],
   );
   const saveServices = useCallback(
@@ -288,33 +411,36 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       saveStep("SERVICES", values, saveBusinessServices),
     [saveStep],
   );
-  const saveWorkstations = useCallback(
-    (values: BusinessWorkstationsForm) =>
-      saveStep("WORKSTATIONS", values, saveBusinessWorkstations),
-    [saveStep],
-  );
-
   const value = useMemo<BusinessSetupContextValue>(
     () => ({
       activeStep: resolvedActiveStep,
       clearDraft,
+      completeSetup,
       dirtySteps,
       drafts,
       hasActiveStepValidationErrors,
       hasUnsavedChanges,
       isSaving,
       isSetupLoading,
+      savedAddons,
+      savedTeam,
+      saveAddons,
       saveBasics,
+      saveBookingRules,
+      saveDetails,
       saveLocation,
+      saveOpeningHours,
       saveServices,
-      saveWorkstations,
+      saveTeam,
       setActiveStep,
       setDraft,
       setStepHasValidationErrors,
       setup,
+      startSetup,
     }),
     [
       clearDraft,
+      completeSetup,
       dirtySteps,
       drafts,
       hasActiveStepValidationErrors,
@@ -322,14 +448,21 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       isSaving,
       isSetupLoading,
       resolvedActiveStep,
+      savedAddons,
+      savedTeam,
+      saveAddons,
       saveBasics,
+      saveBookingRules,
+      saveDetails,
       saveLocation,
+      saveOpeningHours,
       saveServices,
-      saveWorkstations,
+      saveTeam,
       setActiveStep,
       setDraft,
       setStepHasValidationErrors,
       setup,
+      startSetup,
     ],
   );
 

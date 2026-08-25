@@ -4,6 +4,8 @@ export * from "./DropdownMenuControl";
 export * from "./InputControl";
 export * from "./PhoneNumberInputControl";
 export * from "./SelectControl";
+export * from "./SegmentedControlControl";
+export * from "./SwitchControl";
 export * from "./TextareaControl";
 export * from "./TimePickerControl";
 export * from "./useTranslatedFieldError";

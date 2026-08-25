@@ -2,7 +2,20 @@
 
 import { signOut } from "next-auth/react";
 
+let pendingEndAccountSession: Promise<void> | null = null;
+
 export const endAccountSession = async (redirectPath: string) => {
-  await signOut({ redirect: false });
-  window.location.replace(redirectPath);
+  if (pendingEndAccountSession) {
+    return pendingEndAccountSession;
+  }
+
+  pendingEndAccountSession = (async () => {
+    try {
+      await signOut({ redirect: false });
+    } finally {
+      window.location.replace(redirectPath);
+    }
+  })();
+
+  return pendingEndAccountSession;
 };

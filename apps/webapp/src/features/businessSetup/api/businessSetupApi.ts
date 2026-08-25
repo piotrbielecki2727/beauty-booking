@@ -2,11 +2,17 @@ import { z } from "zod";
 
 import {
   businessSetupResponseSchema,
+  businessSetupStatusResponseSchema,
   type BusinessBasicsForm,
+  type BusinessBookingRulesForm,
+  type BusinessDetailsForm,
   type BusinessLocationForm,
+  type BusinessOpeningHoursForm,
   type BusinessServicesForm,
   type BusinessSetupResponse,
-  type BusinessWorkstationsForm,
+  type BusinessSetupStatusResponse,
+  type BusinessTeamForm,
+  type BusinessTypeForm,
 } from "@beauty-booking/shared";
 
 import { backendApiUrl } from "@/config";
@@ -161,6 +167,40 @@ export const getBusinessSetup = (
   return request;
 };
 
+export const getBusinessSetupStatus = (
+  accessToken: string,
+): Promise<BusinessSetupStatusResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    method: "GET",
+    path: "/business/setup/status",
+    schema: businessSetupStatusResponseSchema,
+  });
+
+export const completeBusinessSetup = ({
+  accessToken,
+}: {
+  accessToken: string;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    method: "PATCH",
+    path: "/business/setup/complete",
+    schema: businessSetupResponseSchema,
+  });
+
+export const startBusinessSetup = ({
+  accessToken,
+}: {
+  accessToken: string;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    method: "PATCH",
+    path: "/business/setup/start",
+    schema: businessSetupResponseSchema,
+  });
+
 export const saveBusinessBasics = ({
   accessToken,
   values,
@@ -173,6 +213,51 @@ export const saveBusinessBasics = ({
     body: values,
     method: "PATCH",
     path: "/business/setup/business-basics",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessBookingRules = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessBookingRulesForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/booking-rules",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessDetails = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessDetailsForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/business-details",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessType = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessTypeForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/business-type",
     schema: businessSetupResponseSchema,
   });
 
@@ -191,18 +276,18 @@ export const saveBusinessLocation = ({
     schema: businessSetupResponseSchema,
   });
 
-export const saveBusinessWorkstations = ({
+export const saveBusinessOpeningHours = ({
   accessToken,
   values,
 }: {
   accessToken: string;
-  values: BusinessWorkstationsForm;
+  values: BusinessOpeningHoursForm;
 }): Promise<BusinessSetupResponse> =>
   requestBusinessSetup({
     accessToken,
     body: values,
     method: "PATCH",
-    path: "/business/setup/workstations",
+    path: "/business/setup/opening-hours",
     schema: businessSetupResponseSchema,
   });
 
@@ -218,6 +303,21 @@ export const saveBusinessServices = ({
     body: values,
     method: "PATCH",
     path: "/business/setup/services",
+    schema: businessSetupResponseSchema,
+  });
+
+export const saveBusinessTeam = ({
+  accessToken,
+  values,
+}: {
+  accessToken: string;
+  values: BusinessTeamForm;
+}): Promise<BusinessSetupResponse> =>
+  requestBusinessSetup({
+    accessToken,
+    body: values,
+    method: "PATCH",
+    path: "/business/setup/team",
     schema: businessSetupResponseSchema,
   });
 

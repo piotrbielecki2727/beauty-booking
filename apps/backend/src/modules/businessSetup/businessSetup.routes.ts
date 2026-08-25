@@ -1,17 +1,28 @@
 import { Router } from "express";
 
 import {
+  completeBusinessSetupController,
   getBusinessSetupController,
+  getBusinessSetupStatusController,
   saveBusinessBasicsController,
+  saveBusinessBookingRulesController,
+  saveBusinessDetailsController,
   saveBusinessLocationController,
+  saveBusinessOpeningHoursController,
   saveBusinessServicesController,
-  saveBusinessWorkstationsController,
+  saveBusinessTeamController,
+  saveBusinessTypeController,
+  startBusinessSetupController,
 } from "@/modules/businessSetup/businessSetup.controller";
 import {
   businessBasicsFormSchema,
+  businessBookingRulesFormSchema,
+  businessDetailsFormSchema,
   businessLocationFormSchema,
+  businessOpeningHoursFormSchema,
   businessServicesFormSchema,
-  businessWorkstationsFormSchema,
+  businessTeamFormSchema,
+  businessTypeFormSchema,
 } from "@/modules/businessSetup/businessSetup.schemas";
 import { requireAuth } from "@/modules/auth/auth.middleware";
 import { validateBody } from "@/middlewares/validateRequest";
@@ -20,9 +31,34 @@ import { asyncHandler } from "@/utils/asyncHandler";
 const businessSetupRouter = Router();
 
 businessSetupRouter.get(
+  "/setup/status",
+  asyncHandler(requireAuth),
+  asyncHandler(getBusinessSetupStatusController),
+);
+
+businessSetupRouter.get(
   "/setup",
   asyncHandler(requireAuth),
   asyncHandler(getBusinessSetupController),
+);
+
+businessSetupRouter.patch(
+  "/setup/complete",
+  asyncHandler(requireAuth),
+  asyncHandler(completeBusinessSetupController),
+);
+
+businessSetupRouter.patch(
+  "/setup/start",
+  asyncHandler(requireAuth),
+  asyncHandler(startBusinessSetupController),
+);
+
+businessSetupRouter.patch(
+  "/setup/business-type",
+  asyncHandler(requireAuth),
+  validateBody(businessTypeFormSchema),
+  asyncHandler(saveBusinessTypeController),
 );
 
 businessSetupRouter.patch(
@@ -40,10 +76,31 @@ businessSetupRouter.patch(
 );
 
 businessSetupRouter.patch(
-  "/setup/workstations",
+  "/setup/business-details",
   asyncHandler(requireAuth),
-  validateBody(businessWorkstationsFormSchema),
-  asyncHandler(saveBusinessWorkstationsController),
+  validateBody(businessDetailsFormSchema),
+  asyncHandler(saveBusinessDetailsController),
+);
+
+businessSetupRouter.patch(
+  "/setup/opening-hours",
+  asyncHandler(requireAuth),
+  validateBody(businessOpeningHoursFormSchema),
+  asyncHandler(saveBusinessOpeningHoursController),
+);
+
+businessSetupRouter.patch(
+  "/setup/booking-rules",
+  asyncHandler(requireAuth),
+  validateBody(businessBookingRulesFormSchema),
+  asyncHandler(saveBusinessBookingRulesController),
+);
+
+businessSetupRouter.patch(
+  "/setup/team",
+  asyncHandler(requireAuth),
+  validateBody(businessTeamFormSchema),
+  asyncHandler(saveBusinessTeamController),
 );
 
 businessSetupRouter.patch(

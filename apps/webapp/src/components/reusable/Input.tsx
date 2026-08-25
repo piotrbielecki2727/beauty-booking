@@ -166,7 +166,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
             type={isPassword && isPasswordVisible ? "text" : type}
             value={value}
             className={cn(
-              error && "border-destructive ring-[var(--destructive-ring,var(--destructive))]",
+              error && "border-destructive",
               hasLeftIcon && "pl-10",
               hasRightButton && "pr-10",
               inputClassName,

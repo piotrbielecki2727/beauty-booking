@@ -13,9 +13,9 @@ export const BusinessSetupStepIntroduction = ({
 }: BusinessSetupStepIntroductionProperties) => {
   return (
     <div className="grid">
-      <span className="font-brand text-2xl font-semibold text-brand">
+      <h2 className="font-brand text-2xl font-semibold text-brand">
         {title}
-      </span>
+      </h2>
       <p className="mt-1 max-w-3xl text-sm leading-5 text-copy-muted">
         {description}
       </p>

@@ -14,16 +14,19 @@ import type { ManagementSidebarTransition } from "@/components/layout/management
 
 type ManagementSidebarHeaderProperties = {
   isCollapsed: boolean;
+  isSetupMode: boolean;
   transition: ManagementSidebarTransition;
 };
 
 export const ManagementSidebarHeader = ({
   isCollapsed,
+  isSetupMode,
   transition,
 }: ManagementSidebarHeaderProperties) => {
   const t = useTranslations();
   const { business } = useTenantContext();
-  const brandLabel = business?.name ?? t("common.appName");
+  const brandLabel =
+    !isSetupMode && business?.name ? business.name : t("common.appName");
 
   const { handleCollapseSidebar, handleExpandSidebar, isTransitioning } =
     transition;

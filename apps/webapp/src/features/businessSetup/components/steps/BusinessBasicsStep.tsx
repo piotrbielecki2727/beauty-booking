@@ -4,21 +4,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CheckIcon,
   EyeIcon,
-  ScissorsIcon,
-  SparklesIcon,
+  PaintbrushIcon,
   UserIcon,
   UsersIcon,
+  WandSparklesIcon,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslations } from "next-intl";
 
 import {
   businessBasicsFormSchema,
+  businessSpecializations,
   type BusinessBasicsForm,
   type BusinessSetupResponse,
   type BusinessSpecialization,
-  type BusinessType,
 } from "@beauty-booking/shared";
 
 import { InputControl } from "@/components/controlled";
@@ -38,18 +38,10 @@ import { cn } from "@/lib/utils";
 import type { ComponentType } from "react";
 import type { LucideProps } from "lucide-react";
 
-const specializationOptions = [
-  "NAILS",
-  "BROWS_AND_LASHES",
-  "MAKEUP",
-] satisfies BusinessSpecialization[];
-
-const businessTypeOptions = ["SOLO", "TEAM"] satisfies BusinessType[];
-
 const specializationIcons = {
   BROWS_AND_LASHES: EyeIcon,
-  MAKEUP: SparklesIcon,
-  NAILS: ScissorsIcon,
+  MAKEUP: WandSparklesIcon,
+  NAILS: PaintbrushIcon,
 } satisfies Record<BusinessSpecialization, ComponentType<LucideProps>>;
 
 type BusinessBasicsStepProperties = {
@@ -62,24 +54,17 @@ type BusinessBasicsStepProperties = {
 const getDefaultValues = (
   setup: BusinessSetupResponse | null,
 ): BusinessBasicsForm => {
-  const businessType = setup?.basics.businessType ?? "SOLO";
-  const baseValues = {
-    name: setup?.basics.name ?? "",
-    specialization: setup?.basics.specialization ?? "NAILS",
-  };
-
-  if (businessType === "TEAM") {
-    return {
-      ...baseValues,
-      businessType,
-      ownerProvidesServices: setup?.basics.ownerProvidesServices ?? true,
-    };
-  }
+  const hasSavedBusinessBasics =
+    setup?.setup.completedSteps.includes("BUSINESS_BASICS") ?? false;
+  const specializations: BusinessSpecialization[] =
+    setup?.basics.specializations.length
+      ? setup.basics.specializations
+      : ["NAILS"];
 
   return {
-    ...baseValues,
-    businessType: "SOLO",
-    ownerProvidesServices: true,
+    businessType: setup?.basics.businessType ?? "SOLO",
+    name: hasSavedBusinessBasics ? setup?.basics.name ?? "" : "",
+    specializations,
   };
 };
 
@@ -102,54 +87,19 @@ export const BusinessBasicsStep = ({
     resolver: zodResolver(businessBasicsFormSchema),
     values: initialDraft ?? persistedValues,
   });
-  const initialBusinessType = (initialDraft ?? persistedValues).businessType;
-  const previousBusinessTypeRef = useRef(initialBusinessType);
-  const teamDetailsRef = useRef<HTMLFieldSetElement>(null);
+  const specializations = useWatch({
+    control: form.control,
+    name: "specializations",
+  });
   const businessType = useWatch({
     control: form.control,
     name: "businessType",
-  });
-  const specialization = useWatch({
-    control: form.control,
-    name: "specialization",
-  });
-  const ownerProvidesServices = useWatch({
-    control: form.control,
-    name: "ownerProvidesServices",
   });
   useBusinessSetupFormDraft({
     form,
     onDraftChange,
     step: "BUSINESS_BASICS",
   });
-
-  useEffect(() => {
-    if (businessType === "SOLO" && ownerProvidesServices !== true) {
-      form.setValue("ownerProvidesServices", true, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-    }
-  }, [businessType, form, ownerProvidesServices]);
-
-  useEffect(() => {
-    const previousBusinessType = previousBusinessTypeRef.current;
-
-    previousBusinessTypeRef.current = businessType;
-
-    if (previousBusinessType === "TEAM" || businessType !== "TEAM") {
-      return;
-    }
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    teamDetailsRef.current?.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "nearest",
-    });
-  }, [businessType]);
 
   const handleSubmit = form.handleSubmit(async (values) => {
     try {
@@ -168,168 +118,152 @@ export const BusinessBasicsStep = ({
       onSubmit={handleSubmit}
     >
       <div className={businessSetupSectionsClassNames}>
-          <InputControl
-            control={form.control}
+        <fieldset className={businessSetupChoiceGroupClassNames}>
+          <BusinessSetupFieldHeader
             description={t(
-              "businessSetup.businessBasics.descriptions.name",
+              "businessSetup.businessBasics.descriptions.businessType",
             )}
-            feedbackMode={businessSetupFeedbackMode}
-            isRequired
-            label={t("businessSetup.businessBasics.fields.name")}
-            name="name"
-            placeholder={t("businessSetup.businessBasics.placeholders.name")}
-            labelClassName="font-semibold text-sm"
+            label={t("businessSetup.businessBasics.fields.businessType")}
           />
+          <div className="grid gap-3 @min-[42rem]/step:grid-cols-2">
+            {(["SOLO", "TEAM"] as const).map((option) => {
+              const Icon = option === "SOLO" ? UserIcon : UsersIcon;
+              const isSelected = businessType === option;
 
-          <fieldset className={businessSetupChoiceGroupClassNames}>
-            <BusinessSetupFieldHeader
-              description={t(
-                "businessSetup.businessBasics.descriptions.specialization",
-              )}
-              label={t("businessSetup.businessBasics.fields.specialization")}
-            />
-            <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(10rem,100%),1fr))]">
-              {specializationOptions.map((option) => {
-                const Icon = specializationIcons[option];
-                const isSelected = specialization === option;
-
-                return (
-                  <Button
-                    key={option}
-                    type="button"
-                    variant="ghost"
+              return (
+                <Button
+                  key={option}
+                  aria-pressed={isSelected}
+                  className={cn(
+                    "h-auto min-h-28 items-center justify-start gap-4 whitespace-normal rounded-lg border border-line bg-background p-4 text-left text-copy shadow-none",
+                    "transition-[border-color,background-color,box-shadow,color] duration-200 hover:border-line-strong hover:bg-surface-soft hover:text-copy hover:shadow-sm",
+                    "focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-ring/30",
+                    isSelected &&
+                      "border-brand bg-brand-soft text-brand shadow-sm hover:border-brand hover:bg-brand-soft",
+                  )}
+                  onClick={() => {
+                    form.setValue("businessType", option, {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    });
+                  }}
+                  type="button"
+                  variant="ghost"
+                >
+                  <span
                     className={cn(
-                      "relative h-20 flex-col gap-1.5 whitespace-normal rounded-md border border-subtle bg-background py-3 text-center text-sm font-normal transition-colors hover:border-brand hover:bg-surface-soft hover:text-brand",
-                      isSelected && "border-brand bg-brand-soft text-brand",
+                      "flex size-12 shrink-0 items-center justify-center rounded-full border border-line bg-surface-soft text-copy-muted",
+                      isSelected && "border-brand-soft text-brand",
                     )}
-                    onClick={() =>
-                      form.setValue("specialization", option, {
-                        shouldDirty: true,
-                        shouldValidate: true,
-                      })
-                    }
                   >
-                    {isSelected ? (
-                      <span className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-brand text-copy-inverse">
-                        <CheckIcon className="size-3" aria-hidden="true" />
-                      </span>
-                    ) : null}
-                    <Icon className="size-5" aria-hidden="true" />
+                    <Icon className="size-6" aria-hidden="true" />
+                  </span>
+                  <span className="grid min-w-0 flex-1 gap-1">
+                    <span
+                      className={cn(
+                        "font-brand text-base font-semibold text-copy",
+                        isSelected && "text-brand",
+                      )}
+                    >
+                      {t(
+                        `businessSetup.modelSelection.options.${option}.title`,
+                      )}
+                    </span>
+                    <span className="text-sm font-normal leading-5 text-copy-muted">
+                      {t(
+                        `businessSetup.modelSelection.options.${option}.description`,
+                      )}
+                    </span>
+                  </span>
+                  <span
+                    className={cn(
+                      "flex size-6 shrink-0 items-center justify-center rounded-full border border-line-strong bg-background text-transparent transition-colors",
+                      isSelected &&
+                        "border-brand bg-brand text-copy-inverse",
+                    )}
+                  >
+                    <CheckIcon
+                      className={cn("size-3.5", !isSelected && "opacity-0")}
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Button>
+              );
+            })}
+          </div>
+        </fieldset>
+
+        <InputControl
+          control={form.control}
+          feedbackMode={businessSetupFeedbackMode}
+          isRequired
+          label={t("businessSetup.businessBasics.fields.name")}
+          labelClassName="text-sm font-semibold"
+          name="name"
+          placeholder={t("businessSetup.businessBasics.placeholders.name")}
+        />
+
+        <fieldset className={businessSetupChoiceGroupClassNames}>
+          <BusinessSetupFieldHeader
+            label={t("businessSetup.businessBasics.fields.specializations")}
+          />
+          <div className="grid gap-3 @min-[42rem]/step:grid-cols-3">
+            {businessSpecializations.map((option) => {
+              const Icon = specializationIcons[option];
+              const isSelected = specializations.includes(option);
+
+              return (
+                <Button
+                  key={option}
+                  aria-pressed={isSelected}
+                  className={cn(
+                    "h-20 items-center justify-start gap-3 whitespace-normal rounded-lg border border-line bg-background px-4 py-3 text-left font-normal text-copy shadow-none",
+                    "transition-[border-color,background-color,box-shadow] duration-200 hover:border-line-strong hover:bg-surface-soft hover:shadow-sm",
+                    "focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-ring/30",
+                  )}
+                  onClick={() => {
+                    if (isSelected && specializations.length === 1) {
+                      return;
+                    }
+
+                    const nextSpecializations = isSelected
+                      ? specializations.filter((value) => value !== option)
+                      : [...specializations, option];
+
+                    form.setValue("specializations", nextSpecializations, {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    });
+                  }}
+                  type="button"
+                  variant="ghost"
+                >
+                  <Icon
+                    className="size-7 shrink-0 text-brand"
+                    aria-hidden="true"
+                  />
+                  <span className="min-w-0 flex-1 font-brand text-base font-semibold">
                     {t(
                       `businessSetup.businessBasics.specializations.${option}`,
                     )}
-                  </Button>
-                );
-              })}
-            </div>
-          </fieldset>
-          <fieldset className={businessSetupChoiceGroupClassNames}>
-            <BusinessSetupFieldHeader
-              description={t(
-                "businessSetup.businessBasics.descriptions.businessType",
-              )}
-              label={t("businessSetup.businessBasics.fields.businessType")}
-            />
-            <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr))]">
-              {businessTypeOptions.map((option) => {
-                const isSelected = businessType === option;
-                const Icon = option === "SOLO" ? UserIcon : UsersIcon;
-
-                return (
-                  <Button
-                    key={option}
-                    type="button"
-                    variant="ghost"
+                  </span>
+                  <span
                     className={cn(
-                      "h-auto min-h-16 justify-start gap-3 whitespace-normal rounded-md border border-subtle bg-background px-4 py-3 text-left text-sm font-normal transition-colors hover:border-brand hover:bg-surface-soft hover:text-brand",
-                      isSelected && "border-brand bg-brand-soft text-brand",
+                      "flex size-6 shrink-0 items-center justify-center rounded-full border border-line-strong bg-background text-transparent transition-colors",
+                      isSelected &&
+                        "border-brand bg-brand text-copy-inverse",
                     )}
-                    onClick={() =>
-                      form.setValue("businessType", option, {
-                        shouldDirty: true,
-                        shouldValidate: true,
-                      })
-                    }
                   >
-                    <Icon className="size-5 shrink-0" aria-hidden="true" />
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-medium">
-                        {t(
-                          `businessSetup.businessBasics.businessTypes.${option}.title`,
-                        )}
-                      </span>
-                      <span className="mt-1 block text-sm text-copy-muted">
-                        {t(
-                          `businessSetup.businessBasics.businessTypes.${option}.description`,
-                        )}
-                      </span>
-                    </span>
-                    <span
-                      className={cn(
-                        "ml-auto flex size-5 shrink-0 items-center justify-center rounded-full bg-brand text-copy-inverse",
-                        !isSelected && "invisible",
-                      )}
-                    >
-                      <CheckIcon className="size-3" aria-hidden="true" />
-                    </span>
-                  </Button>
-                );
-              })}
-            </div>
-          </fieldset>
-
-          {businessType === "TEAM" ? (
-            <fieldset
-              ref={teamDetailsRef}
-              className={businessSetupChoiceGroupClassNames}
-            >
-              <BusinessSetupFieldHeader
-                description={t(
-                  "businessSetup.businessBasics.descriptions.ownerProvidesServices",
-                )}
-                label={t(
-                  "businessSetup.businessBasics.fields.ownerProvidesServices",
-                )}
-              />
-              <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr))]">
-                {[true, false].map((value) => {
-                  const isSelected = ownerProvidesServices === value;
-
-                  return (
-                    <Button
-                      key={String(value)}
-                      type="button"
-                      variant="ghost"
-                      className={cn(
-                        "h-auto justify-between whitespace-normal rounded-md border border-subtle bg-background px-4 py-3 text-left text-sm font-normal transition-colors hover:border-brand hover:bg-surface-soft hover:text-brand",
-                        isSelected && "border-brand bg-brand-soft text-brand",
-                      )}
-                      onClick={() =>
-                        form.setValue("ownerProvidesServices", value, {
-                          shouldDirty: true,
-                          shouldValidate: true,
-                        })
-                      }
-                    >
-                      <span className="min-w-0 flex-1">
-                        {t(
-                          `businessSetup.businessBasics.ownerProvidesServices.${String(value)}`,
-                        )}
-                      </span>
-                      <span
-                        className={cn(
-                          "flex size-5 shrink-0 items-center justify-center rounded-full bg-brand text-copy-inverse",
-                          !isSelected && "invisible",
-                        )}
-                      >
-                        <CheckIcon className="size-3" aria-hidden="true" />
-                      </span>
-                    </Button>
-                  );
-                })}
-              </div>
-            </fieldset>
-          ) : null}
+                    <CheckIcon
+                      className={cn("size-3.5", !isSelected && "opacity-0")}
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Button>
+              );
+            })}
+          </div>
+        </fieldset>
       </div>
     </form>
   );

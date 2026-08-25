@@ -47,12 +47,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProperties>(
     const generatedId = useId();
     const textareaId = id ?? generatedId;
     const isFeedbackOverlay = feedbackMode === "overlay";
-    const feedbackId =
-      error || description || feedbackMode === "reserved"
-        ? `${textareaId}-feedback`
+    const descriptionId = description
+      ? `${textareaId}-description`
+      : undefined;
+    const errorId =
+      error || feedbackMode === "reserved"
+        ? `${textareaId}-error`
         : undefined;
     const describedBy =
-      [ariaDescribedBy, feedbackId].filter(Boolean).join(" ") || undefined;
+      [ariaDescribedBy, descriptionId, errorId].filter(Boolean).join(" ") ||
+      undefined;
 
     return (
       <div
@@ -74,6 +78,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProperties>(
           </Label>
         ) : null}
 
+        {description ? (
+          <FieldFeedback
+            className="-mt-1"
+            description={description}
+            id={descriptionId}
+          />
+        ) : null}
+
         <BaseTextarea
           {...properties}
           ref={ref}
@@ -84,8 +96,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProperties>(
           name={name}
           required={isRequired}
           className={cn(
-            error &&
-              "border-destructive ring-[var(--destructive-ring,var(--destructive))]",
+            error && "border-destructive",
             textareaClassName,
           )}
         />
@@ -96,9 +107,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProperties>(
               ? "absolute left-0 top-full z-10 mt-0.5 w-full"
               : undefined
           }
-          description={description}
           error={error}
-          id={feedbackId}
+          id={errorId}
           minLines={feedbackMinLines}
           reserveSpace={feedbackMode === "reserved"}
         />

@@ -13,20 +13,26 @@ import { cn } from "@/lib/utils";
 
 type ManagementSidebarMobileProperties = {
   isOpen: boolean;
+  isSetupMode: boolean;
   onIsOpenChange: (isOpen: boolean) => void;
 };
 
 export const ManagementSidebarMobile = ({
   isOpen,
+  isSetupMode,
   onIsOpenChange,
 }: ManagementSidebarMobileProperties) => {
   const t = useTranslations();
   const { business } = useTenantContext();
-  const brandLabel = business?.name ?? t("common.appName");
+  const brandLabel =
+    !isSetupMode && business?.name ? business.name : t("common.appName");
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-line bg-canvas px-4 text-copy md:hidden">
-      <Link href="/management" className="flex min-w-0 items-center gap-2">
+    <header className="sticky top-0 z-40 flex h-16 self-start items-center justify-between border-b border-line bg-canvas px-4 text-copy sm:static sm:z-auto md:hidden">
+      <Link
+        href={isSetupMode ? "/management/setup" : "/management"}
+        className="flex min-w-0 items-center gap-2"
+      >
         <Logo aria-hidden="true" label={brandLabel} size="md" />
       </Link>
 
@@ -41,7 +47,10 @@ export const ManagementSidebarMobile = ({
           <MenuIcon className="size-5" aria-hidden="true" />
         </Drawer.Trigger>
 
-        <ManagementSidebarDrawer onNavigate={() => onIsOpenChange(false)} />
+        <ManagementSidebarDrawer
+          isSetupMode={isSetupMode}
+          onNavigate={() => onIsOpenChange(false)}
+        />
       </Drawer.Root>
     </header>
   );

@@ -16,9 +16,9 @@ const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
           "file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
           "placeholder:text-muted-foreground",
           "hover:bg-muted/50",
-          "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30",
+          "focus-visible:border-ring",
           "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60",
-          "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
+          "aria-invalid:border-destructive",
           className,
         )}
         {...properties}

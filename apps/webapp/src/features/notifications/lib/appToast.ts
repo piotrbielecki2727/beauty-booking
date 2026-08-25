@@ -11,6 +11,8 @@ type AppToastPayload = AppToastOptions & {
   title: string;
 };
 
+const successToastDuration = 2000;
+
 export const appToast = {
   error: ({ description, duration, title }: AppToastPayload) =>
     toast.error(title, {
@@ -25,7 +27,7 @@ export const appToast = {
   success: ({ description, duration, title }: AppToastPayload) =>
     toast.success(title, {
       description,
-      duration,
+      duration: duration ?? successToastDuration,
     }),
   warning: ({ description, duration, title }: AppToastPayload) =>
     toast.warning(title, {

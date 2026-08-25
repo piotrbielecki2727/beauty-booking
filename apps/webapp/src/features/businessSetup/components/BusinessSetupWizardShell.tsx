@@ -4,12 +4,13 @@ import { useTranslations } from "next-intl";
 
 import { PageHeader } from "@/components/layout/PageHeader";
 import { BackgroundSVG } from "@/components/svgs";
-import { LoadingOverlay } from "@/components/reusable";
+import { LoadingOverlay, ScrollArea } from "@/components/reusable";
 import { BusinessSetupStepsColumn } from "@/features/businessSetup/components/stepsColumn";
 import { cn } from "@/lib/utils";
 
 import type { ReactNode } from "react";
 import type { BusinessSetupStep } from "@beauty-booking/shared";
+import type { BusinessSetupStepDefinition } from "@/features/businessSetup/businessSetupConfig";
 
 type BusinessSetupWizardShellProperties = {
   children: ReactNode;
@@ -19,7 +20,9 @@ type BusinessSetupWizardShellProperties = {
   footer: ReactNode;
   isInteractionDisabled?: boolean;
   isLoading?: boolean;
+  isStepNavigationDisabled?: boolean;
   onStepChange: (step: BusinessSetupStep) => void;
+  steps: BusinessSetupStepDefinition[];
 };
 
 export const BusinessSetupWizardShell = ({
@@ -30,24 +33,21 @@ export const BusinessSetupWizardShell = ({
   footer,
   isInteractionDisabled = false,
   isLoading = false,
+  isStepNavigationDisabled = false,
   onStepChange,
+  steps,
 }: BusinessSetupWizardShellProperties) => {
   const t = useTranslations();
 
   return (
-    <div className="relative h-[calc(100dvh-4rem)] overflow-hidden bg-background px-4 py-6 text-copy sm:px-6 md:h-dvh lg:px-8">
+    <div className="relative min-h-[calc(100dvh-4rem)] animate-in overflow-visible bg-background px-3 py-3 text-copy fade-in-0 duration-300 motion-reduce:animate-none sm:px-6 sm:py-6 md:min-h-dvh lg:px-8 xl:h-dvh xl:min-h-0 xl:overflow-hidden">
       <BackgroundSVG className="opacity-70" priority />
 
-      <div className="relative mx-auto grid h-full min-h-0 w-full max-w-7xl grid-rows-[auto_minmax(0,1fr)] gap-4">
-        <PageHeader
-          description={t("businessSetup.page.description")}
-          title={t("businessSetup.page.title")}
-        />
-
+      <div className="relative mx-auto h-auto min-h-0 w-full max-w-[96rem] xl:h-full">
         <section
           aria-busy={isInteractionDisabled || isLoading || undefined}
           className={cn(
-            "@container/wizard relative grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden rounded-lg border border-line bg-card/90 p-4 shadow-sm backdrop-blur-sm",
+            "@container/wizard relative h-auto min-h-0 min-w-0 overflow-visible xl:h-full xl:overflow-hidden",
             isInteractionDisabled && "cursor-wait",
           )}
           inert={isInteractionDisabled}
@@ -60,35 +60,63 @@ export const BusinessSetupWizardShell = ({
               variant="bare"
             />
           ) : (
-            <>
-              <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-6 overflow-hidden pb-4 @min-[60rem]/wizard:grid-cols-[15rem_minmax(0,1fr)] @min-[60rem]/wizard:grid-rows-1">
-                <aside className="h-64 min-h-0 overflow-hidden border-b border-line pb-6 pr-2 sm:h-72 @min-[60rem]/wizard:h-full @min-[60rem]/wizard:border-b-0 @min-[60rem]/wizard:border-r @min-[60rem]/wizard:pb-0 @min-[60rem]/wizard:pr-1">
+            <div className="grid min-h-0 gap-4 xl:h-full xl:grid-cols-[minmax(0,1fr)_21rem] xl:grid-rows-[auto_minmax(0,1fr)] xl:gap-x-5">
+              <div className="min-w-0 xl:col-start-1 xl:row-start-1">
+                <PageHeader
+                  description={t("businessSetup.page.description")}
+                  title={t("businessSetup.page.title")}
+                />
+              </div>
+
+              <nav
+                aria-label={t("businessSetup.progressNavigationLabel")}
+                className="xl:hidden"
+              >
+                <BusinessSetupStepsColumn
+                  completedSteps={completedSteps}
+                  currentStep={currentStep}
+                  dirtySteps={dirtySteps}
+                  isDisabled={isStepNavigationDisabled}
+                  onStepChange={onStepChange}
+                  orientation="horizontal"
+                  steps={steps}
+                />
+              </nav>
+
+              <div className="@container/step min-h-0 overflow-hidden rounded-xl border border-line bg-card/90 shadow-sm backdrop-blur-sm xl:col-start-1 xl:row-start-2 xl:h-full">
+                <ScrollArea
+                  key={currentStep}
+                  className="overflow-visible xl:h-full xl:overflow-hidden"
+                  contentClassName="h-auto overflow-x-visible overflow-y-visible pr-0 xl:h-full xl:overflow-x-hidden xl:overflow-y-auto xl:pr-4"
+                  verticalScrollbarClassName="bottom-3 right-2 top-3"
+                >
+                  <div className="min-h-full transform-gpu p-4 animate-in fade-in-0 slide-in-from-bottom-2 duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:animate-none sm:p-5">
+                    {children}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              <div className="xl:hidden">{footer}</div>
+
+              <aside className="hidden min-h-0 overflow-hidden rounded-xl border border-line bg-card/90 shadow-sm backdrop-blur-sm xl:col-start-2 xl:row-start-2 xl:grid xl:grid-rows-[minmax(0,1fr)_auto]">
+                <nav
+                  aria-label={t("businessSetup.progressNavigationLabel")}
+                  className="min-h-0 p-5"
+                >
                   <BusinessSetupStepsColumn
                     completedSteps={completedSteps}
                     currentStep={currentStep}
                     dirtySteps={dirtySteps}
-                    isDisabled={isInteractionDisabled}
+                    isDisabled={isStepNavigationDisabled}
                     onStepChange={onStepChange}
+                    orientation="vertical"
+                    steps={steps}
                   />
-                </aside>
-                <div
-                  key={currentStep}
-                  className="@container/step min-h-0 min-w-0 overflow-x-hidden overflow-y-auto overscroll-contain pr-3 [scrollbar-gutter:stable]"
-                >
-                  <div className="animate-in fade-in-0 slide-in-from-bottom-1 duration-200 ease-out motion-reduce:animate-none">
-                    {children}
-                  </div>
-                </div>
-              </div>
-              {footer}
-            </>
+                </nav>
+                <div className="border-t border-line p-5">{footer}</div>
+              </aside>
+            </div>
           )}
-          {isInteractionDisabled ? (
-            <div
-              className="absolute inset-0 z-20 cursor-wait rounded-lg bg-overlay"
-              aria-hidden="true"
-            />
-          ) : null}
         </section>
       </div>
     </div>

@@ -91,78 +91,273 @@
         "Admin": "Administrator",
         "Customer": "Klient",
         "Employee": "Pracownik",
+        "Intern": "Stażysta",
         "Manager": "Menedżer",
         "Owner": "Właściciel"
       }
     }
   },
+  "managementEmployees": {
+    "teamAccess": {
+      "acceptAsCurrent": "Akceptuj jako bieżące konto",
+      "acceptFailed": "Nie udało się zaakceptować zaproszenia.",
+      "accepted": "Zaproszenie zaakceptowane.",
+      "cancel": "Anuluj",
+      "cancelFailed": "Nie udało się anulować zaproszenia.",
+      "checkPreview": "Sprawdź token",
+      "copied": "Link skopiowany.",
+      "copy": "Kopiuj link",
+      "description": "Tymczasowy panel do testowania zaproszeń bez realnej wysyłki e-mail.",
+      "email": "Adres e-mail",
+      "emailPlaceholder": "anna@example.com",
+      "empty": "Najpierw dodaj członków zespołu w konfiguracji salonu.",
+      "generatedTitle": "Wygenerowany link testowy",
+      "invite": "Zaproś",
+      "inviteCreated": "Zaproszenie wygenerowane.",
+      "inviteFailed": "Nie udało się wygenerować zaproszenia.",
+      "invitationStatuses": {
+        "ACCEPTED": "zaakceptowane",
+        "CANCELLED": "anulowane",
+        "EXPIRED": "wygasłe",
+        "PENDING": "aktywne"
+      },
+      "loadFailed": "Nie udało się pobrać zespołu.",
+      "loading": "Ładowanie zespołu...",
+      "noServices": "nie wykonuje usług",
+      "preview": "{businessName} · status: {status}",
+      "previewFailed": "Nie udało się sprawdzić tokenu.",
+      "providesServices": "wykonuje usługi",
+      "resend": "Wyślij ponownie",
+      "statuses": {
+        "ACTIVE": "Dostęp aktywny",
+        "INVITED": "Zaproszenie wysłane",
+        "NO_ACCESS": "Dostęp nieaktywny"
+      },
+      "title": "Dostęp do panelu"
+    },
+    "title": "Pracownicy"
+  },
   "businessSetup": {
     "actions": {
+      "finish": "Zakończ konfigurację",
       "finishLater": "Dokończę później",
+      "finishing": "Kończenie konfiguracji",
       "next": "Przejdź dalej",
       "previous": "Wstecz",
       "saveAndContinue": "Zapisz i przejdź dalej",
       "saving": "Zapisywanie"
     },
-    "businessBasics": {
-      "businessTypes": {
-        "SOLO": {
-          "description": "Tylko ja wykonuję usługi.",
-          "title": "Pracuję samodzielnie"
+    "welcome": {
+      "callout": "Na początek potrzebujemy tylko kilku podstawowych informacji o Twoim salonie.\nPozostałe elementy skonfigurujesz później w panelu.",
+      "description": "Beauty Booking pomoże Ci uporządkować codzienną pracę salonu — od zarządzania kalendarzem i zespołem po obsługę rezerwacji klientów.",
+      "eyebrow": "Witaj w Beauty Booking",
+      "features": {
+        "calendar": {
+          "description": "Zarządzaj wizytami, dostępnością i zmianami w kalendarzu.",
+          "title": "Kalendarz i rezerwacje"
         },
-        "TEAM": {
-          "description": "Usługi wykonuje kilka osób.",
-          "title": "Mam zespół"
+        "customerPage": {
+          "description": "Udostępnij klientom miejsce, w którym sprawdzą ofertę i zarezerwują wizytę.",
+          "title": "Strona dla klientów"
+        },
+        "organization": {
+          "description": "Ustaw zasady rezerwacji, godziny pracy i pozostałe ustawienia biznesu.",
+          "title": "Organizacja salonu"
+        },
+        "notifications": {
+          "description": "Ustawiaj przypomnienia i informacje związane z wizytami klientów.",
+          "title": "Powiadomienia i komunikacja"
+        },
+        "services": {
+          "description": "Twórz usługi, ustalaj ceny, czas trwania i dostępne dodatki.",
+          "title": "Usługi i oferta"
+        },
+        "team": {
+          "description": "Dodawaj pracowników, określaj ich usługi, grafiki i dostępność.",
+          "title": "Zespół"
         }
       },
-      "description": "Zacznij od najważniejszych informacji, które określają sposób działania Twojego biznesu beauty.",
+      "start": "Rozpocznij konfigurację",
+      "starting": "Rozpoczynanie konfiguracji",
+      "title": "Cieszymy się, że tu jesteś"
+    },
+    "businessBasics": {
+      "description": "Podaj nazwę salonu, wybierz model działalności i specjalizacje.",
       "descriptions": {
-        "businessType": "Określa, czy skonfigurujemy także zespół i jego dostępność.",
-        "name": "Ta nazwa będzie wyświetlana klientkom w aplikacji i podczas rezerwacji.",
-        "ownerProvidesServices": "Wpływa na Twój profil pracownika i dostępność wizyt.",
-        "specialization": "Pomaga dopasować kolejne kroki i domyślne ustawienia."
+        "businessType": "Zespół i szczegółową dostępność skonfigurujesz później w panelu.",
+        "specializations": "Wybierz wszystkie obszary, w których Twój salon świadczy usługi."
       },
       "fields": {
-        "businessType": "Jak prowadzisz swój biznes?",
-        "name": "Nazwa biznesu",
-        "ownerProvidesServices": "Czy Ty również wykonujesz usługi?",
-        "specialization": "Główna specjalizacja"
+        "businessType": "Jak działa Twój salon?",
+        "name": "Nazwa salonu",
+        "specializations": "Specjalizacje salonu"
       },
-      "ownerProvidesServices": {
-        "false": "Nie, tylko zarządzam biznesem",
-        "true": "Tak, również przyjmuję klientki"
-      },
-      "placeholder": "W kolejnym kroku dodamy formularz nazwy biznesu, głównej specjalizacji i typu działalności.",
       "placeholders": {
-        "name": "Maison Rouge"
+        "name": "Beauty & Glow Studio"
       },
       "specializations": {
-        "BROWS_AND_LASHES": "Brwi i Rzęsy",
+        "BROWS_AND_LASHES": "Brwi i rzęsy",
         "MAKEUP": "Makijaż",
         "NAILS": "Paznokcie"
       },
-      "title": "Twój biznes"
+      "title": "Twój salon"
+    },
+    "businessDetails": {
+      "description": "Podaj dane kontaktowe widoczne dla klientek na stronie rezerwacji.",
+      "fields": {
+        "contactEmail": "E-mail kontaktowy",
+        "contactPhone": "Telefon kontaktowy"
+      },
+      "logo": {
+        "dropLabel": "Przeciągnij plik tutaj lub kliknij, aby wybrać",
+        "helperText": "JPG, PNG, WEBP lub SVG. Maks. {maxFileSizeMb} MB. Rozdzielczość od {minWidth} × {minHeight} do {maxWidth} × {maxHeight} px.",
+        "previewAlt": "Podgląd wybranego logo salonu",
+        "previewLabel": "Podgląd",
+        "removeLabel": "Usuń wybrane logo",
+        "validation": {
+          "dimensionsTooLarge": "Obraz może mieć maksymalnie {width} × {height} px.",
+          "dimensionsTooSmall": "Obraz musi mieć co najmniej {width} × {height} px.",
+          "fileTooLarge": "Obraz może mieć maksymalnie {maxFileSizeMb} MB.",
+          "imageUnreadable": "Nie udało się odczytać wybranego obrazu.",
+          "unsupportedType": "Wybierz obraz JPG, PNG, WEBP lub SVG."
+        }
+      },
+      "placeholders": {
+        "contactEmail": "np. kontakt@twojsalon.pl",
+        "contactPhone": "np. 512 345 678"
+      },
+      "sections": {
+        "contact": {
+          "description": "Klientki będą mogły skontaktować się z Tobą w razie pytań.",
+          "title": "Dane kontaktowe"
+        },
+        "logo": {
+          "description": "Dodaj logo, które będzie widoczne na Twojej stronie rezerwacyjnej.",
+          "title": "Logo salonu"
+        },
+        "socialMedia": {
+          "description": "Dodaj linki do swoich profili. Pojawią się na Twojej stronie.",
+          "title": "Media społecznościowe (opcjonalnie)"
+        }
+      },
+      "socialMedia": {
+        "facebook": {
+          "label": "Facebook",
+          "placeholder": "np. facebook.com/twojsalon"
+        },
+        "instagram": {
+          "label": "Instagram",
+          "placeholder": "np. instagram.com/twojsalon"
+        },
+        "pinterest": {
+          "label": "Pinterest",
+          "placeholder": "np. pinterest.com/twojsalon"
+        },
+        "tiktok": {
+          "label": "TikTok",
+          "placeholder": "np. tiktok.com/@twojsalon"
+        },
+        "youtube": {
+          "label": "YouTube",
+          "placeholder": "np. youtube.com/@twojsalon"
+        }
+      },
+      "title": "Dane strony"
+    },
+    "bookingRules": {
+      "conditions": {
+        "description": "Te zasady obowiązują globalnie dla całego salonu. Ustawienia konkretnych usług i osób skonfigurujesz później.",
+        "title": "Warunki rezerwacji"
+      },
+      "description": "Ustal, kiedy klientki widzą wolne terminy i na jakich zasadach mogą rezerwować wizyty.",
+      "fields": {
+        "allowAnyTeamMember": "Klient może wybrać „Dowolna osoba”",
+        "allowSpecificTeamMember": "Klient może wybrać konkretną osobę",
+        "cancellationDeadline": "Do kiedy klient może samodzielnie anulować wizytę?",
+        "confirmationMode": "Sposób potwierdzania wizyt stacjonarnych",
+        "daysAhead": "Liczba dni do przodu",
+        "minimumAdvance": "Minimalne wyprzedzenie rezerwacji"
+      },
+      "mobileConfirmationHint": "Wizyty z dojazdem zawsze wymagają ręcznego potwierdzenia przez salon, niezależnie od ustawienia wizyt stacjonarnych.",
+      "options": {
+        "cancellationDeadline": {
+          "0": "Brak samodzielnego anulowania",
+          "2": "2 godziny przed wizytą",
+          "6": "6 godzin przed wizytą",
+          "12": "12 godzin przed wizytą",
+          "24": "24 godziny przed wizytą",
+          "48": "48 godzin przed wizytą",
+          "72": "72 godziny przed wizytą"
+        },
+        "confirmationMode": {
+          "AUTOMATIC": "Automatycznie",
+          "MANUAL": "Ręcznie przez salon"
+        },
+        "minimumAdvance": {
+          "0": "Bez minimalnego wyprzedzenia",
+          "60": "1 godzina",
+          "120": "2 godziny",
+          "240": "4 godziny",
+          "720": "12 godzin",
+          "1440": "1 dzień",
+          "2880": "2 dni"
+        }
+      },
+      "release": {
+        "description": "Wybierz sposób, w jaki kolejne daty mają pojawiać się w rezerwacji online.",
+        "manualHint": "Po konfiguracji w sekcji Kalendarz / Dostępność wybierzesz zakres dat i opublikujesz go od razu albo zaplanujesz publikację na później.",
+        "modes": {
+          "MANUAL": {
+            "description": "Decydujesz, jakie terminy i kiedy udostępnić. Możesz opublikować je od razu lub zaplanować publikację.",
+            "title": "Samodzielnie otwieram zapisy"
+          },
+          "ROLLING": {
+            "description": "Okno rezerwacji przesuwa się codziennie o kolejny dzień.",
+            "title": "Automatycznie"
+          }
+        },
+        "rollingFieldTitle": "Jak daleko w przyszłość można rezerwować?",
+        "rollingHint": "Każdego dnia system automatycznie udostępnia kolejny dzień w kalendarzu.",
+        "title": "Udostępnianie terminów"
+      },
+      "team": {
+        "description": "Zdecyduj, jakie opcje wyboru osoby zobaczy klient podczas rezerwacji.",
+        "title": "Wybór osoby z zespołu"
+      },
+      "title": "Zasady rezerwacji"
     },
     "location": {
-      "description": "Dodaj adres i informacje dojazdowe, które klientki zobaczą przed wizytą.",
+      "description": "Podaj adres salonu oraz określ, czy oferujesz również usługi z dojazdem do klienta.",
       "descriptions": {
-        "apartmentNumber": "Opcjonalnie — numer lokalu lub gabinetu.",
-        "buildingNumber": "Numer budynku wymagany do pełnego adresu.",
-        "city": "Miasto, w którym przyjmujesz klientki.",
+        "apartmentNumber": "Opcjonalnie — numer lokalu.",
+        "buildingNumber": "Numer budynku, np. 12A.",
+        "city": "Miejscowość, w której przyjmujesz klientki.",
         "locationNote": "Opcjonalnie — dodaj wskazówki, np. wejście od podwórza, domofon lub piętro.",
         "parkingNote": "Opcjonalnie — wskaż, gdzie można zaparkować lub czy parking jest płatny.",
         "postalCode": "Ułatwia poprawne zapisanie i wyszukanie adresu.",
-        "street": "Podaj nazwę ulicy, przy której znajduje się salon."
+        "street": "Opcjonalnie — podaj nazwę ulicy, jeśli występuje w adresie."
       },
       "fields": {
         "apartmentNumber": "Numer lokalu",
         "buildingNumber": "Numer budynku",
-        "city": "Miasto",
+        "city": "Miejscowość",
         "locationNote": "Notatka dojazdowa",
+        "mobileServiceFeeType": "Opłata za dojazd",
+        "mobileServiceFixedFee": "Stała opłata (zł)",
+        "mobileServiceMaxDistanceKm": "Maksymalna odległość (km)",
+        "mobileServicesEnabled": "Oferuję również usługi z dojazdem do klienta",
+        "mobileServiceTravelTimeMinutes": "Domyślny czas na dojazd (min)",
         "parkingNote": "Informacja o parkingu",
         "postalCode": "Kod pocztowy",
         "street": "Ulica"
       },
+      "mobileServiceFeeTypes": {
+        "CUSTOM": "Indywidualna",
+        "FIXED": "Stała opłata",
+        "FREE": "Bezpłatnie"
+      },
+      "mobileBookingConfirmationHint": "Rezerwacje z dojazdem będą wymagały ręcznego potwierdzenia przez salon.",
+      "mobileServicesHint": "Później zdecydujesz, które usługi będą dostępne z dojazdem.",
       "placeholders": {
         "apartmentNumber": "12",
         "buildingNumber": "8A",
@@ -170,59 +365,119 @@
         "locationNote": "Np. wejście od podwórka, drugie piętro, domofon 12.",
         "parkingNote": "Np. bezpłatne miejsca parkingowe znajdują się przed lokalem.",
         "postalCode": "00-001",
-        "street": "ul. Beauty"
+        "street": "Np. Lipowa"
+      },
+      "sections": {
+        "address": "Adres salonu",
+        "mobileServices": "Usługi z dojazdem"
       },
       "title": "Lokalizacja"
     },
-    "workstations": {
-      "add": "Dodaj stanowisko",
-      "cardDescription": "Określ miejsce wykonywania usług.",
-      "cardTitle": "Stanowisko {number}",
-      "defaultName": "Stanowisko {number}",
-      "description": "Dodaj miejsca, pokoje albo stanowiska, przy których wykonywane są usługi.",
-      "descriptions": {
-        "isActive": "Nieaktywne stanowisko nie będzie uwzględniane przy wyliczaniu dostępności.",
-        "name": "Widoczna nazwa ułatwiająca rozpoznanie stanowiska.",
-        "note": "Opcjonalna informacja wewnętrzna dla Ciebie i zespołu.",
-        "type": "Określa, które usługi mogą korzystać z tego stanowiska."
+    "openingHours": {
+      "closed": "Zamknięte",
+      "copy": "Kopiuj",
+      "copyToAllDays": "Zastosuj do wszystkich aktywnych",
+      "days": {
+        "FRIDAY": "Piątek",
+        "MONDAY": "Poniedziałek",
+        "SATURDAY": "Sobota",
+        "SUNDAY": "Niedziela",
+        "THURSDAY": "Czwartek",
+        "TUESDAY": "Wtorek",
+        "WEDNESDAY": "Środa"
       },
+      "description": "Ustaw standardowe godziny działania całego salonu. Indywidualne grafiki pracowników skonfigurujesz później.",
       "fields": {
-        "isActive": "To stanowisko jest aktywne",
-        "name": "Nazwa stanowiska",
-        "note": "Notatka wewnętrzna",
-        "type": "Typ stanowiska"
+        "closesAt": "Do",
+        "opensAt": "Od"
       },
+      "open": "Otwarte",
+      "status": "status dnia",
+      "title": "Godziny otwarcia"
+    },
+    "modelSelection": {
+      "options": {
+        "SOLO": {
+          "description": "Pracujesz samodzielnie i obsługujesz klientki oraz kalendarz.",
+          "title": "Pracuję samodzielnie"
+        },
+        "TEAM": {
+          "description": "W salonie pracuje więcej osób. Dodasz członków zespołu i określisz ich role.",
+          "title": "Pracujemy jako zespół"
+        }
+      }
+    },
+    "team": {
+      "add": "Dodaj osobę",
+      "addNew": "Dodaj nową osobę",
+      "addTitle": "Nowa osoba",
+      "cancelAdd": "Anuluj",
+      "currentTitle": "Obecny zespół",
+      "description": "Dodaj osoby pracujące w Twoim salonie i określ ich role oraz to, czy wykonują usługi.",
+      "edit": "Edytuj",
+      "editTitle": "Edytuj osobę",
+      "empty": "Nie dodano jeszcze żadnej osoby do zespołu.",
+      "fields": {
+        "email": "E-mail opcjonalnie",
+        "fullName": "Imię i nazwisko",
+        "providesServices": "Czy wykonuje usługi?",
+        "role": "Rola"
+      },
+      "noEmail": "Brak e-maila",
+      "ownerFallback": "Właściciel salonu",
+      "ownerNote": "Konto właściciela zostało utworzone automatycznie podczas konfiguracji salonu.",
+      "ownerTitle": "Właściciel",
       "placeholders": {
-        "name": "Stanowisko manicure 1",
-        "note": "Np. przy oknie, używane do manicure żelowego."
+        "email": "Wpisz e-mail",
+        "fullName": "Wpisz imię i nazwisko"
       },
-      "remove": "Usuń stanowisko",
-      "title": "Stanowiska"
+      "providesServices": {
+        "false": "Nie",
+        "true": "Tak"
+      },
+      "providesServicesBadge": "Wykonuje usługi: {value}",
+      "remove": "Usuń",
+      "save": "Zapisz",
+      "roles": {
+        "Employee": "Pracownik",
+        "Intern": "Stażysta",
+        "Manager": "Manager",
+        "Owner": "Właściciel"
+      },
+      "title": "Zespół"
     },
     "services": {
       "add": "Dodaj usługę",
-      "cardDescription": "Ustaw czas, cenę i widoczność.",
+      "addNew": "Dodaj nową usługę",
+      "addTitle": "Nowa usługa",
+      "cancel": "Anuluj",
+      "cardDescription": "Ustaw bazowy czas, cenę i widoczność.",
       "cardTitle": "Usługa {number}",
+      "currentTitle": "Obecne usługi",
       "defaultName": "Usługa {number}",
       "description": "Utwórz usługi, które klientki będą mogły rezerwować.",
       "descriptions": {
         "description": "Opcjonalny opis zakresu usługi widoczny dla klientki.",
-        "durationMinutes": "Na tej podstawie wyliczamy dostępne terminy.",
+        "durationMinutes": "Podaj standardowy czas typowego wykonania usługi. Bardziej szczegółowe warianty dopasujesz później.",
         "isActive": "Nieaktywna usługa nie będzie dostępna do rezerwacji.",
         "name": "Ta nazwa będzie widoczna podczas rezerwacji.",
-        "price": "Cena wyświetlana klientce przed rezerwacją.",
-        "specialization": "Porządkuje usługę w odpowiedniej kategorii.",
-        "workstationType": "Ogranicza rezerwację do pasującego stanowiska."
+        "price": "Podaj cenę bazową typowej usługi. Dodatki i szczegółowe warianty skonfigurujesz później.",
+        "specialization": "Porządkuje usługę w odpowiedniej kategorii."
       },
+      "durationValue": "{duration} min",
+      "edit": "Edytuj",
+      "editTitle": "Edytuj usługę",
+      "empty": "Nie dodano jeszcze żadnych usług.",
       "fields": {
         "description": "Opis",
         "durationMinutes": "Czas trwania w minutach",
         "isActive": "Ta usługa jest aktywna",
         "name": "Nazwa usługi",
-        "price": "Cena",
-        "specialization": "Kategoria",
-        "workstationType": "Preferowane stanowisko"
+        "price": "Cena (zł)",
+        "specialization": "Kategoria"
       },
+      "listDescription": "Dodawaj usługi i zarządzaj ich podstawowymi ustawieniami.",
+      "noDescription": "Bez opisu",
       "placeholders": {
         "description": "Np. manicure z lakierem hybrydowym i opracowaniem płytki.",
         "durationMinutes": "60",
@@ -230,18 +485,52 @@
         "price": "120"
       },
       "remove": "Usuń usługę",
-      "title": "Usługi",
-      "workstationTypes": {
-        "ANY": "Dowolne pasujące stanowisko"
-      }
+      "priceValue": "{price} zł",
+      "save": "Zapisz",
+      "status": {
+        "active": "Aktywna",
+        "inactive": "Nieaktywna"
+      },
+      "title": "Usługi"
+    },
+    "addons": {
+      "add": "Dodaj dodatek",
+      "addonDescription": "Wpływa na czas lub cenę wybranej usługi.",
+      "description": "Dodaj opcjonalne rozszerzenia do usług. Dodatki mogą zwiększać cenę i wydłużać czas wizyty.",
+      "descriptions": {
+        "isActive": "Nieaktywny dodatek nie będzie dostępny podczas rezerwacji."
+      },
+      "empty": "Brak dodatków dla tej usługi.",
+      "fields": {
+        "durationMinutes": "Dodatkowy czas",
+        "isActive": "Ten dodatek jest aktywny",
+        "name": "Nazwa dodatku",
+        "price": "Dodatkowa cena"
+      },
+      "info": "Możesz pominąć ten krok i dodać dodatki później.",
+      "newAddon": "Nowy dodatek",
+      "optional": "Krok opcjonalny",
+      "placeholders": {
+        "durationMinutes": "15",
+        "name": "French",
+        "price": "20"
+      },
+      "remove": "Usuń dodatek",
+      "serviceDuration": "{duration} min",
+      "servicePrice": "{price} zł",
+      "title": "Dodatki"
     },
     "placeholder": {
       "description": "Ten krok zaimplementujemy jako następny. Na razie możesz wrócić do poprzedniego kroku.",
       "title": "Następny krok"
     },
     "feedback": {
-      "loadFailed": "Nie udało się pobrać konfiguracji biznesu",
+      "businessTypeSaveFailed": "Nie udało się zapisać modelu działalności",
+      "completionFailed": "Nie udało się zakończyć konfiguracji",
+      "loadFailed": "Nie udało się pobrać konfiguracji salonu",
+      "savedSuccessfully": "Zapisano pomyślnie!",
       "saveFailed": "Nie udało się zapisać tego kroku",
+      "startFailed": "Nie udało się rozpocząć konfiguracji",
       "sessionExpired": "Sesja wygasła. Zaloguj się ponownie"
     },
     "overlays": {
@@ -252,33 +541,67 @@
       "firstSetup": "Pierwsza konfiguracja"
     },
     "page": {
-      "description": "Ustaw podstawowe informacje, aby rozpocząć przyjmowanie rezerwacji.",
-      "title": "Skonfiguruj swój biznes"
+      "description": "Ustaw podstawowe informacje o swoim salonie krok po kroku.",
+      "title": "Konfiguracja początkowa"
     },
     "progress": "Krok {current} z {total}",
-    "progressCompleted": "{percentage}% ukończone",
+    "progressLabel": "Postęp konfiguracji: {percentage}%",
+    "progressPercentage": "{percentage}%",
+    "progressNavigationLabel": "Kroki konfiguracji salonu",
     "requirements": {
       "description": "Aby skonfigurować ten krok, najpierw zapisz poniższe sekcje.",
       "title": "Najpierw uzupełnij wymagane kroki"
     },
     "steps": {
       "addons": "Addony",
-      "availability": "Godziny i dostępność",
+      "availability": "Godziny otwarcia",
       "bookingRules": "Zasady rezerwacji",
-      "businessBasics": "Twój biznes",
+      "businessBasics": "Twój salon",
       "location": "Lokalizacja",
       "publicProfile": "Dane strony",
       "services": "Usługi",
       "summary": "Podsumowanie",
       "team": "Zespół",
-      "teamServices": "Usługi zespołu",
-      "workstations": "Stanowiska"
+      "teamServices": "Usługi zespołu"
+    },
+    "stepDescriptions": {
+      "businessBasics": "Podstawowe informacje o Twoim salonie.",
+      "location": "Adres salonu, informacje dojazdowe i usługi mobilne.",
+      "publicProfile": "Dane kontaktowe widoczne na stronie rezerwacji.",
+      "summary": "Na ostatnim ekranie przejrzysz wszystkie informacje i zapiszesz konfigurację."
+    },
+    "summary": {
+      "description": "Sprawdź najważniejsze informacje zapisane podczas konfiguracji.",
+      "empty": "Nie podano",
+      "fields": {
+        "address": "Adres salonu",
+        "contact": "Kontakt",
+        "mobileServices": "Usługi z dojazdem",
+        "model": "Model działalności",
+        "name": "Nazwa salonu",
+        "socialMedia": "Profile społecznościowe",
+        "specializations": "Specjalizacje"
+      },
+      "no": "Nie",
+      "title": "Podsumowanie",
+      "values": {
+        "kilometers": "{value} km",
+        "minutes": "{value} min"
+      },
+      "yes": "Tak"
     },
     "unsavedChanges": {
       "description": "Jeśli opuścisz konfigurację, zmiany wprowadzone od ostatniego zapisu zostaną utracone.",
       "leave": "Opuść bez zapisywania",
       "stay": "Pozostań",
       "title": "Masz niezapisane zmiany"
+    },
+    "unsavedStepChange": {
+      "description": "Zmiany wprowadzone w tym kroku zostaną odrzucone.",
+      "leave": "Przejdź bez zapisywania",
+      "saveAndLeave": "Zapisz i przejdź",
+      "stay": "Pozostań w tym kroku",
+      "title": "Przejść do innego kroku?"
     },
     "unsavedStep": "Ten krok ma niezapisane zmiany"
   },
@@ -468,7 +791,11 @@
     "year": "Rok"
   },
   "timePicker": {
-    "placeholder": "Wybierz godzinę"
+    "hours": "Godzina",
+    "minutes": "Minuta",
+    "openPicker": "Otwórz wybór godziny",
+    "placeholder": "Wybierz godzinę",
+    "placeholderShort": "GG:MM"
   },
   "validation": {
     "account": {
@@ -512,38 +839,72 @@
       }
     },
     "business": {
-      "nameMinLength": "Nazwa biznesu musi mieć minimum 2 znaki.",
-      "ownerProvidesServicesRequired": "Wybierz, czy również wykonujesz usługi.",
+      "nameMinLength": "Nazwa salonu musi mieć minimum 2 znaki.",
+      "socialProfileInvalid": "Podaj poprawny link do wybranego profilu.",
+      "socialProfileMaxLength": "Link do profilu może mieć maksymalnie 200 znaków.",
+      "specializationsRequired": "Wybierz co najmniej jedną specjalizację.",
+      "specializationsUnique": "Każdą specjalizację możesz wybrać tylko raz.",
       "location": {
-        "apartmentNumberMaxLength": "Numer lokalu może mieć maksymalnie 20 znaków.",
-        "buildingNumberMaxLength": "Numer budynku może mieć maksymalnie 20 znaków.",
+        "apartmentNumberInvalid": "Numer lokalu może zawierać tylko cyfry od 1 do 9999.",
+        "apartmentNumberMaxLength": "Numer lokalu może mieć maksymalnie 4 cyfry.",
+        "buildingNumberInvalid": "Numer budynku wpisz jako cyfry i opcjonalnie jedną literę.",
+        "buildingNumberMaxLength": "Numer budynku może mieć maksymalnie 6 znaków.",
         "buildingNumberRequired": "Podaj numer budynku.",
-        "cityMaxLength": "Miasto może mieć maksymalnie 80 znaków.",
-        "cityMinLength": "Miasto musi mieć minimum 2 znaki.",
+        "cityCapitalized": "Miejscowość musi zaczynać się wielką literą.",
+        "cityInvalid": "Miejscowość może zawierać tylko litery, spacje i myślnik.",
+        "cityMaxLength": "Miejscowość może mieć maksymalnie 50 znaków.",
+        "cityMinLength": "Miejscowość musi mieć minimum 2 znaki.",
         "locationNoteMaxLength": "Notatka dojazdowa może mieć maksymalnie 500 znaków.",
+        "mobileServiceFixedFeeInvalid": "Podaj prawidłową opłatę od 0,01 zł do 10 000 zł.",
+        "mobileServiceMaxDistanceInvalid": "Podaj odległość od 1 do 200 km.",
+        "mobileServiceTravelTimeInvalid": "Podaj czas od 5 do 240 minut.",
+        "noteInvalid": "Notatka może zawierać tylko tekst, cyfry i podstawową interpunkcję.",
         "parkingNoteMaxLength": "Informacja o parkingu może mieć maksymalnie 500 znaków.",
-        "postalCodeMaxLength": "Kod pocztowy może mieć maksymalnie 16 znaków.",
-        "postalCodeMinLength": "Kod pocztowy musi mieć minimum 3 znaki.",
-        "streetMaxLength": "Ulica może mieć maksymalnie 120 znaków.",
+        "postalCodeInvalid": "Kod pocztowy wpisz w formacie 00-000.",
+        "streetInvalid": "Ulica może zawierać litery, cyfry, spacje, myślnik i kropkę.",
+        "streetMaxLength": "Ulica może mieć maksymalnie 60 znaków.",
         "streetMinLength": "Ulica musi mieć minimum 2 znaki."
       },
-      "workstations": {
-        "maxItems": "Możesz dodać maksymalnie 30 stanowisk.",
-        "minItems": "Dodaj co najmniej jedno stanowisko.",
-        "nameMaxLength": "Nazwa stanowiska może mieć maksymalnie 80 znaków.",
-        "nameMinLength": "Nazwa stanowiska musi mieć minimum 2 znaki.",
-        "noteMaxLength": "Notatka wewnętrzna może mieć maksymalnie 300 znaków."
+      "openingHours": {
+        "allDaysRequired": "Ustaw godziny dla każdego dnia tygodnia.",
+        "closesAfterOpening": "Godzina zamknięcia musi być późniejsza niż godzina otwarcia.",
+        "timeInvalid": "Podaj godzinę w formacie GG:MM."
+      },
+      "bookingRules": {
+        "bookingHorizonInvalid": "Podaj liczbę dni od 1 do 730.",
+        "cancellationDeadlineInvalid": "Podaj liczbę godzin od 0 do 720.",
+        "minimumAdvanceInvalid": "Podaj wyprzedzenie od 0 do 43 200 minut."
+      },
+      "team": {
+        "emailDuplicate": "Ten adres e-mail jest już przypisany do członka zespołu.",
+        "emailInvalid": "Podaj poprawny adres e-mail.",
+        "fullNameInvalid": "Imię i nazwisko może zawierać litery, spacje, apostrof i myślnik.",
+        "fullNameMaxLength": "Imię i nazwisko może mieć maksymalnie 80 znaków.",
+        "fullNameMinLength": "Imię i nazwisko musi mieć minimum 2 znaki.",
+        "maxItems": "Możesz dodać maksymalnie 50 osób."
       },
       "services": {
         "descriptionMaxLength": "Opis może mieć maksymalnie 500 znaków.",
         "durationInvalid": "Podaj czas jako pełną liczbę minut.",
-        "durationMax": "Czas trwania może mieć maksymalnie 1440 minut.",
+        "durationMax": "Czas trwania musi być w zakresie 1-600 minut.",
         "maxItems": "Możesz dodać maksymalnie 100 usług.",
         "minItems": "Dodaj co najmniej jedną usługę.",
-        "nameMaxLength": "Nazwa usługi może mieć maksymalnie 100 znaków.",
+        "nameInvalid": "Nazwa usługi może zawierać litery, cyfry, spacje i myślnik.",
+        "nameMaxLength": "Nazwa usługi może mieć maksymalnie 60 znaków.",
         "nameMinLength": "Nazwa usługi musi mieć minimum 2 znaki.",
         "priceInvalid": "Podaj poprawną cenę.",
-        "priceMin": "Cena musi być większa niż 0."
+        "priceMax": "Cena musi być w zakresie 0-9999,99."
+      },
+      "addons": {
+        "durationInvalid": "Podaj czas jako pełną liczbę minut.",
+        "durationMax": "Dodatkowy czas musi być w zakresie 0-600 minut.",
+        "maxItems": "Możesz dodać maksymalnie 300 dodatków.",
+        "nameInvalid": "Nazwa dodatku może zawierać litery, cyfry, spacje i myślnik.",
+        "nameMaxLength": "Nazwa dodatku może mieć maksymalnie 60 znaków.",
+        "nameMinLength": "Nazwa dodatku musi mieć minimum 2 znaki.",
+        "priceInvalid": "Podaj poprawną cenę.",
+        "priceMax": "Cena musi być w zakresie 0-9999,99.",
+        "serviceRequired": "Wybierz usługę dla dodatku."
       }
     }
   }

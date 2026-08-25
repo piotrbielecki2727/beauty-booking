@@ -3,46 +3,48 @@
 import { useTranslations } from "next-intl";
 
 type BusinessSetupProgressSummaryProperties = {
-  completedPercentage: number;
   currentStepNumber: number;
+  progressPercentage: number;
   totalSteps: number;
 };
 
 export const BusinessSetupProgressSummary = ({
-  completedPercentage,
   currentStepNumber,
+  progressPercentage,
   totalSteps,
 }: BusinessSetupProgressSummaryProperties) => {
   const t = useTranslations();
 
   return (
-    <div className="grid gap-2">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-copy">
-        {t("businessSetup.progress", {
-          current: currentStepNumber,
-          total: totalSteps,
-        })}
-      </p>
+    <div className="grid gap-4">
+      <div className="flex items-center justify-between gap-4">
+        <p className="font-brand text-lg font-semibold text-brand">
+          {t("businessSetup.progress", {
+            current: currentStepNumber,
+            total: totalSteps,
+          })}
+        </p>
+        <p className="text-base font-medium text-copy-muted">
+          {t("businessSetup.progressPercentage", {
+            percentage: progressPercentage,
+          })}
+        </p>
+      </div>
       <div
-        aria-label={t("businessSetup.progressCompleted", {
-          percentage: completedPercentage,
+        aria-label={t("businessSetup.progressLabel", {
+          percentage: progressPercentage,
         })}
         aria-valuemax={100}
         aria-valuemin={0}
-        aria-valuenow={completedPercentage}
+        aria-valuenow={progressPercentage}
         className="h-1.5 overflow-hidden rounded-full bg-surface"
         role="progressbar"
       >
         <span
           className="block h-full rounded-full bg-brand"
-          style={{ width: `${completedPercentage}%` }}
+          style={{ width: `${progressPercentage}%` }}
         />
       </div>
-      <p className="text-sm text-copy-muted">
-        {t("businessSetup.progressCompleted", {
-          percentage: completedPercentage,
-        })}
-      </p>
     </div>
   );
 };

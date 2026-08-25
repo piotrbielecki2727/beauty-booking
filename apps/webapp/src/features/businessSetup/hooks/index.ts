@@ -1,2 +1,2 @@
 export * from "./useBusinessSetupFormDraft";
-export * from "./useManagementSetupNavItems";
+export * from "./useBusinessSetupStatus";

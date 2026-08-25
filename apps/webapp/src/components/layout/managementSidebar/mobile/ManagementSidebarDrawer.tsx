@@ -5,28 +5,34 @@ import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { sidebarControlClassNames } from "@/components/layout/layoutControlVariantStyles";
+import {
+  managementNavItems,
+  managementSetupNavItems,
+} from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { ManagementNavItem } from "@/components/layout/managementSidebar/shared/ManagementNavItem";
 import { ManagementSidebarLogoutButton } from "@/components/layout/managementSidebar/shared/ManagementSidebarLogoutButton";
 import { ManagementSidebarSettingsControls } from "@/components/layout/managementSidebar/shared/ManagementSidebarSettingsControls";
 import { isNavItemActive } from "@/components/layout/managementSidebar/shared/isNavItemActive";
 import { Logo } from "@/components/reusable/Logo";
-import { useManagementSetupNavItems } from "@/features/businessSetup/hooks/useManagementSetupNavItems";
 import { useTenantContext } from "@/features/tenant";
 import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type ManagementSidebarDrawerProperties = {
+  isSetupMode: boolean;
   onNavigate: () => void;
 };
 
 export const ManagementSidebarDrawer = ({
+  isSetupMode,
   onNavigate,
 }: ManagementSidebarDrawerProperties) => {
   const pathname = usePathname();
   const t = useTranslations();
   const { business } = useTenantContext();
-  const brandLabel = business?.name ?? t("common.appName");
-  const navItems = useManagementSetupNavItems();
+  const brandLabel =
+    !isSetupMode && business?.name ? business.name : t("common.appName");
+  const navItems = isSetupMode ? managementSetupNavItems : managementNavItems;
 
   return (
     <Drawer.Portal>

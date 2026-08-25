@@ -24,9 +24,29 @@ const PopoverPositioner = ({
   />
 )
 
-const PopoverContent = ({ className, ...props }: PopoverPrimitive.Popup.Props) => (
+type PopoverContentProperties = PopoverPrimitive.Popup.Props &
+  Pick<
+    PopoverPrimitive.Positioner.Props,
+    "align" | "alignOffset" | "anchor" | "side" | "sideOffset"
+  >;
+
+const PopoverContent = ({
+  align,
+  alignOffset,
+  anchor,
+  className,
+  side,
+  sideOffset,
+  ...props
+}: PopoverContentProperties) => (
   <PopoverPortal>
-    <PopoverPositioner>
+    <PopoverPositioner
+      align={align}
+      alignOffset={alignOffset}
+      anchor={anchor}
+      side={side}
+      sideOffset={sideOffset}
+    >
       <PopoverPrimitive.Popup
         data-slot="popover-content"
         className={cn(

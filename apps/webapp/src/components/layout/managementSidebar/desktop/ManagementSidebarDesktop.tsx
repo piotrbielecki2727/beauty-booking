@@ -9,11 +9,13 @@ import type { ManagementSidebarTransition } from "@/components/layout/management
 
 type ManagementSidebarDesktopProperties = {
   isCollapsed: boolean;
+  isSetupMode: boolean;
   transition: ManagementSidebarTransition;
 };
 
 export const ManagementSidebarDesktop = ({
   isCollapsed,
+  isSetupMode,
   transition,
 }: ManagementSidebarDesktopProperties) => {
   return (
@@ -22,11 +24,15 @@ export const ManagementSidebarDesktop = ({
     >
       <ManagementSidebarHeader
         isCollapsed={isCollapsed}
+        isSetupMode={isSetupMode}
         transition={transition}
       />
-      <ManagementSidebarAccountSummary isCollapsed={isCollapsed} />
+      {!isSetupMode ? (
+        <ManagementSidebarAccountSummary isCollapsed={isCollapsed} />
+      ) : null}
       <ManagementSidebarNav
         isCollapsed={isCollapsed}
+        isSetupMode={isSetupMode}
         isTransitioning={transition.isTransitioning}
       />
       <ManagementSidebarFooter

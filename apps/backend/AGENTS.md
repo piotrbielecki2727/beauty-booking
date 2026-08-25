@@ -30,7 +30,7 @@ Current implemented modules:
 
 - `auth`: registration, e-mail verification mock, login, current user, logout.
 - `tenant`: active business context resolution from host.
-- `businessSetup`: setup state plus persisted business basics, location, workstations and services.
+- `businessSetup`: setup state plus persisted business basics, location and services.
 
 The backend auth module is connected to the frontend through Auth.js/NextAuth Credentials. Booking, employee scheduling and the remaining setup steps are still incomplete or mocked until their backend modules are added.
 
@@ -203,7 +203,6 @@ Current foundational models:
 - `Business`,
 - `BusinessDomain`,
 - `BusinessMembership`,
-- `BusinessWorkstation`,
 - `BusinessService`.
 
 `User` currently includes `termsAndPrivacyPolicyAcceptedAt` for registration legal acceptance. When this field or other persisted auth fields change, add a Prisma migration and regenerate the client.
@@ -236,7 +235,6 @@ Current endpoints:
 - `GET /business/setup`,
 - `PATCH /business/setup/business-basics`,
 - `PATCH /business/setup/location`,
-- `PATCH /business/setup/workstations`,
 - `PATCH /business/setup/services`.
 
 Rules:
@@ -248,7 +246,7 @@ Rules:
 - Return canonical persisted setup state after a save so the frontend can reset its form baseline from server data.
 - Do not mark navigation, local draft state or frontend validation as persisted completion.
 - Validate prerequisites for dependent steps and return a clear expected API error when required business data is missing.
-- Use transactions for replacing collections such as workstations or services together with completion metadata.
+- Use transactions for replacing collections such as services together with completion metadata.
 - Preserve existing persisted setup data when saving a different step.
 - A failed save must not advance setup state or leave partial related records behind.
 - Update `docs/features/business-setup.md` whenever steps, dependencies, contracts or completion behavior change.

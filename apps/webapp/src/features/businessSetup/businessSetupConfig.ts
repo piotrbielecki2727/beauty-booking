@@ -1,15 +1,16 @@
-import type { BusinessSetupStep } from "@beauty-booking/shared";
+import {
+  businessSetupCompletionRequiredSteps,
+  type BusinessSetupStep,
+} from "@beauty-booking/shared";
 
 export const BUSINESS_SETUP_ACTIVE_FORM_ID = "business-setup-active-form";
 
 export const businessSetupFormSteps = [
-  "BUSINESS_BASICS",
-  "LOCATION",
-  "WORKSTATIONS",
-  "SERVICES",
+  ...businessSetupCompletionRequiredSteps,
 ] satisfies BusinessSetupStep[];
 
 type BusinessSetupStepDefinition = {
+  descriptionKey: string;
   key: BusinessSetupStep;
   labelKey: string;
   requiredSteps?: BusinessSetupStep[];
@@ -17,67 +18,33 @@ type BusinessSetupStepDefinition = {
 
 export const businessSetupStepItems = [
   {
+    descriptionKey: "businessSetup.stepDescriptions.businessBasics",
     key: "BUSINESS_BASICS",
     labelKey: "businessSetup.steps.businessBasics",
   },
   {
+    descriptionKey: "businessSetup.stepDescriptions.location",
     key: "LOCATION",
     labelKey: "businessSetup.steps.location",
-  },
-  {
-    key: "WORKSTATIONS",
-    labelKey: "businessSetup.steps.workstations",
-  },
-  {
-    key: "SERVICES",
-    labelKey: "businessSetup.steps.services",
-  },
-  {
-    key: "ADDONS",
-    labelKey: "businessSetup.steps.addons",
-    requiredSteps: ["SERVICES"],
-  },
-  {
-    key: "TEAM",
-    labelKey: "businessSetup.steps.team",
     requiredSteps: ["BUSINESS_BASICS"],
   },
   {
-    key: "TEAM_SERVICES",
-    labelKey: "businessSetup.steps.teamServices",
-    requiredSteps: ["TEAM", "SERVICES"],
-  },
-  {
-    key: "AVAILABILITY",
-    labelKey: "businessSetup.steps.availability",
-  },
-  {
-    key: "BOOKING_RULES",
-    labelKey: "businessSetup.steps.bookingRules",
-  },
-  {
+    descriptionKey: "businessSetup.stepDescriptions.publicProfile",
     key: "PUBLIC_PROFILE",
     labelKey: "businessSetup.steps.publicProfile",
+    requiredSteps: ["LOCATION"],
   },
   {
+    descriptionKey: "businessSetup.stepDescriptions.summary",
     key: "SUMMARY",
     labelKey: "businessSetup.steps.summary",
-    requiredSteps: [
-      "BUSINESS_BASICS",
-      "LOCATION",
-      "WORKSTATIONS",
-      "SERVICES",
-      "ADDONS",
-      "TEAM",
-      "TEAM_SERVICES",
-      "AVAILABILITY",
-      "BOOKING_RULES",
-      "PUBLIC_PROFILE",
-    ],
+    requiredSteps: [...businessSetupCompletionRequiredSteps],
   },
 ] satisfies BusinessSetupStepDefinition[];
 
 export const getBusinessSetupStepItem = (step: BusinessSetupStep) =>
   businessSetupStepItems.find((item) => item.key === step);
+
+export const getVisibleBusinessSetupStepItems = () => businessSetupStepItems;
 
 export type { BusinessSetupStepDefinition };

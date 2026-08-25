@@ -43,12 +43,14 @@ const DialogOverlay = ({
 };
 
 type DialogContentProperties = DialogPrimitive.Popup.Props & {
+  overlayVariant?: "default" | "strong";
   showCloseButton?: boolean;
 };
 
 const DialogContent = ({
   children,
   className,
+  overlayVariant = "default",
   showCloseButton = true,
   ...properties
 }: DialogContentProperties) => {
@@ -56,7 +58,13 @@ const DialogContent = ({
 
   return (
     <DialogPortal>
-      <DialogOverlay />
+      <DialogOverlay
+        className={
+          overlayVariant === "strong"
+            ? "bg-foreground/45 supports-backdrop-filter:backdrop-blur-md"
+            : undefined
+        }
+      />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(

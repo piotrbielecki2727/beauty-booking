@@ -2,23 +2,28 @@
 
 import { useTranslations } from "next-intl";
 
+import {
+  managementNavItems,
+  managementSetupNavItems,
+} from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { ManagementNavItem } from "@/components/layout/managementSidebar/shared/ManagementNavItem";
 import { isNavItemActive } from "@/components/layout/managementSidebar/shared/isNavItemActive";
-import { useManagementSetupNavItems } from "@/features/businessSetup/hooks/useManagementSetupNavItems";
 import { usePathname } from "@/i18n/navigation";
 
 type ManagementSidebarNavProperties = {
   isCollapsed: boolean;
+  isSetupMode: boolean;
   isTransitioning: boolean;
 };
 
 export const ManagementSidebarNav = ({
   isCollapsed,
+  isSetupMode,
   isTransitioning,
 }: ManagementSidebarNavProperties) => {
   const pathname = usePathname();
   const t = useTranslations();
-  const navItems = useManagementSetupNavItems();
+  const navItems = isSetupMode ? managementSetupNavItems : managementNavItems;
 
   return (
     <nav

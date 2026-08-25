@@ -21,12 +21,6 @@ export const managementNavItems: ManagementNavItemConfig[] = [
     labelKey: "dashboard",
   },
   {
-    href: "/management/setup",
-    icon: ListChecksIcon,
-    labelKey: "initialSetup",
-    shouldHideWhenSetupCompleted: true,
-  },
-  {
     href: "/management/calendar",
     icon: CalendarDaysIcon,
     labelKey: "calendar",
@@ -50,5 +44,13 @@ export const managementNavItems: ManagementNavItemConfig[] = [
     href: "/management/settings",
     icon: SettingsIcon,
     labelKey: "settings",
+  },
+];
+
+export const managementSetupNavItems: ManagementNavItemConfig[] = [
+  {
+    href: "/management/setup",
+    icon: ListChecksIcon,
+    labelKey: "initialSetup",
   },
 ];

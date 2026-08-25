@@ -91,78 +91,273 @@
         "Admin": "Administrator",
         "Customer": "Customer",
         "Employee": "Employee",
+        "Intern": "Intern",
         "Manager": "Manager",
         "Owner": "Owner"
       }
     }
   },
+  "managementEmployees": {
+    "teamAccess": {
+      "acceptAsCurrent": "Accept as current account",
+      "acceptFailed": "Could not accept the invitation.",
+      "accepted": "Invitation accepted.",
+      "cancel": "Cancel",
+      "cancelFailed": "Could not cancel the invitation.",
+      "checkPreview": "Check token",
+      "copied": "Link copied.",
+      "copy": "Copy link",
+      "description": "Temporary panel for testing invitations without real e-mail delivery.",
+      "email": "E-mail address",
+      "emailPlaceholder": "anna@example.com",
+      "empty": "Add team members in salon setup first.",
+      "generatedTitle": "Generated test link",
+      "invite": "Invite",
+      "inviteCreated": "Invitation generated.",
+      "inviteFailed": "Could not generate the invitation.",
+      "invitationStatuses": {
+        "ACCEPTED": "accepted",
+        "CANCELLED": "cancelled",
+        "EXPIRED": "expired",
+        "PENDING": "active"
+      },
+      "loadFailed": "Could not load the team.",
+      "loading": "Loading team...",
+      "noServices": "does not provide services",
+      "preview": "{businessName} · status: {status}",
+      "previewFailed": "Could not check the token.",
+      "providesServices": "provides services",
+      "resend": "Resend",
+      "statuses": {
+        "ACTIVE": "Access active",
+        "INVITED": "Invitation sent",
+        "NO_ACCESS": "Access inactive"
+      },
+      "title": "Panel access"
+    },
+    "title": "Employees"
+  },
   "businessSetup": {
     "actions": {
+      "finish": "Finish setup",
       "finishLater": "I will finish later",
+      "finishing": "Finishing setup",
       "next": "Continue",
       "previous": "Back",
       "saveAndContinue": "Save and continue",
       "saving": "Saving"
     },
-    "businessBasics": {
-      "businessTypes": {
-        "SOLO": {
-          "description": "Only I provide services.",
-          "title": "I work solo"
+    "welcome": {
+      "callout": "To get started, we only need a few basic details about your salon.\nYou can configure everything else later in the management panel.",
+      "description": "Beauty Booking helps you organize your salon's daily work — from managing the calendar and team to handling client bookings.",
+      "eyebrow": "Welcome to Beauty Booking",
+      "features": {
+        "calendar": {
+          "description": "Manage appointments, availability, and calendar changes.",
+          "title": "Calendar and bookings"
         },
-        "TEAM": {
-          "description": "Services are provided by several people.",
-          "title": "I have a team"
+        "customerPage": {
+          "description": "Give clients a place to browse your offer and book appointments.",
+          "title": "Client booking page"
+        },
+        "organization": {
+          "description": "Set booking rules, opening hours, and other business settings.",
+          "title": "Salon organization"
+        },
+        "notifications": {
+          "description": "Configure reminders and information related to client appointments.",
+          "title": "Notifications and communication"
+        },
+        "services": {
+          "description": "Create services and set their prices, duration, and available add-ons.",
+          "title": "Services and offer"
+        },
+        "team": {
+          "description": "Add employees and configure their services, schedules, and availability.",
+          "title": "Team"
         }
       },
-      "description": "Start with the core information that defines how your beauty business works.",
+      "start": "Start setup",
+      "starting": "Starting setup",
+      "title": "We're glad you're here"
+    },
+    "businessBasics": {
+      "description": "Enter your salon name, then choose its model and specializations.",
       "descriptions": {
-        "businessType": "Determines whether the next steps will also configure a team and its availability.",
-        "name": "This name will be shown to clients in the app and during booking.",
-        "ownerProvidesServices": "Affects your employee profile and appointment availability.",
-        "specialization": "Helps tailor the next steps and default settings."
+        "businessType": "You will configure the team and detailed availability later in the management panel.",
+        "specializations": "Select every area in which your salon provides services."
       },
       "fields": {
-        "businessType": "How do you run your business?",
-        "name": "Business name",
-        "ownerProvidesServices": "Do you also provide services?",
-        "specialization": "Main specialization"
+        "businessType": "How does your salon work?",
+        "name": "Salon name",
+        "specializations": "Salon specializations"
       },
-      "ownerProvidesServices": {
-        "false": "No, I only manage the business",
-        "true": "Yes, I also take clients"
-      },
-      "placeholder": "In the next step we will add the business name, main specialization and business type form.",
       "placeholders": {
-        "name": "Maison Rouge"
+        "name": "Beauty & Glow Studio"
       },
       "specializations": {
         "BROWS_AND_LASHES": "Brows and Lashes",
         "MAKEUP": "Makeup",
         "NAILS": "Nails"
       },
-      "title": "Your business"
+      "title": "Your salon"
+    },
+    "businessDetails": {
+      "description": "Enter the contact details visible to clients on your booking page.",
+      "fields": {
+        "contactEmail": "Contact e-mail",
+        "contactPhone": "Contact phone"
+      },
+      "logo": {
+        "dropLabel": "Drag a file here or click to choose",
+        "helperText": "JPG, PNG, WEBP or SVG. Max {maxFileSizeMb} MB. Resolution from {minWidth} × {minHeight} to {maxWidth} × {maxHeight} px.",
+        "previewAlt": "Preview of the selected salon logo",
+        "previewLabel": "Preview",
+        "removeLabel": "Remove selected logo",
+        "validation": {
+          "dimensionsTooLarge": "The image can be at most {width} × {height} px.",
+          "dimensionsTooSmall": "The image must be at least {width} × {height} px.",
+          "fileTooLarge": "The image can be at most {maxFileSizeMb} MB.",
+          "imageUnreadable": "The selected image could not be read.",
+          "unsupportedType": "Choose a JPG, PNG, WEBP or SVG image."
+        }
+      },
+      "placeholders": {
+        "contactEmail": "e.g. contact@yoursalon.com",
+        "contactPhone": "e.g. 512 345 678"
+      },
+      "sections": {
+        "contact": {
+          "description": "Clients will be able to contact you if they have questions.",
+          "title": "Contact details"
+        },
+        "logo": {
+          "description": "Add the logo displayed on your booking page.",
+          "title": "Salon logo"
+        },
+        "socialMedia": {
+          "description": "Add links to your profiles. They will appear on your page.",
+          "title": "Social media (optional)"
+        }
+      },
+      "socialMedia": {
+        "facebook": {
+          "label": "Facebook",
+          "placeholder": "e.g. facebook.com/yoursalon"
+        },
+        "instagram": {
+          "label": "Instagram",
+          "placeholder": "e.g. instagram.com/yoursalon"
+        },
+        "pinterest": {
+          "label": "Pinterest",
+          "placeholder": "e.g. pinterest.com/yoursalon"
+        },
+        "tiktok": {
+          "label": "TikTok",
+          "placeholder": "e.g. tiktok.com/@yoursalon"
+        },
+        "youtube": {
+          "label": "YouTube",
+          "placeholder": "e.g. youtube.com/@yoursalon"
+        }
+      },
+      "title": "Booking page"
+    },
+    "bookingRules": {
+      "conditions": {
+        "description": "These rules apply globally to the whole salon. You can configure settings for individual services and people later.",
+        "title": "Booking conditions"
+      },
+      "description": "Decide when clients can see available dates and the rules that apply when they book an appointment.",
+      "fields": {
+        "allowAnyTeamMember": "Clients can choose “Any team member”",
+        "allowSpecificTeamMember": "Clients can choose a specific team member",
+        "cancellationDeadline": "How late can a client cancel their appointment?",
+        "confirmationMode": "Confirmation method for in-salon appointments",
+        "daysAhead": "Days ahead",
+        "minimumAdvance": "Minimum booking notice"
+      },
+      "mobileConfirmationHint": "Mobile appointments always require manual confirmation by the salon, regardless of the setting for in-salon appointments.",
+      "options": {
+        "cancellationDeadline": {
+          "0": "No self-service cancellation",
+          "2": "2 hours before the appointment",
+          "6": "6 hours before the appointment",
+          "12": "12 hours before the appointment",
+          "24": "24 hours before the appointment",
+          "48": "48 hours before the appointment",
+          "72": "72 hours before the appointment"
+        },
+        "confirmationMode": {
+          "AUTOMATIC": "Automatically",
+          "MANUAL": "Manually by the salon"
+        },
+        "minimumAdvance": {
+          "0": "No minimum notice",
+          "60": "1 hour",
+          "120": "2 hours",
+          "240": "4 hours",
+          "720": "12 hours",
+          "1440": "1 day",
+          "2880": "2 days"
+        }
+      },
+      "release": {
+        "description": "Choose how new dates should become available for online booking.",
+        "manualHint": "After setup, in Calendar / Availability you will select a date range and either publish it immediately or schedule it for later.",
+        "modes": {
+          "MANUAL": {
+            "description": "Choose which dates to release and when. You can publish them immediately or schedule publication.",
+            "title": "I open bookings myself"
+          },
+          "ROLLING": {
+            "description": "The booking window moves forward by one day every day.",
+            "title": "Automatically"
+          }
+        },
+        "rollingFieldTitle": "How far in advance can clients book?",
+        "rollingHint": "Every day, the system automatically opens one more day in the calendar.",
+        "title": "Appointment release"
+      },
+      "team": {
+        "description": "Choose which team member selection options clients see during booking.",
+        "title": "Team member selection"
+      },
+      "title": "Booking rules"
     },
     "location": {
-      "description": "Add the address and arrival details that clients will see before their appointment.",
+      "description": "Enter your salon address and choose whether you also travel to clients.",
       "descriptions": {
-        "apartmentNumber": "Optional — enter the unit or studio number.",
-        "buildingNumber": "The building number required for a complete address.",
-        "city": "The city where you see clients.",
+        "apartmentNumber": "Optional — unit number.",
+        "buildingNumber": "Building number, e.g. 12A.",
+        "city": "The locality where you see clients.",
         "locationNote": "Optional — add directions such as the entrance, intercom or floor.",
         "parkingNote": "Optional — explain where clients can park and whether parking is paid.",
         "postalCode": "Helps save and locate the address correctly.",
-        "street": "Enter the street where the salon is located."
+        "street": "Optional — enter a street name if the address has one."
       },
       "fields": {
         "apartmentNumber": "Apartment number",
         "buildingNumber": "Building number",
-        "city": "City",
+        "city": "Locality",
         "locationNote": "Arrival note",
+        "mobileServiceFeeType": "Travel fee",
+        "mobileServiceFixedFee": "Fixed fee (PLN)",
+        "mobileServiceMaxDistanceKm": "Maximum distance (km)",
+        "mobileServicesEnabled": "I also offer services at the client's location",
+        "mobileServiceTravelTimeMinutes": "Default travel time (min)",
         "parkingNote": "Parking note",
         "postalCode": "Postal code",
         "street": "Street"
       },
+      "mobileServiceFeeTypes": {
+        "CUSTOM": "Individual",
+        "FIXED": "Fixed fee",
+        "FREE": "Free"
+      },
+      "mobileBookingConfirmationHint": "Mobile bookings will require manual confirmation by the salon.",
+      "mobileServicesHint": "Later, you can choose which services are available with travel.",
       "placeholders": {
         "apartmentNumber": "12",
         "buildingNumber": "8A",
@@ -170,59 +365,119 @@
         "locationNote": "For example: entrance from the courtyard, second floor, intercom 12.",
         "parkingNote": "For example: free parking spaces are available in front of the salon.",
         "postalCode": "00-001",
-        "street": "Beauty Street"
+        "street": "e.g. Beauty Street"
+      },
+      "sections": {
+        "address": "Salon address",
+        "mobileServices": "Mobile services"
       },
       "title": "Location"
     },
-    "workstations": {
-      "add": "Add workstation",
-      "cardDescription": "Define where services can be performed.",
-      "cardTitle": "Workstation {number}",
-      "defaultName": "Workstation {number}",
-      "description": "Add the places, rooms or chairs where your services are performed.",
-      "descriptions": {
-        "isActive": "An inactive workstation will not be included when availability is calculated.",
-        "name": "A visible name that makes the workstation easy to identify.",
-        "note": "Optional internal information for you and your team.",
-        "type": "Determines which services can use this workstation."
+    "openingHours": {
+      "closed": "Closed",
+      "copy": "Copy",
+      "copyToAllDays": "Apply to all active days",
+      "days": {
+        "FRIDAY": "Friday",
+        "MONDAY": "Monday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday",
+        "THURSDAY": "Thursday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday"
       },
+      "description": "Set the standard opening hours for the whole salon. You will configure individual employee schedules later.",
       "fields": {
-        "isActive": "This workstation is active",
-        "name": "Workstation name",
-        "note": "Internal note",
-        "type": "Workstation type"
+        "closesAt": "To",
+        "opensAt": "From"
       },
+      "open": "Open",
+      "status": "day status",
+      "title": "Opening hours"
+    },
+    "modelSelection": {
+      "options": {
+        "SOLO": {
+          "description": "You work independently and manage your clients and calendar.",
+          "title": "I work independently"
+        },
+        "TEAM": {
+          "description": "More people work at the salon. You will add team members and define their roles.",
+          "title": "We work as a team"
+        }
+      }
+    },
+    "team": {
+      "add": "Add person",
+      "addNew": "Add new person",
+      "addTitle": "New person",
+      "cancelAdd": "Cancel",
+      "currentTitle": "Current team",
+      "description": "Add people working in your salon and define their roles and whether they provide services.",
+      "edit": "Edit",
+      "editTitle": "Edit person",
+      "empty": "No team members have been added yet.",
+      "fields": {
+        "email": "E-mail optional",
+        "fullName": "Full name",
+        "providesServices": "Provides services?",
+        "role": "Role"
+      },
+      "noEmail": "No e-mail",
+      "ownerFallback": "Salon owner",
+      "ownerNote": "The owner account was created automatically during salon setup.",
+      "ownerTitle": "Owner",
       "placeholders": {
-        "name": "Nail desk 1",
-        "note": "For example: near the window, used for gel manicure."
+        "email": "Enter e-mail",
+        "fullName": "Enter full name"
       },
-      "remove": "Remove workstation",
-      "title": "Workstations"
+      "providesServices": {
+        "false": "No",
+        "true": "Yes"
+      },
+      "providesServicesBadge": "Provides services: {value}",
+      "remove": "Remove",
+      "save": "Save",
+      "roles": {
+        "Employee": "Employee",
+        "Intern": "Intern",
+        "Manager": "Manager",
+        "Owner": "Owner"
+      },
+      "title": "Team"
     },
     "services": {
       "add": "Add service",
-      "cardDescription": "Set duration, price and visibility.",
+      "addNew": "Add new service",
+      "addTitle": "New service",
+      "cancel": "Cancel",
+      "cardDescription": "Set the base duration, price and visibility.",
       "cardTitle": "Service {number}",
+      "currentTitle": "Current services",
       "defaultName": "Service {number}",
       "description": "Create the services clients will be able to book.",
       "descriptions": {
         "description": "An optional description of the service shown to clients.",
-        "durationMinutes": "Used to calculate available appointment times.",
+        "durationMinutes": "Enter the standard duration of a typical service. You can adjust more detailed variants later.",
         "isActive": "An inactive service will not be available for booking.",
         "name": "This name will be shown during booking.",
-        "price": "The price shown to the client before booking.",
-        "specialization": "Places the service in the appropriate category.",
-        "workstationType": "Limits bookings to a matching workstation."
+        "price": "Enter the base price of a typical service. You can configure add-ons and detailed variants later.",
+        "specialization": "Places the service in the appropriate category."
       },
+      "durationValue": "{duration} min",
+      "edit": "Edit",
+      "editTitle": "Edit service",
+      "empty": "No services have been added yet.",
       "fields": {
         "description": "Description",
         "durationMinutes": "Duration in minutes",
         "isActive": "This service is active",
         "name": "Service name",
-        "price": "Price",
-        "specialization": "Category",
-        "workstationType": "Preferred workstation"
+        "price": "Price (PLN)",
+        "specialization": "Category"
       },
+      "listDescription": "Add services and manage their basic settings.",
+      "noDescription": "No description",
       "placeholders": {
         "description": "For example: manicure with gel polish and nail preparation.",
         "durationMinutes": "60",
@@ -230,18 +485,52 @@
         "price": "120"
       },
       "remove": "Remove service",
-      "title": "Services",
-      "workstationTypes": {
-        "ANY": "Any matching workstation"
-      }
+      "priceValue": "PLN {price}",
+      "save": "Save",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "title": "Services"
+    },
+    "addons": {
+      "add": "Add add-on",
+      "addonDescription": "Affects the duration or price of the selected service.",
+      "description": "Add optional extensions to services. Add-ons can increase the price and extend the appointment time.",
+      "descriptions": {
+        "isActive": "An inactive add-on will not be available during booking."
+      },
+      "empty": "No add-ons for this service.",
+      "fields": {
+        "durationMinutes": "Additional time",
+        "isActive": "This add-on is active",
+        "name": "Add-on name",
+        "price": "Additional price"
+      },
+      "info": "You can skip this step and add add-ons later.",
+      "newAddon": "New add-on",
+      "optional": "Optional step",
+      "placeholders": {
+        "durationMinutes": "15",
+        "name": "French",
+        "price": "20"
+      },
+      "remove": "Remove add-on",
+      "serviceDuration": "{duration} min",
+      "servicePrice": "PLN {price}",
+      "title": "Add-ons"
     },
     "placeholder": {
       "description": "This step will be implemented next. You can return to the previous step for now.",
       "title": "Next step"
     },
     "feedback": {
-      "loadFailed": "Could not load business setup",
+      "businessTypeSaveFailed": "Could not save the salon model",
+      "completionFailed": "Could not finish salon setup",
+      "loadFailed": "Could not load salon setup",
+      "savedSuccessfully": "Saved successfully!",
       "saveFailed": "Could not save this step",
+      "startFailed": "Could not start salon setup",
       "sessionExpired": "Your session has expired. Sign in again"
     },
     "overlays": {
@@ -252,33 +541,67 @@
       "firstSetup": "First setup"
     },
     "page": {
-      "description": "Set up the basic information before you start taking bookings.",
-      "title": "Configure your business"
+      "description": "Set up the basic information about your salon step by step.",
+      "title": "Initial setup"
     },
     "progress": "Step {current} of {total}",
-    "progressCompleted": "{percentage}% completed",
+    "progressLabel": "Setup progress: {percentage}%",
+    "progressPercentage": "{percentage}%",
+    "progressNavigationLabel": "Salon setup steps",
     "requirements": {
       "description": "To configure this step, save the following sections first.",
       "title": "Complete the required steps first"
     },
     "steps": {
       "addons": "Add-ons",
-      "availability": "Hours and availability",
+      "availability": "Opening hours",
       "bookingRules": "Booking rules",
-      "businessBasics": "Your business",
+      "businessBasics": "Your salon",
       "location": "Location",
-      "publicProfile": "Page details",
+      "publicProfile": "Booking page",
       "services": "Services",
       "summary": "Summary",
       "team": "Team",
-      "teamServices": "Team services",
-      "workstations": "Workstations"
+      "teamServices": "Team services"
+    },
+    "stepDescriptions": {
+      "businessBasics": "The essential information about your salon.",
+      "location": "Salon address, arrival details, and mobile services.",
+      "publicProfile": "Contact details displayed on your booking page.",
+      "summary": "Review all information and save your setup on the final screen."
+    },
+    "summary": {
+      "description": "Review the key information saved during setup.",
+      "empty": "Not provided",
+      "fields": {
+        "address": "Salon address",
+        "contact": "Contact",
+        "mobileServices": "Mobile services",
+        "model": "Salon model",
+        "name": "Salon name",
+        "socialMedia": "Social profiles",
+        "specializations": "Specializations"
+      },
+      "no": "No",
+      "title": "Summary",
+      "values": {
+        "kilometers": "{value} km",
+        "minutes": "{value} min"
+      },
+      "yes": "Yes"
     },
     "unsavedChanges": {
       "description": "If you leave setup, changes made since the last save will be lost.",
       "leave": "Leave without saving",
       "stay": "Stay",
       "title": "You have unsaved changes"
+    },
+    "unsavedStepChange": {
+      "description": "Changes made in this step will be discarded.",
+      "leave": "Continue without saving",
+      "saveAndLeave": "Save and continue",
+      "stay": "Stay on this step",
+      "title": "Go to another step?"
     },
     "unsavedStep": "This step has unsaved changes"
   },
@@ -468,7 +791,11 @@
     "year": "Year"
   },
   "timePicker": {
-    "placeholder": "Choose time"
+    "hours": "Hour",
+    "minutes": "Minute",
+    "openPicker": "Open time picker",
+    "placeholder": "Choose time",
+    "placeholderShort": "HH:MM"
   },
   "validation": {
     "account": {
@@ -512,38 +839,72 @@
       }
     },
     "business": {
-      "nameMinLength": "Business name must contain at least 2 characters.",
-      "ownerProvidesServicesRequired": "Select whether you also provide services.",
+      "nameMinLength": "Salon name must contain at least 2 characters.",
+      "socialProfileInvalid": "Enter a valid link to the selected profile.",
+      "socialProfileMaxLength": "A profile link can contain at most 200 characters.",
+      "specializationsRequired": "Select at least one specialization.",
+      "specializationsUnique": "Each specialization can only be selected once.",
       "location": {
-        "apartmentNumberMaxLength": "Apartment number can contain up to 20 characters.",
-        "buildingNumberMaxLength": "Building number can contain up to 20 characters.",
+        "apartmentNumberInvalid": "Apartment number can contain digits from 1 to 9999 only.",
+        "apartmentNumberMaxLength": "Apartment number can contain up to 4 digits.",
+        "buildingNumberInvalid": "Enter digits and optionally one letter.",
+        "buildingNumberMaxLength": "Building number can contain up to 6 characters.",
         "buildingNumberRequired": "Enter the building number.",
-        "cityMaxLength": "City can contain up to 80 characters.",
-        "cityMinLength": "City must contain at least 2 characters.",
+        "cityCapitalized": "Locality must start with an uppercase letter.",
+        "cityInvalid": "Locality can contain letters, spaces and a hyphen only.",
+        "cityMaxLength": "Locality can contain up to 50 characters.",
+        "cityMinLength": "Locality must contain at least 2 characters.",
         "locationNoteMaxLength": "Arrival note can contain up to 500 characters.",
+        "mobileServiceFixedFeeInvalid": "Enter a valid fee between PLN 0.01 and PLN 10,000.",
+        "mobileServiceMaxDistanceInvalid": "Enter a distance between 1 and 200 km.",
+        "mobileServiceTravelTimeInvalid": "Enter a time between 5 and 240 minutes.",
+        "noteInvalid": "Note can contain text, digits and basic punctuation only.",
         "parkingNoteMaxLength": "Parking note can contain up to 500 characters.",
-        "postalCodeMaxLength": "Postal code can contain up to 16 characters.",
-        "postalCodeMinLength": "Postal code must contain at least 3 characters.",
-        "streetMaxLength": "Street can contain up to 120 characters.",
+        "postalCodeInvalid": "Enter postal code in the 00-000 format.",
+        "streetInvalid": "Street can contain letters, digits, spaces, a hyphen and a dot.",
+        "streetMaxLength": "Street can contain up to 60 characters.",
         "streetMinLength": "Street must contain at least 2 characters."
       },
-      "workstations": {
-        "maxItems": "You can add up to 30 workstations.",
-        "minItems": "Add at least one workstation.",
-        "nameMaxLength": "Workstation name can contain up to 80 characters.",
-        "nameMinLength": "Workstation name must contain at least 2 characters.",
-        "noteMaxLength": "Internal note can contain up to 300 characters."
+      "openingHours": {
+        "allDaysRequired": "Set opening hours for every day of the week.",
+        "closesAfterOpening": "Closing time must be later than opening time.",
+        "timeInvalid": "Enter time in HH:MM format."
+      },
+      "bookingRules": {
+        "bookingHorizonInvalid": "Enter a number of days between 1 and 730.",
+        "cancellationDeadlineInvalid": "Enter a number of hours between 0 and 720.",
+        "minimumAdvanceInvalid": "Enter a notice period between 0 and 43,200 minutes."
+      },
+      "team": {
+        "emailDuplicate": "This e-mail address is already assigned to a team member.",
+        "emailInvalid": "Enter a valid e-mail address.",
+        "fullNameInvalid": "Full name can contain letters, spaces, apostrophes and hyphens.",
+        "fullNameMaxLength": "Full name can contain up to 80 characters.",
+        "fullNameMinLength": "Full name must contain at least 2 characters.",
+        "maxItems": "You can add up to 50 people."
       },
       "services": {
         "descriptionMaxLength": "Description can contain up to 500 characters.",
         "durationInvalid": "Enter duration as a whole number of minutes.",
-        "durationMax": "Duration can be up to 1440 minutes.",
+        "durationMax": "Duration must be between 1 and 600 minutes.",
         "maxItems": "You can add up to 100 services.",
         "minItems": "Add at least one service.",
-        "nameMaxLength": "Service name can contain up to 100 characters.",
+        "nameInvalid": "Service name can contain letters, digits, spaces and a hyphen.",
+        "nameMaxLength": "Service name can contain up to 60 characters.",
         "nameMinLength": "Service name must contain at least 2 characters.",
         "priceInvalid": "Enter a valid price.",
-        "priceMin": "Price must be greater than 0."
+        "priceMax": "Price must be between 0 and 9999.99."
+      },
+      "addons": {
+        "durationInvalid": "Enter duration as a whole number of minutes.",
+        "durationMax": "Additional time must be between 0 and 600 minutes.",
+        "maxItems": "You can add up to 300 add-ons.",
+        "nameInvalid": "Add-on name can contain letters, digits, spaces and a hyphen.",
+        "nameMaxLength": "Add-on name can contain up to 60 characters.",
+        "nameMinLength": "Add-on name must contain at least 2 characters.",
+        "priceInvalid": "Enter a valid price.",
+        "priceMax": "Price must be between 0 and 9999.99.",
+        "serviceRequired": "Select a service for this add-on."
       }
     }
   }

@@ -1,16 +1,16 @@
 "use client";
 
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import { ManagementSidebar } from "@/components/layout/managementSidebar";
 import { MANAGEMENT_SIDEBAR_COLLAPSED_KEY } from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { LoadingOverlay } from "@/components/reusable";
-import {
-  BusinessSetupProvider,
-  useBusinessSetup,
-} from "@/features/businessSetup/providers";
+import { useBusinessSetupStatus } from "@/features/businessSetup/hooks";
 import { useTenantContext } from "@/features/tenant";
 import { usePersistentBoolean } from "@/hooks/usePersistentBoolean";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 import type { ReactNode } from "react";
@@ -31,14 +31,50 @@ const ManagementAppShellContent = ({
   isSidebarCollapsed,
   onIsSidebarCollapsedChange,
 }: ManagementAppShellContentProperties) => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const t = useTranslations();
   const { status } = useSession();
-  const { isSetupLoading } = useBusinessSetup();
   const { isTenantContextLoading } = useTenantContext();
+  const {
+    hasSetupStatusError,
+    isSetupStatusLoading,
+    setupStatus,
+  } = useBusinessSetupStatus();
+  const isSetupRoute = pathname === "/management/setup";
+  const isSetupCompleted = setupStatus === "COMPLETED";
+  const shouldRedirectToSetup =
+    setupStatus !== null && !isSetupCompleted && !isSetupRoute;
+  const shouldRedirectToManagement = isSetupCompleted && isSetupRoute;
   const isSidebarDataLoading =
-    status === "loading" || isSetupLoading || isTenantContextLoading;
+    status === "loading" || isTenantContextLoading || isSetupStatusLoading;
 
-  if (isSidebarDataLoading) {
+  useEffect(() => {
+    if (shouldRedirectToSetup) {
+      router.replace("/management/setup");
+      return;
+    }
+
+    if (shouldRedirectToManagement) {
+      router.replace("/management");
+    }
+  }, [router, shouldRedirectToManagement, shouldRedirectToSetup]);
+
+  if (
+    isSidebarDataLoading ||
+    shouldRedirectToSetup ||
+    shouldRedirectToManagement
+  ) {
     return <LoadingOverlay variant="bare" />;
+  }
+
+  if (hasSetupStatusError || setupStatus === null) {
+    return (
+      <LoadingOverlay
+        description={t("businessSetup.feedback.loadFailed")}
+        variant="bare"
+      />
+    );
   }
 
   return (
@@ -51,6 +87,7 @@ const ManagementAppShellContent = ({
     >
       <ManagementSidebar
         isCollapsed={isSidebarCollapsed}
+        isSetupMode={!isSetupCompleted}
         onIsCollapsedChange={onIsSidebarCollapsedChange}
       />
       <main className="min-w-0">{children}</main>
@@ -68,14 +105,12 @@ export const ManagementAppShell = ({
   );
 
   return (
-    <BusinessSetupProvider>
-      <ManagementAppShellContent
-        isSidebarCollapsed={isSidebarCollapsed}
-        onIsSidebarCollapsedChange={setIsSidebarCollapsed}
-      >
-        {children}
-      </ManagementAppShellContent>
-    </BusinessSetupProvider>
+    <ManagementAppShellContent
+      isSidebarCollapsed={isSidebarCollapsed}
+      onIsSidebarCollapsedChange={setIsSidebarCollapsed}
+    >
+      {children}
+    </ManagementAppShellContent>
   );
 };
 
