@@ -8,9 +8,11 @@ import { useManagementSidebarTransition } from "@/components/layout/managementSi
 
 export const ManagementSidebar = ({
   isCollapsed,
+  isSetupMode,
   onIsCollapsedChange,
 }: {
   isCollapsed: boolean;
+  isSetupMode: boolean;
   onIsCollapsedChange: (isCollapsed: boolean) => void;
 }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -20,10 +22,12 @@ export const ManagementSidebar = ({
     <>
       <ManagementSidebarMobile
         isOpen={isMobileOpen}
+        isSetupMode={isSetupMode}
         onIsOpenChange={setIsMobileOpen}
       />
       <ManagementSidebarDesktop
         isCollapsed={isCollapsed}
+        isSetupMode={isSetupMode}
         transition={transition}
       />
     </>

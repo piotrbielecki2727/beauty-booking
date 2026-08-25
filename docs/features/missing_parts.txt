@@ -1,0 +1,2 @@
+popraw success state po rejestracji za duzo tekstu o potwierdzeniu
+popraw hover buttona profil zalogowny customer

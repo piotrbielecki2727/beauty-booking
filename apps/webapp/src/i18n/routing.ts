@@ -1,4 +1,7 @@
+import { useTranslations } from "next-intl";
 import { defineRouting } from "next-intl/routing";
+
+export type TFunction = ReturnType<typeof useTranslations>;
 
 export const routing = defineRouting({
   locales: ["pl", "en"],

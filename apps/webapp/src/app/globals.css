@@ -8,10 +8,28 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-panel: var(--surface-panel);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-hover: var(--surface-hover);
+  --color-copy: var(--copy);
+  --color-copy-muted: var(--copy-muted);
+  --color-copy-subtle: var(--copy-subtle);
+  --color-copy-inverse: var(--copy-inverse);
+  --color-line-subtle: var(--line-subtle);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-line-strong: var(--line-strong);
+  --color-danger: var(--danger);
+  --color-danger-surface: var(--danger-surface);
+  --color-danger-border: var(--danger-border);
+  --color-danger-text: var(--danger-text);
   --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-manrope);
-  --font-brand: var(--font-manrope);
+  --font-brand: var(--font-cormorant-garamond);
   --color-nav-ring: var(--nav-ring);
   --color-nav-border: var(--nav-border);
   --color-nav-accent-foreground: var(--nav-accent-foreground);
@@ -47,6 +65,29 @@
   --color-surface-soft: var(--surface-soft);
   --color-brand-strong: var(--brand-strong);
   --color-brand-soft: var(--brand-soft);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-border: var(--brand-border);
+  --color-brand-border-muted: var(--brand-border-muted);
+  --color-brand-divider: var(--brand-divider);
+  --color-brand-shadow: var(--brand-shadow);
+  --color-brand-wash: var(--brand-wash);
+  --color-brand-wash-subtle: var(--brand-wash-subtle);
+  --color-overlay: var(--overlay);
+  --color-backdrop: var(--backdrop);
+  --color-loader-surface: var(--loader-surface);
+  --color-loader-border: var(--loader-border);
+  --color-loader-spinner-muted: var(--loader-spinner-muted);
+  --color-loader-spinner-strong: var(--loader-spinner-strong);
+  --color-datepicker-control-hover: var(--datepicker-control-hover);
+  --color-datepicker-control-ring: var(--datepicker-control-ring);
+  --color-datepicker-option-hover: var(--datepicker-option-hover);
+  --color-datepicker-option-selected: var(--datepicker-option-selected);
+  --color-datepicker-option-selected-hover: var(
+    --datepicker-option-selected-hover
+  );
+  --color-datepicker-option-selected-foreground: var(
+    --datepicker-option-selected-foreground
+  );
   --color-brand: var(--brand);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -71,10 +112,24 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    outline-color: var(--ring-soft, var(--ring));
   }
   body {
     @apply bg-background text-foreground;
+  }
+  ::selection {
+    background: var(--selection);
+    color: var(--foreground);
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    background-color: var(--input-autofill-background, var(--auth-form-surface)) !important;
+    -webkit-text-fill-color: var(--foreground);
+    caret-color: var(--foreground);
+    box-shadow: 0 0 0 1000px var(--input-autofill-background, var(--auth-form-surface)) inset !important;
+    transition: background-color 9999s ease-in-out;
   }
   h1,
   h2,
@@ -86,5 +141,23 @@
   }
   html {
     @apply font-sans;
+  }
+  * {
+    scrollbar-color: var(--brand) var(--background);
+    scrollbar-width: thin;
+  }
+  *::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  *::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--brand);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-hover, var(--brand));
   }
 }

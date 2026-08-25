@@ -1,19 +1,57 @@
 {
   "common": {
     "appName": "Beauty Booking",
+    "close": "Close",
     "english": "English",
-    "polish": "Polish"
+    "polish": "Polish",
+    "selectPlaceholder": "Choose"
+  },
+  "tenant": {
+    "notFound": {
+      "description": "This address is not connected to any salon in Beauty Booking.",
+      "eyebrow": "Unknown salon",
+      "hint": "Check the page address or contact the salon owner.",
+      "title": "We could not find this salon"
+    }
+  },
+  "customerHome": {
+    "session": {
+      "email": "E-mail",
+      "loading": "Checking session...",
+      "notLoggedIn": "You are not logged in.",
+      "userId": "User ID"
+    }
+  },
+  "api": {
+    "account": {
+      "connectionError": "Cannot connect to the account service. Check whether the backend is running.",
+      "invalidResponse": "The backend returned an invalid response for the account operation.",
+      "requestFailed": "Could not complete the operation."
+    }
+  },
+  "confirmationDialog": {
+    "cancel": "Stay",
+    "confirm": "Leave"
+  },
+  "input": {
+    "clear": "Clear field",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password"
   },
   "navigation": {
     "bookings": "Bookings",
     "calendar": "Calendar",
+    "contact": "Contact",
+    "pricing": "Pricing",
+    "inspirations": "Inspirations",
     "collapseSidebar": "Collapse sidebar",
     "customerMain": "Main",
-    "dashboard": "Dashboard",
-    "employees": "Employees",
-    "expandSidebar": "Expand sidebar",
-    "home": "Home",
-    "management": "Management",
+      "dashboard": "Dashboard",
+      "employees": "Employees",
+      "expandSidebar": "Expand sidebar",
+      "home": "Home",
+      "initialSetup": "Initial setup",
+      "management": "Management",
     "mobile": "Mobile",
     "openMenu": "Open menu",
     "profile": "Profile",
@@ -27,9 +65,549 @@
     "system": "System",
     "toggle": "Change theme"
   },
+  "settingsMenu": {
+    "language": "Language",
+    "theme": "Theme"
+  },
+  "accountMenu": {
+    "theme": "Theme",
+    "label": "Account menu",
+    "language": "Language",
+    "logout": "Log out",
+    "logoutErrorDescription": "Could not end your session. Try again.",
+    "logoutErrorTitle": "Could not log out",
+    "logoutOverlayDescription": "We are ending your session and returning to the homepage.",
+    "logoutOverlayTitle": "Logging you out",
+    "myData": "My details",
+    "myVisits": "My visits",
+    "upcomingVisit": "Upcoming visit",
+    "userFallback": "Account",
+    "viewDetails": "View details",
+    "visitHistory": "Visit history"
+  },
+  "managementSidebar": {
+    "account": {
+      "roles": {
+        "Admin": "Administrator",
+        "Customer": "Customer",
+        "Employee": "Employee",
+        "Intern": "Intern",
+        "Manager": "Manager",
+        "Owner": "Owner"
+      }
+    }
+  },
+  "managementEmployees": {
+    "teamAccess": {
+      "acceptAsCurrent": "Accept as current account",
+      "acceptFailed": "Could not accept the invitation.",
+      "accepted": "Invitation accepted.",
+      "cancel": "Cancel",
+      "cancelFailed": "Could not cancel the invitation.",
+      "checkPreview": "Check token",
+      "copied": "Link copied.",
+      "copy": "Copy link",
+      "description": "Temporary panel for testing invitations without real e-mail delivery.",
+      "email": "E-mail address",
+      "emailPlaceholder": "anna@example.com",
+      "empty": "Add team members in salon setup first.",
+      "generatedTitle": "Generated test link",
+      "invite": "Invite",
+      "inviteCreated": "Invitation generated.",
+      "inviteFailed": "Could not generate the invitation.",
+      "invitationStatuses": {
+        "ACCEPTED": "accepted",
+        "CANCELLED": "cancelled",
+        "EXPIRED": "expired",
+        "PENDING": "active"
+      },
+      "loadFailed": "Could not load the team.",
+      "loading": "Loading team...",
+      "noServices": "does not provide services",
+      "preview": "{businessName} · status: {status}",
+      "previewFailed": "Could not check the token.",
+      "providesServices": "provides services",
+      "resend": "Resend",
+      "statuses": {
+        "ACTIVE": "Access active",
+        "INVITED": "Invitation sent",
+        "NO_ACCESS": "Access inactive"
+      },
+      "title": "Panel access"
+    },
+    "title": "Employees"
+  },
+  "businessSetup": {
+    "actions": {
+      "finish": "Finish setup",
+      "finishLater": "I will finish later",
+      "finishing": "Finishing setup",
+      "next": "Continue",
+      "previous": "Back",
+      "saveAndContinue": "Save and continue",
+      "saving": "Saving"
+    },
+    "welcome": {
+      "callout": "To get started, we only need a few basic details about your salon.\nYou can configure everything else later in the management panel.",
+      "description": "Beauty Booking helps you organize your salon's daily work — from managing the calendar and team to handling client bookings.",
+      "eyebrow": "Welcome to Beauty Booking",
+      "features": {
+        "calendar": {
+          "description": "Manage appointments, availability, and calendar changes.",
+          "title": "Calendar and bookings"
+        },
+        "customerPage": {
+          "description": "Give clients a place to browse your offer and book appointments.",
+          "title": "Client booking page"
+        },
+        "organization": {
+          "description": "Set booking rules, opening hours, and other business settings.",
+          "title": "Salon organization"
+        },
+        "notifications": {
+          "description": "Configure reminders and information related to client appointments.",
+          "title": "Notifications and communication"
+        },
+        "services": {
+          "description": "Create services and set their prices, duration, and available add-ons.",
+          "title": "Services and offer"
+        },
+        "team": {
+          "description": "Add employees and configure their services, schedules, and availability.",
+          "title": "Team"
+        }
+      },
+      "start": "Start setup",
+      "starting": "Starting setup",
+      "title": "We're glad you're here"
+    },
+    "businessBasics": {
+      "description": "Enter your salon name, then choose its model and specializations.",
+      "descriptions": {
+        "businessType": "You will configure the team and detailed availability later in the management panel.",
+        "specializations": "Select every area in which your salon provides services."
+      },
+      "fields": {
+        "businessType": "How does your salon work?",
+        "name": "Salon name",
+        "specializations": "Salon specializations"
+      },
+      "placeholders": {
+        "name": "Beauty & Glow Studio"
+      },
+      "specializations": {
+        "BROWS_AND_LASHES": "Brows and Lashes",
+        "MAKEUP": "Makeup",
+        "NAILS": "Nails"
+      },
+      "title": "Your salon"
+    },
+    "businessDetails": {
+      "description": "Enter the contact details visible to clients on your booking page.",
+      "fields": {
+        "contactEmail": "Contact e-mail",
+        "contactPhone": "Contact phone"
+      },
+      "logo": {
+        "dropLabel": "Drag a file here or click to choose",
+        "helperText": "JPG, PNG, WEBP or SVG. Max {maxFileSizeMb} MB. Resolution from {minWidth} × {minHeight} to {maxWidth} × {maxHeight} px.",
+        "previewAlt": "Preview of the selected salon logo",
+        "previewLabel": "Preview",
+        "removeLabel": "Remove selected logo",
+        "validation": {
+          "dimensionsTooLarge": "The image can be at most {width} × {height} px.",
+          "dimensionsTooSmall": "The image must be at least {width} × {height} px.",
+          "fileTooLarge": "The image can be at most {maxFileSizeMb} MB.",
+          "imageUnreadable": "The selected image could not be read.",
+          "unsupportedType": "Choose a JPG, PNG, WEBP or SVG image."
+        }
+      },
+      "placeholders": {
+        "contactEmail": "e.g. contact@yoursalon.com",
+        "contactPhone": "e.g. 512 345 678"
+      },
+      "sections": {
+        "contact": {
+          "description": "Clients will be able to contact you if they have questions.",
+          "title": "Contact details"
+        },
+        "logo": {
+          "description": "Add the logo displayed on your booking page.",
+          "title": "Salon logo"
+        },
+        "socialMedia": {
+          "description": "Add links to your profiles. They will appear on your page.",
+          "title": "Social media (optional)"
+        }
+      },
+      "socialMedia": {
+        "facebook": {
+          "label": "Facebook",
+          "placeholder": "e.g. facebook.com/yoursalon"
+        },
+        "instagram": {
+          "label": "Instagram",
+          "placeholder": "e.g. instagram.com/yoursalon"
+        },
+        "pinterest": {
+          "label": "Pinterest",
+          "placeholder": "e.g. pinterest.com/yoursalon"
+        },
+        "tiktok": {
+          "label": "TikTok",
+          "placeholder": "e.g. tiktok.com/@yoursalon"
+        },
+        "youtube": {
+          "label": "YouTube",
+          "placeholder": "e.g. youtube.com/@yoursalon"
+        }
+      },
+      "title": "Booking page"
+    },
+    "bookingRules": {
+      "conditions": {
+        "description": "These rules apply globally to the whole salon. You can configure settings for individual services and people later.",
+        "title": "Booking conditions"
+      },
+      "description": "Decide when clients can see available dates and the rules that apply when they book an appointment.",
+      "fields": {
+        "allowAnyTeamMember": "Clients can choose “Any team member”",
+        "allowSpecificTeamMember": "Clients can choose a specific team member",
+        "cancellationDeadline": "How late can a client cancel their appointment?",
+        "confirmationMode": "Confirmation method for in-salon appointments",
+        "daysAhead": "Days ahead",
+        "minimumAdvance": "Minimum booking notice"
+      },
+      "mobileConfirmationHint": "Mobile appointments always require manual confirmation by the salon, regardless of the setting for in-salon appointments.",
+      "options": {
+        "cancellationDeadline": {
+          "0": "No self-service cancellation",
+          "2": "2 hours before the appointment",
+          "6": "6 hours before the appointment",
+          "12": "12 hours before the appointment",
+          "24": "24 hours before the appointment",
+          "48": "48 hours before the appointment",
+          "72": "72 hours before the appointment"
+        },
+        "confirmationMode": {
+          "AUTOMATIC": "Automatically",
+          "MANUAL": "Manually by the salon"
+        },
+        "minimumAdvance": {
+          "0": "No minimum notice",
+          "60": "1 hour",
+          "120": "2 hours",
+          "240": "4 hours",
+          "720": "12 hours",
+          "1440": "1 day",
+          "2880": "2 days"
+        }
+      },
+      "release": {
+        "description": "Choose how new dates should become available for online booking.",
+        "manualHint": "After setup, in Calendar / Availability you will select a date range and either publish it immediately or schedule it for later.",
+        "modes": {
+          "MANUAL": {
+            "description": "Choose which dates to release and when. You can publish them immediately or schedule publication.",
+            "title": "I open bookings myself"
+          },
+          "ROLLING": {
+            "description": "The booking window moves forward by one day every day.",
+            "title": "Automatically"
+          }
+        },
+        "rollingFieldTitle": "How far in advance can clients book?",
+        "rollingHint": "Every day, the system automatically opens one more day in the calendar.",
+        "title": "Appointment release"
+      },
+      "team": {
+        "description": "Choose which team member selection options clients see during booking.",
+        "title": "Team member selection"
+      },
+      "title": "Booking rules"
+    },
+    "location": {
+      "description": "Enter your salon address and choose whether you also travel to clients.",
+      "descriptions": {
+        "apartmentNumber": "Optional — unit number.",
+        "buildingNumber": "Building number, e.g. 12A.",
+        "city": "The locality where you see clients.",
+        "locationNote": "Optional — add directions such as the entrance, intercom or floor.",
+        "parkingNote": "Optional — explain where clients can park and whether parking is paid.",
+        "postalCode": "Helps save and locate the address correctly.",
+        "street": "Optional — enter a street name if the address has one."
+      },
+      "fields": {
+        "apartmentNumber": "Apartment number",
+        "buildingNumber": "Building number",
+        "city": "Locality",
+        "locationNote": "Arrival note",
+        "mobileServiceFeeType": "Travel fee",
+        "mobileServiceFixedFee": "Fixed fee (PLN)",
+        "mobileServiceMaxDistanceKm": "Maximum distance (km)",
+        "mobileServicesEnabled": "I also offer services at the client's location",
+        "mobileServiceTravelTimeMinutes": "Default travel time (min)",
+        "parkingNote": "Parking note",
+        "postalCode": "Postal code",
+        "street": "Street"
+      },
+      "mobileServiceFeeTypes": {
+        "CUSTOM": "Individual",
+        "FIXED": "Fixed fee",
+        "FREE": "Free"
+      },
+      "mobileBookingConfirmationHint": "Mobile bookings will require manual confirmation by the salon.",
+      "mobileServicesHint": "Later, you can choose which services are available with travel.",
+      "placeholders": {
+        "apartmentNumber": "12",
+        "buildingNumber": "8A",
+        "city": "Warsaw",
+        "locationNote": "For example: entrance from the courtyard, second floor, intercom 12.",
+        "parkingNote": "For example: free parking spaces are available in front of the salon.",
+        "postalCode": "00-001",
+        "street": "e.g. Beauty Street"
+      },
+      "sections": {
+        "address": "Salon address",
+        "mobileServices": "Mobile services"
+      },
+      "title": "Location"
+    },
+    "openingHours": {
+      "closed": "Closed",
+      "copy": "Copy",
+      "copyToAllDays": "Apply to all active days",
+      "days": {
+        "FRIDAY": "Friday",
+        "MONDAY": "Monday",
+        "SATURDAY": "Saturday",
+        "SUNDAY": "Sunday",
+        "THURSDAY": "Thursday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday"
+      },
+      "description": "Set the standard opening hours for the whole salon. You will configure individual employee schedules later.",
+      "fields": {
+        "closesAt": "To",
+        "opensAt": "From"
+      },
+      "open": "Open",
+      "status": "day status",
+      "title": "Opening hours"
+    },
+    "modelSelection": {
+      "options": {
+        "SOLO": {
+          "description": "You work independently and manage your clients and calendar.",
+          "title": "I work independently"
+        },
+        "TEAM": {
+          "description": "More people work at the salon. You will add team members and define their roles.",
+          "title": "We work as a team"
+        }
+      }
+    },
+    "team": {
+      "add": "Add person",
+      "addNew": "Add new person",
+      "addTitle": "New person",
+      "cancelAdd": "Cancel",
+      "currentTitle": "Current team",
+      "description": "Add people working in your salon and define their roles and whether they provide services.",
+      "edit": "Edit",
+      "editTitle": "Edit person",
+      "empty": "No team members have been added yet.",
+      "fields": {
+        "email": "E-mail optional",
+        "fullName": "Full name",
+        "providesServices": "Provides services?",
+        "role": "Role"
+      },
+      "noEmail": "No e-mail",
+      "ownerFallback": "Salon owner",
+      "ownerNote": "The owner account was created automatically during salon setup.",
+      "ownerTitle": "Owner",
+      "placeholders": {
+        "email": "Enter e-mail",
+        "fullName": "Enter full name"
+      },
+      "providesServices": {
+        "false": "No",
+        "true": "Yes"
+      },
+      "providesServicesBadge": "Provides services: {value}",
+      "remove": "Remove",
+      "save": "Save",
+      "roles": {
+        "Employee": "Employee",
+        "Intern": "Intern",
+        "Manager": "Manager",
+        "Owner": "Owner"
+      },
+      "title": "Team"
+    },
+    "services": {
+      "add": "Add service",
+      "addNew": "Add new service",
+      "addTitle": "New service",
+      "cancel": "Cancel",
+      "cardDescription": "Set the base duration, price and visibility.",
+      "cardTitle": "Service {number}",
+      "currentTitle": "Current services",
+      "defaultName": "Service {number}",
+      "description": "Create the services clients will be able to book.",
+      "descriptions": {
+        "description": "An optional description of the service shown to clients.",
+        "durationMinutes": "Enter the standard duration of a typical service. You can adjust more detailed variants later.",
+        "isActive": "An inactive service will not be available for booking.",
+        "name": "This name will be shown during booking.",
+        "price": "Enter the base price of a typical service. You can configure add-ons and detailed variants later.",
+        "specialization": "Places the service in the appropriate category."
+      },
+      "durationValue": "{duration} min",
+      "edit": "Edit",
+      "editTitle": "Edit service",
+      "empty": "No services have been added yet.",
+      "fields": {
+        "description": "Description",
+        "durationMinutes": "Duration in minutes",
+        "isActive": "This service is active",
+        "name": "Service name",
+        "price": "Price (PLN)",
+        "specialization": "Category"
+      },
+      "listDescription": "Add services and manage their basic settings.",
+      "noDescription": "No description",
+      "placeholders": {
+        "description": "For example: manicure with gel polish and nail preparation.",
+        "durationMinutes": "60",
+        "name": "Hybrid manicure",
+        "price": "120"
+      },
+      "remove": "Remove service",
+      "priceValue": "PLN {price}",
+      "save": "Save",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "title": "Services"
+    },
+    "addons": {
+      "add": "Add add-on",
+      "addonDescription": "Affects the duration or price of the selected service.",
+      "description": "Add optional extensions to services. Add-ons can increase the price and extend the appointment time.",
+      "descriptions": {
+        "isActive": "An inactive add-on will not be available during booking."
+      },
+      "empty": "No add-ons for this service.",
+      "fields": {
+        "durationMinutes": "Additional time",
+        "isActive": "This add-on is active",
+        "name": "Add-on name",
+        "price": "Additional price"
+      },
+      "info": "You can skip this step and add add-ons later.",
+      "newAddon": "New add-on",
+      "optional": "Optional step",
+      "placeholders": {
+        "durationMinutes": "15",
+        "name": "French",
+        "price": "20"
+      },
+      "remove": "Remove add-on",
+      "serviceDuration": "{duration} min",
+      "servicePrice": "PLN {price}",
+      "title": "Add-ons"
+    },
+    "placeholder": {
+      "description": "This step will be implemented next. You can return to the previous step for now.",
+      "title": "Next step"
+    },
+    "feedback": {
+      "businessTypeSaveFailed": "Could not save the salon model",
+      "completionFailed": "Could not finish salon setup",
+      "loadFailed": "Could not load salon setup",
+      "savedSuccessfully": "Saved successfully!",
+      "saveFailed": "Could not save this step",
+      "startFailed": "Could not start salon setup",
+      "sessionExpired": "Your session has expired. Sign in again"
+    },
+    "overlays": {
+      "loadingTitle": "Loading setup"
+    },
+    "badges": {
+      "autosave": "Progress is saved automatically",
+      "firstSetup": "First setup"
+    },
+    "page": {
+      "description": "Set up the basic information about your salon step by step.",
+      "title": "Initial setup"
+    },
+    "progress": "Step {current} of {total}",
+    "progressLabel": "Setup progress: {percentage}%",
+    "progressPercentage": "{percentage}%",
+    "progressNavigationLabel": "Salon setup steps",
+    "requirements": {
+      "description": "To configure this step, save the following sections first.",
+      "title": "Complete the required steps first"
+    },
+    "steps": {
+      "addons": "Add-ons",
+      "availability": "Opening hours",
+      "bookingRules": "Booking rules",
+      "businessBasics": "Your salon",
+      "location": "Location",
+      "publicProfile": "Booking page",
+      "services": "Services",
+      "summary": "Summary",
+      "team": "Team",
+      "teamServices": "Team services"
+    },
+    "stepDescriptions": {
+      "businessBasics": "The essential information about your salon.",
+      "location": "Salon address, arrival details, and mobile services.",
+      "publicProfile": "Contact details displayed on your booking page.",
+      "summary": "Review all information and save your setup on the final screen."
+    },
+    "summary": {
+      "description": "Review the key information saved during setup.",
+      "empty": "Not provided",
+      "fields": {
+        "address": "Salon address",
+        "contact": "Contact",
+        "mobileServices": "Mobile services",
+        "model": "Salon model",
+        "name": "Salon name",
+        "socialMedia": "Social profiles",
+        "specializations": "Specializations"
+      },
+      "no": "No",
+      "title": "Summary",
+      "values": {
+        "kilometers": "{value} km",
+        "minutes": "{value} min"
+      },
+      "yes": "Yes"
+    },
+    "unsavedChanges": {
+      "description": "If you leave setup, changes made since the last save will be lost.",
+      "leave": "Leave without saving",
+      "stay": "Stay",
+      "title": "You have unsaved changes"
+    },
+    "unsavedStepChange": {
+      "description": "Changes made in this step will be discarded.",
+      "leave": "Continue without saving",
+      "saveAndLeave": "Save and continue",
+      "stay": "Stay on this step",
+      "title": "Go to another step?"
+    },
+    "unsavedStep": "This step has unsaved changes"
+  },
   "footer": {
     "description": "Your place to book the best beauty services. Beauty begins with a moment for yourself.",
-    "copyright": "? 2026 Beauty Booking. All rights reserved.",
+    "copyright": "© 2026 Beauty Booking. All rights reserved.",
     "sections": {
       "customers": "For customers",
       "information": "Information"
@@ -53,6 +631,281 @@
       "placeholder": "Your e-mail address",
       "inputLabel": "E-mail address",
       "buttonLabel": "Subscribe"
+    }
+  },
+  "auth": {
+    "register": {
+      "actions": {
+        "backHome": "Go to homepage",
+        "cancelRegistration": "Cancel registration",
+        "fillTemporaryData": "Temporarily fill random data",
+        "goToLogin": "Go to login",
+        "haveAccount": "I already have an account",
+        "resendCode": "Send code again",
+        "submit": "Create account",
+        "verifyEmail": "Confirm e-mail"
+      },
+      "fields": {
+        "acceptTermsAndPrivacy": "I accept the <termsLink>terms</termsLink> and <privacyPolicyLink>privacy policy</privacyPolicyLink>.",
+        "birthDate": "Birth date",
+        "confirmPassword": "Repeat password",
+        "email": "E-mail",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "password": "Password",
+        "phone": "Phone number",
+        "verificationCode": "Verification code"
+      },
+      "feedback": {
+        "cannotResume": "Registration cannot be resumed",
+        "codeExpired": "The registration confirmation time has expired. Start registration again.",
+        "codeExpires": "E-mail confirmation expires in {time}",
+        "emailConfirmationFailed": "Could not confirm e-mail",
+        "genericError": "Could not complete the operation. Try again.",
+        "registrationCleared": "Registration cleared",
+        "registrationClearedDescription": "Could not cancel registration on the server. The local process was cleared.",
+        "registrationExpired": "Registration expired",
+        "registrationExpiredDescription": "The registration confirmation time has expired. Start registration again.",
+        "registrationFailed": "Could not create account",
+        "resendCodeFailed": "Could not send code",
+        "resendCooldown": "You can send a new code in {seconds} s",
+        "resendLimitReached": "The resend limit has been reached.",
+        "resumeRegistrationDescription": "Start registration again.",
+        "resumeRegistrationFailed": "Could not resume registration",
+        "verificationCodeSent": "Code sent",
+        "verificationCodeSentDescription": "Check your inbox and enter the new code."
+      },
+      "hero": {
+        "confirmedDescription": "The account is ready for login.",
+        "confirmedTitle": "E-mail confirmed",
+        "description": "Create an account and start using Beauty Booking.",
+        "title": "Create account",
+        "verifyTitle": "Confirm e-mail"
+      },
+      "overlays": {
+        "cancelDescription": "We are ending the current registration process.",
+        "cancelTitle": "Cancelling registration",
+        "redirectDescription": "We are taking you to e-mail confirmation.",
+        "sendCodeTitle": "Sending code",
+        "statusDescription": "We are checking whether you can continue e-mail confirmation.",
+        "statusTitle": "Checking registration",
+        "verifyDescription": "We are checking the code and activating the account.",
+        "verifyTitle": "Confirming e-mail"
+      },
+      "placeholders": {
+        "confirmPassword": "Repeat password",
+        "email": "anna@example.com",
+        "firstName": "Anna",
+        "lastName": "Kowalska",
+        "password": "Enter a strong password",
+        "verificationCode": "000000"
+      },
+      "success": {
+        "description": "E-mail {email} has been confirmed. You can log in.",
+        "title": "E-mail has been confirmed"
+      },
+      "texts": {
+        "emailDescription": "We will send a confirmation code to this address.",
+        "optional": "(optional)",
+        "passwordDescription": "Minimum 8 characters, lowercase and uppercase letter, digit, and special character.",
+        "privacyPolicy": "privacy policy",
+        "terms": "terms",
+        "verificationIntro": "We sent a verification code to",
+        "verificationOutro": "Enter it below to finish registration."
+      }
+    },
+    "navigation": {
+      "label": "Account navigation",
+      "login": "Log in",
+      "register": "Sign up"
+    },
+    "login": {
+      "actions": {
+        "backHome": "Go to homepage",
+        "forgotPassword": "Forgot password?",
+        "google": "Log in with Google",
+        "noAccount": "Do not have an account yet?",
+        "register": "Sign up",
+        "rememberMe": "Remember me",
+        "submit": "Log in"
+      },
+      "card": {
+        "description": "Enter your account details to continue booking.",
+        "title": "Login"
+      },
+      "feedback": {
+        "invalidCredentials": "We could not find an account with these credentials. Check your e-mail and password.",
+        "loginFailed": "Could not log in"
+      },
+      "fields": {
+        "email": "E-mail",
+        "password": "Password"
+      },
+      "hero": {
+        "description": "Log in to manage your bookings and enjoy beauty every day.",
+        "title": "Log in"
+      },
+      "overlays": {
+        "submitDescription": "We are checking your account details and preparing your panel.",
+        "submitTitle": "Logging you in"
+      },
+      "placeholders": {
+        "email": "Enter your e-mail address",
+        "password": "Enter your password"
+      },
+      "texts": {
+        "privacy": "Details are available in our <privacyPolicyLink>Privacy policy</privacyPolicyLink>.",
+        "security": "Your data is safe with us.",
+        "separator": "Or"
+      }
+    }
+  },
+  "datePicker": {
+    "month": "Month",
+    "months": {
+      "april": "April",
+      "august": "August",
+      "december": "December",
+      "february": "February",
+      "january": "January",
+      "july": "July",
+      "june": "June",
+      "march": "March",
+      "may": "May",
+      "november": "November",
+      "october": "October",
+      "september": "September"
+    },
+    "nextMonth": "Next month",
+    "placeholder": "Choose date",
+    "previousMonth": "Previous month",
+    "weekDays": {
+      "friday": "Fri",
+      "monday": "Mon",
+      "saturday": "Sat",
+      "sunday": "Sun",
+      "thursday": "Thu",
+      "tuesday": "Tue",
+      "wednesday": "Wed"
+    },
+    "year": "Year"
+  },
+  "timePicker": {
+    "hours": "Hour",
+    "minutes": "Minute",
+    "openPicker": "Open time picker",
+    "placeholder": "Choose time",
+    "placeholderShort": "HH:MM"
+  },
+  "validation": {
+    "account": {
+      "email": {
+        "required": "Enter your e-mail address.",
+        "invalid": "Enter a valid e-mail address."
+      },
+      "password": {
+        "minLength": "Password must contain at least 8 characters.",
+        "lowercase": "Password must contain a lowercase letter.",
+        "uppercase": "Password must contain an uppercase letter.",
+        "digit": "Password must contain a digit.",
+        "specialCharacter": "Password must contain a special character.",
+        "required": "Enter your password."
+      },
+      "confirmPassword": {
+        "required": "Repeat your password.",
+        "mismatch": "Passwords must match."
+      },
+      "firstName": {
+        "minLength": "First name must contain at least 2 characters.",
+        "maxLength": "First name can contain up to 40 characters.",
+        "invalidCharacters": "First name may contain letters, spaces, apostrophes and hyphens."
+      },
+      "lastName": {
+        "minLength": "Last name must contain at least 2 characters.",
+        "maxLength": "Last name can contain up to 40 characters.",
+        "invalidCharacters": "Last name may contain letters, spaces, apostrophes and hyphens."
+      },
+      "birthDate": {
+        "invalid": "Enter a valid birth date."
+      },
+      "phone": {
+        "invalid": "Enter a valid 9-digit phone number."
+      },
+      "consents": {
+        "termsAndPrivacyPolicy": "Accept the terms and privacy policy."
+      },
+      "verificationCode": {
+        "invalid": "Enter the 6-digit code from the e-mail."
+      }
+    },
+    "business": {
+      "nameMinLength": "Salon name must contain at least 2 characters.",
+      "socialProfileInvalid": "Enter a valid link to the selected profile.",
+      "socialProfileMaxLength": "A profile link can contain at most 200 characters.",
+      "specializationsRequired": "Select at least one specialization.",
+      "specializationsUnique": "Each specialization can only be selected once.",
+      "location": {
+        "apartmentNumberInvalid": "Apartment number can contain digits from 1 to 9999 only.",
+        "apartmentNumberMaxLength": "Apartment number can contain up to 4 digits.",
+        "buildingNumberInvalid": "Enter digits and optionally one letter.",
+        "buildingNumberMaxLength": "Building number can contain up to 6 characters.",
+        "buildingNumberRequired": "Enter the building number.",
+        "cityCapitalized": "Locality must start with an uppercase letter.",
+        "cityInvalid": "Locality can contain letters, spaces and a hyphen only.",
+        "cityMaxLength": "Locality can contain up to 50 characters.",
+        "cityMinLength": "Locality must contain at least 2 characters.",
+        "locationNoteMaxLength": "Arrival note can contain up to 500 characters.",
+        "mobileServiceFixedFeeInvalid": "Enter a valid fee between PLN 0.01 and PLN 10,000.",
+        "mobileServiceMaxDistanceInvalid": "Enter a distance between 1 and 200 km.",
+        "mobileServiceTravelTimeInvalid": "Enter a time between 5 and 240 minutes.",
+        "noteInvalid": "Note can contain text, digits and basic punctuation only.",
+        "parkingNoteMaxLength": "Parking note can contain up to 500 characters.",
+        "postalCodeInvalid": "Enter postal code in the 00-000 format.",
+        "streetInvalid": "Street can contain letters, digits, spaces, a hyphen and a dot.",
+        "streetMaxLength": "Street can contain up to 60 characters.",
+        "streetMinLength": "Street must contain at least 2 characters."
+      },
+      "openingHours": {
+        "allDaysRequired": "Set opening hours for every day of the week.",
+        "closesAfterOpening": "Closing time must be later than opening time.",
+        "timeInvalid": "Enter time in HH:MM format."
+      },
+      "bookingRules": {
+        "bookingHorizonInvalid": "Enter a number of days between 1 and 730.",
+        "cancellationDeadlineInvalid": "Enter a number of hours between 0 and 720.",
+        "minimumAdvanceInvalid": "Enter a notice period between 0 and 43,200 minutes."
+      },
+      "team": {
+        "emailDuplicate": "This e-mail address is already assigned to a team member.",
+        "emailInvalid": "Enter a valid e-mail address.",
+        "fullNameInvalid": "Full name can contain letters, spaces, apostrophes and hyphens.",
+        "fullNameMaxLength": "Full name can contain up to 80 characters.",
+        "fullNameMinLength": "Full name must contain at least 2 characters.",
+        "maxItems": "You can add up to 50 people."
+      },
+      "services": {
+        "descriptionMaxLength": "Description can contain up to 500 characters.",
+        "durationInvalid": "Enter duration as a whole number of minutes.",
+        "durationMax": "Duration must be between 1 and 600 minutes.",
+        "maxItems": "You can add up to 100 services.",
+        "minItems": "Add at least one service.",
+        "nameInvalid": "Service name can contain letters, digits, spaces and a hyphen.",
+        "nameMaxLength": "Service name can contain up to 60 characters.",
+        "nameMinLength": "Service name must contain at least 2 characters.",
+        "priceInvalid": "Enter a valid price.",
+        "priceMax": "Price must be between 0 and 9999.99."
+      },
+      "addons": {
+        "durationInvalid": "Enter duration as a whole number of minutes.",
+        "durationMax": "Additional time must be between 0 and 600 minutes.",
+        "maxItems": "You can add up to 300 add-ons.",
+        "nameInvalid": "Add-on name can contain letters, digits, spaces and a hyphen.",
+        "nameMaxLength": "Add-on name can contain up to 60 characters.",
+        "nameMinLength": "Add-on name must contain at least 2 characters.",
+        "priceInvalid": "Enter a valid price.",
+        "priceMax": "Price must be between 0 and 9999.99.",
+        "serviceRequired": "Select a service for this add-on."
+      }
     }
   }
 }

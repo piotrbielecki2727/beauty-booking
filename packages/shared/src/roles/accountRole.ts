@@ -4,6 +4,7 @@ export const accountRoles = [
   "Owner",
   "Manager",
   "Employee",
+  "Intern",
   "Customer",
   "Admin",
 ] as const;
@@ -21,6 +22,7 @@ export const salonTeamRoles = [
   "Owner",
   "Manager",
   "Employee",
+  "Intern",
   "Admin",
 ] satisfies AccountRole[];
 export const salonManagementRoles = ["Owner", "Admin"] satisfies AccountRole[];

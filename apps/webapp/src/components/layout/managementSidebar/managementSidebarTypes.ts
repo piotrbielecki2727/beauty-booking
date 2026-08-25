@@ -3,6 +3,7 @@ import type { LucideProps } from "lucide-react";
 
 export type ManagementNavLabelKey =
   | "dashboard"
+  | "initialSetup"
   | "calendar"
   | "bookings"
   | "services"

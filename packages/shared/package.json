@@ -18,9 +18,17 @@
       "types": "./dist/auth/index.d.ts",
       "default": "./dist/auth/index.js"
     },
+    "./businessSetup": {
+      "types": "./dist/businessSetup/index.d.ts",
+      "default": "./dist/businessSetup/index.js"
+    },
     "./roles": {
       "types": "./dist/roles/index.d.ts",
       "default": "./dist/roles/index.js"
+    },
+    "./tenant": {
+      "types": "./dist/tenant/index.d.ts",
+      "default": "./dist/tenant/index.js"
     }
   },
   "scripts": {

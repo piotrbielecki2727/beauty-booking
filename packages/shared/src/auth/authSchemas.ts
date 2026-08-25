@@ -3,13 +3,14 @@ import { z } from "zod";
 import {
   accountRegistrationSchema,
   accountVerificationCodeSchema,
+  accountValidationMessageKeys,
   emailSchema,
   publicAccountSchema,
 } from "../account";
 
 export const accountLoginSchema = z.object({
   email: emailSchema,
-  password: z.string().min(1, "Podaj hasło."),
+  password: z.string().min(1, accountValidationMessageKeys.password.required),
 });
 
 export const authRegisterRequestSchema = accountRegistrationSchema.transform(
@@ -20,9 +21,11 @@ export const authRegistrationTokenSchema = z.object({
   registrationToken: z.string().min(1),
 });
 
-export const authVerifyEmailRequestSchema = accountVerificationCodeSchema.extend({
-  registrationToken: authRegistrationTokenSchema.shape.registrationToken,
-});
+export const authVerifyEmailRequestSchema = accountVerificationCodeSchema.extend(
+  {
+    registrationToken: authRegistrationTokenSchema.shape.registrationToken,
+  },
+);
 
 export const authTokensSchema = z.object({
   accessToken: z.string().min(1),

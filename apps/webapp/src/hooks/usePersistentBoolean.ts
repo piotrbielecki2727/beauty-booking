@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
+
+const PERSISTENT_BOOLEAN_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 const getPersistentBooleanEventName = (key: string) => {
   return `persistent-boolean-change:${key}`;
@@ -18,6 +20,10 @@ const getPersistentBooleanValue = (key: string, defaultValue: boolean) => {
   } catch {
     return defaultValue;
   }
+};
+
+const setPersistentBooleanCookie = (key: string, value: boolean) => {
+  document.cookie = `${encodeURIComponent(key)}=${String(value)}; Path=/; Max-Age=${PERSISTENT_BOOLEAN_COOKIE_MAX_AGE}; SameSite=Lax`;
 };
 
 export const usePersistentBoolean = (
@@ -59,11 +65,16 @@ export const usePersistentBoolean = (
     getServerSnapshot,
   );
 
+  useEffect(() => {
+    setPersistentBooleanCookie(key, value);
+  }, [key, value]);
+
   const setValue = useCallback(
     (nextValue: boolean) => {
       try {
         window.localStorage.setItem(key, String(nextValue));
       } finally {
+        setPersistentBooleanCookie(key, nextValue);
         window.dispatchEvent(new Event(getPersistentBooleanEventName(key)));
       }
     },

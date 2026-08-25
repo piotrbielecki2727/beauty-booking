@@ -3,25 +3,28 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { PageContainer } from "@/components/layout/PageContainer";
 import { CustomerNavbarDesktop } from "@/components/layout/customerNavbar/desktop/CustomerNavbarDesktop";
 import { CustomerNavbarMobile } from "@/components/layout/customerNavbar/mobile/CustomerNavbarMobile";
-import { CustomerNavbarBrand } from "@/components/layout/customerNavbar/shared/CustomerNavbarBrand";
+import { useTenantContext } from "@/features/tenant";
 
 export const CustomerNavbar = () => {
   const t = useTranslations();
+  const { business } = useTenantContext();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const brandLabel = business?.name ?? t("common.appName");
 
   return (
-    <header className="sticky top-0 z-40 border-b border-nav-border bg-nav/95 text-nav-foreground ">
-      <PageContainer className="flex h-16 items-center justify-between gap-4 py-0">
-        <CustomerNavbarBrand label={t("common.appName")} />
+    <header className="sticky top-0 z-40 bg-canvas">
+      <div className="flex h-18 items-center justify-between gap-4 border-b border-line px-4 py-0 sm:px-6 lg:px-12">
+        <span className="font-brand text-[28px] font-semibold leading-[28px] tracking-[-0.02em] text-brand">
+          {brandLabel}
+        </span>
         <CustomerNavbarDesktop />
         <CustomerNavbarMobile
           isOpen={isMobileOpen}
           onIsOpenChange={setIsMobileOpen}
         />
-      </PageContainer>
+      </div>
     </header>
   );
 };

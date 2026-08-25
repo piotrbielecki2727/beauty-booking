@@ -1,6 +1,10 @@
 "use client";
 
 import { Tooltip } from "@/components/reusable/Tooltip";
+import {
+  sidebarControlActiveClassNames,
+  sidebarControlClassNames,
+} from "@/components/layout/layoutControlVariantStyles";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -31,10 +35,9 @@ export const ManagementNavItem = ({
       onClick={onNavigate}
       className={cn(
         "flex h-10 min-w-0 items-center gap-2 rounded-md px-3 text-sm font-medium",
-        "text-sidebar-foreground/80 transition-colors",
-        "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-        "focus-visible:outline-2 focus-visible:outline-sidebar-ring",
-        isActive && "bg-sidebar-accent text-sidebar-accent-foreground",
+        sidebarControlClassNames,
+        "focus-visible:outline-2",
+        isActive && sidebarControlActiveClassNames,
       )}
     >
       <span className="flex size-8 shrink-0 items-center justify-center">

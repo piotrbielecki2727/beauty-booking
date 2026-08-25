@@ -4,12 +4,12 @@
 **/coverage/
 /apps/web/
 /apps/web copy/
-**apps/backend
 
 
 .env
 .env.local
 .env.*.local
+*.config.local.ts
 
 .DS_Store
 *.log

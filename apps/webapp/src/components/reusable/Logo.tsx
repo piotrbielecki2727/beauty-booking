@@ -29,6 +29,7 @@ type LogoProperties = Omit<ComponentPropsWithoutRef<"span">, "color"> & {
   size?: LogoSize;
   svgClassName?: string;
   textSize?: LogoTextSize;
+  isLogoDisplay?: boolean;
 };
 
 export const Logo = ({
@@ -40,6 +41,7 @@ export const Logo = ({
   style,
   svgClassName,
   textSize = "md",
+  isLogoDisplay = true,
   ...props
 }: LogoProperties) => {
   return (
@@ -51,12 +53,14 @@ export const Logo = ({
       style={style}
       {...props}
     >
-      <BeautyBookingLogoSvg
-        aria-hidden="true"
-        className={cn("text-brand", logoSizeClassName[size], svgClassName)}
-        focusable="false"
-        style={{ color }}
-      />
+      {isLogoDisplay && (
+        <BeautyBookingLogoSvg
+          aria-hidden="true"
+          className={cn("text-brand", logoSizeClassName[size], svgClassName)}
+          focusable="false"
+          style={{ color }}
+        />
+      )}
       {label && (
         <span
           className={cn(

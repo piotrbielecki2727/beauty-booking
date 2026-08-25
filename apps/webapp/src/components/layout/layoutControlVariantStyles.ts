@@ -1,20 +1,25 @@
 export type LayoutControlVariant = "default" | "nav" | "sidebar";
 
+export const sidebarControlClassNames =
+  "text-brand transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-sidebar-ring";
+
+export const sidebarControlActiveClassNames =
+  "bg-sidebar-accent text-sidebar-accent-foreground";
+
 export const layoutControlBorderClassNames: Record<
   LayoutControlVariant,
   string
 > = {
   default: "",
-  nav: "border-nav-border",
+  nav: "border-line",
   sidebar: "border-sidebar-border",
 };
 
 export const layoutControlClassNames: Record<LayoutControlVariant, string> = {
   default:
     "text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:outline-ring",
-  nav: "text-nav-foreground/80 hover:bg-nav-accent hover:text-nav-accent-foreground focus-visible:outline-nav-ring",
-  sidebar:
-    "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-sidebar-ring",
+  nav: "text-brand hover:bg-surface-hover hover:text-brand-hover focus-visible:outline-brand",
+  sidebar: sidebarControlClassNames,
 };
 
 export const layoutControlActiveClassNames: Record<
@@ -22,6 +27,6 @@ export const layoutControlActiveClassNames: Record<
   string
 > = {
   default: "bg-accent text-accent-foreground",
-  nav: "bg-nav-accent text-nav-accent-foreground",
-  sidebar: "bg-sidebar-accent text-sidebar-accent-foreground",
+  nav: "bg-surface-hover text-brand-hover",
+  sidebar: sidebarControlActiveClassNames,
 };

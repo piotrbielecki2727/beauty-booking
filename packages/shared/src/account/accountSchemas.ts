@@ -3,7 +3,7 @@ import { z } from "zod";
 import { accountRoleSchema } from "../roles";
 
 const minimumBirthYear = 1900;
-const namePattern = /^[\p{L}\p{M}'’ -]+$/u;
+const namePattern = /^[\p{L}\p{M}'\u2019 -]+$/u;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const uppercaseLetterPattern = /\p{Lu}/u;
 const lowercaseLetterPattern = /\p{Ll}/u;
@@ -12,25 +12,76 @@ const specialCharacterPattern = /[^\p{L}\p{N}\s]/u;
 const acceptedConsentSchema = (message: string) =>
   z.boolean(message).refine((value) => value, message);
 
+export const accountValidationMessageKeys = {
+  birthDate: {
+    invalid: "validation.account.birthDate.invalid",
+  },
+  confirmPassword: {
+    mismatch: "validation.account.confirmPassword.mismatch",
+    required: "validation.account.confirmPassword.required",
+  },
+  consents: {
+    termsAndPrivacyPolicy:
+      "validation.account.consents.termsAndPrivacyPolicy",
+  },
+  email: {
+    invalid: "validation.account.email.invalid",
+    required: "validation.account.email.required",
+  },
+  firstName: {
+    invalidCharacters: "validation.account.firstName.invalidCharacters",
+    maxLength: "validation.account.firstName.maxLength",
+    minLength: "validation.account.firstName.minLength",
+  },
+  lastName: {
+    invalidCharacters: "validation.account.lastName.invalidCharacters",
+    maxLength: "validation.account.lastName.maxLength",
+    minLength: "validation.account.lastName.minLength",
+  },
+  password: {
+    digit: "validation.account.password.digit",
+    lowercase: "validation.account.password.lowercase",
+    minLength: "validation.account.password.minLength",
+    required: "validation.account.password.required",
+    specialCharacter: "validation.account.password.specialCharacter",
+    uppercase: "validation.account.password.uppercase",
+  },
+  phone: {
+    invalid: "validation.account.phone.invalid",
+  },
+  verificationCode: {
+    invalid: "validation.account.verificationCode.invalid",
+  },
+} as const;
+
 export const emailSchema = z
   .string()
   .trim()
-  .min(1, "Podaj adres e-mail.")
-  .max(254, "Podaj poprawny adres e-mail")
-  .refine((value) => emailPattern.test(value), "Podaj poprawny adres e-mail");
+  .min(1, accountValidationMessageKeys.email.required)
+  .max(254, accountValidationMessageKeys.email.invalid)
+  .refine(
+    (value) => emailPattern.test(value),
+    accountValidationMessageKeys.email.invalid,
+  );
 
 export const passwordSchema = z
   .string()
-  .min(8, "Hasło musi mieć minimum 8 znaków.")
-  .regex(lowercaseLetterPattern, "Hasło musi zawierać małą literę.")
-  .regex(uppercaseLetterPattern, "Hasło musi zawierać wielką literę.")
-  .regex(digitPattern, "Hasło musi zawierać cyfrę.")
-  .regex(specialCharacterPattern, "Hasło musi zawierać znak specjalny.");
+  .min(8, accountValidationMessageKeys.password.minLength)
+  .regex(lowercaseLetterPattern, accountValidationMessageKeys.password.lowercase)
+  .regex(uppercaseLetterPattern, accountValidationMessageKeys.password.uppercase)
+  .regex(digitPattern, accountValidationMessageKeys.password.digit)
+  .regex(
+    specialCharacterPattern,
+    accountValidationMessageKeys.password.specialCharacter,
+  );
 
-const confirmPasswordSchema = z.string().min(1, "Powtórz hasło.");
+const confirmPasswordSchema = z
+  .string()
+  .min(1, accountValidationMessageKeys.confirmPassword.required);
 
 export const publicAccountSchema = z.object({
   birthDate: z.string(),
+  businessId: z.string().uuid(),
   createdAt: z.string(),
   email: emailSchema,
   emailVerifiedAt: z.string().nullable(),
@@ -65,38 +116,40 @@ const isValidBirthDate = (value: string) => {
 };
 
 export const accountRegistrationFieldsSchema = z.object({
-  acceptPrivacyPolicy: acceptedConsentSchema(
-    "Zaakceptuj politykę prywatności.",
+  acceptTermsAndPrivacyPolicy: acceptedConsentSchema(
+    accountValidationMessageKeys.consents.termsAndPrivacyPolicy,
   ),
-  acceptTerms: acceptedConsentSchema("Zaakceptuj regulamin."),
   birthDate: z
     .string()
     .refine(
       (value) => value === "" || isValidBirthDate(value),
-      "Podaj poprawną datę urodzenia.",
+      accountValidationMessageKeys.birthDate.invalid,
     ),
   email: emailSchema,
   firstName: z
     .string()
     .trim()
-    .min(2, "Imię musi mieć minimum 2 znaki.")
-    .max(40, "Imię może mieć maksymalnie 40 znaków.")
-    .regex(namePattern, "Imię może zawierać litery, spacje, apostrof i myślnik."),
+    .min(2, accountValidationMessageKeys.firstName.minLength)
+    .max(40, accountValidationMessageKeys.firstName.maxLength)
+    .regex(
+      namePattern,
+      accountValidationMessageKeys.firstName.invalidCharacters,
+    ),
   lastName: z
     .string()
     .trim()
-    .min(2, "Nazwisko musi mieć minimum 2 znaki.")
-    .max(40, "Nazwisko może mieć maksymalnie 40 znaków.")
+    .min(2, accountValidationMessageKeys.lastName.minLength)
+    .max(40, accountValidationMessageKeys.lastName.maxLength)
     .regex(
       namePattern,
-      "Nazwisko może zawierać litery, spacje, apostrof i myślnik.",
+      accountValidationMessageKeys.lastName.invalidCharacters,
     ),
   password: passwordSchema,
   phone: z
     .string()
     .refine(
       (value) => value === "" || /^\d{9}$/.test(value),
-      "Podaj poprawny numer telefonu, 9 cyfr.",
+      accountValidationMessageKeys.phone.invalid,
     ),
 });
 
@@ -111,16 +164,20 @@ export const accountRegistrationSchema = accountRegistrationFieldsSchema
 
     context.addIssue({
       code: "custom",
-      message: "Hasła muszą być takie same.",
+      message: accountValidationMessageKeys.confirmPassword.mismatch,
       path: ["confirmPassword"],
     });
   });
 
 export const accountVerificationCodeSchema = z.object({
-  code: z.string().regex(/^\d{6}$/, "Wpisz 6-cyfrowy kod z e-maila."),
+  code: z
+    .string()
+    .regex(/^\d{6}$/, accountValidationMessageKeys.verificationCode.invalid),
 });
 
-export type AccountRegistrationValues = z.infer<typeof accountRegistrationSchema>;
+export type AccountRegistrationValues = z.infer<
+  typeof accountRegistrationSchema
+>;
 export type AccountVerificationCodeValues = z.infer<
   typeof accountVerificationCodeSchema
 >;

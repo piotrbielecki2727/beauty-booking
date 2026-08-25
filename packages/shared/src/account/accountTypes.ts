@@ -2,6 +2,7 @@ import type { AccountRole } from "../roles";
 
 export type AccountSession = {
   birthDate: string;
+  businessId: string;
   createdAt: string;
   email: string;
   firstName: string;

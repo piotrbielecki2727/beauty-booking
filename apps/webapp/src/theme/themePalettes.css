@@ -1,6 +1,19 @@
 :root,
 :root[data-palette="nude"] {
   --background: #fcf8f5; /* Glowne tlo aplikacji. */
+  --canvas: #fcf8f5;
+  --surface: #fffaf7;
+  --surface-panel: #fcf8f5;
+  --surface-raised: #ffffff;
+  --surface-hover: #e9d3c8;
+  --copy: #2f2926;
+  --copy-muted: #8b7c74;
+  --copy-subtle: #9a8a83;
+  --copy-inverse: #ffffff;
+  --line-subtle: #efe2dc;
+  --line: #e9ded8;
+  --line-soft: #e7d7cf;
+  --line-strong: #d2c3bc;
   --foreground: #2f2926; /* Domyslny kolor tekstu. */
   --card: #ffffff; /* Karty i podniesione powierzchnie. */
   --card-foreground: #2f2926; /* Tekst na kartach. */
@@ -15,6 +28,10 @@
   --accent: #e9d3c8; /* Aktywne elementy poza sidebar/nav, miekki akcent. */
   --accent-foreground: #4d3932; /* Tekst i ikony na accent. */
   --destructive: #b94a48; /* Bledy i akcje destrukcyjne. */
+  --danger: #b94a48;
+  --danger-surface: #f9e5e4;
+  --danger-border: #efbebb;
+  --danger-text: #b94a48;
   --destructive-foreground: #ffffff; /* Tekst i ikony na destructive. */
   --border: #e9ded8; /* Domyslne obramowania i separatory. */
   --input: #e9ded8; /* Obramowania inputow. */
@@ -28,8 +45,41 @@
   --brand: #c98e7a; /* Logo, akcenty brandowe i detale dekoracyjne. */
   --brand-soft: #f6e6df; /* Bardzo delikatne powierzchnie brandowe. */
   --brand-strong: #a96d5b; /* Mocniejsze akcenty brandowe i hover. */
+  --brand-hover: #b97966; /* Hover dla brandowych CTA. */
+  --brand-border: #dab5ad;
+  --brand-border-muted: color-mix(in srgb, var(--brand) 15%, transparent);
+  --brand-divider: color-mix(in srgb, var(--brand) 35%, transparent);
+  --brand-shadow: #e8c9c1;
+  --brand-wash: color-mix(in srgb, var(--brand) 10%, transparent);
+  --brand-wash-subtle: color-mix(in srgb, var(--brand) 5%, transparent);
+  --overlay: #fcf8f599;
+  --backdrop: #fcf8f5cc;
+  --loader-surface: var(--brand-soft);
+  --loader-border: var(--brand-border);
+  --loader-spinner-muted: var(--brand-shadow);
+  --loader-spinner-strong: var(--brand);
+  --datepicker-control-hover: #fff1ec;
+  --datepicker-control-ring: #e5bbb6;
+  --datepicker-option-hover: var(--brand-soft);
+  --datepicker-option-selected: var(--brand);
+  --datepicker-option-selected-hover: var(--brand-hover);
+  --datepicker-option-selected-foreground: var(--copy-inverse);
+  --light-text: #ffffff; /* Jasny tekst na ciemnym lub mocnym tle. */
+  --selection: color-mix(
+    in srgb,
+    var(--brand) 28%,
+    transparent
+  ); /* Tlo zaznaczonego tekstu. */
   --surface-soft: #faf1ec; /* Miekkie karty rezerwacji/info i spokojne sekcje. */
   --surface-emphasis: #f0ddd4; /* Troche mocniejsze wyroznienie powierzchni. */
+  --auth-form-surface: #fffaf7; /* Powierzchnia formularzy auth. */
+  --auth-form-border: #e7d7cf; /* Delikatna ramka formularzy auth. */
+  --auth-form-line: #d2c3bc; /* Linie i obramowania pol formularzy auth. */
+  --auth-form-muted: #9a8a83; /* Placeholdery i drobny tekst formularzy auth. */
+  --register-form-surface: var(--auth-form-surface);
+  --register-form-border: var(--auth-form-border);
+  --register-form-line: var(--auth-form-line);
+  --register-form-muted: var(--auth-form-muted);
   --chart-1: #c98e7a; /* Seria danych 1. */
   --chart-2: #a96d5b; /* Seria danych 2. */
   --chart-3: #e9d3c8; /* Seria danych 3. */
@@ -38,7 +88,7 @@
   --radius: 0.625rem;
   --sidebar: #fbf5f1; /* Tlo management sidebaru. */
   --sidebar-foreground: #4a3c36; /* Domyslny tekst i ikony w sidebarze. */
-  --sidebar-primary: #c98e7a; /* Akcent logo/brandu w sidebarze. */
+  --sidebar-primary: var(--brand); /* Akcent logo/brandu w sidebarze. */
   --sidebar-primary-foreground: #ffffff; /* Tekst i ikony na sidebar primary. */
   --sidebar-accent: #f0e1da; /* Aktywny i hoverowany element sidebaru. */
   --sidebar-accent-foreground: #3f312c; /* Tekst i ikony na sidebar accent. */
@@ -46,7 +96,7 @@
   --sidebar-ring: #c98e7a; /* Focus ring w sidebarze. */
   --nav: #fcf8f5; /* Tlo customer navbara i mobile drawera. */
   --nav-foreground: #2f2926; /* Domyslny tekst i ikony w navbarze. */
-  --nav-brand: #c98e7a; /* Akcent logo/brandu w navbarze. */
+  --nav-brand: var(--brand); /* Akcent logo/brandu w navbarze. */
   --nav-accent: #e9d3c8; /* Aktywny i hoverowany element navbara. */
   --nav-accent-foreground: #4d3932; /* Tekst i ikony na nav accent. */
   --nav-border: #e9ded8; /* Obramowania i separatory navbara. */
@@ -55,6 +105,19 @@
 
 :root[data-palette="mauve"] {
   --background: #fbf8f8; /* Glowne tlo aplikacji. */
+  --canvas: #fbf8f8;
+  --surface: #fffafa;
+  --surface-panel: #fbf8f8;
+  --surface-raised: #ffffff;
+  --surface-hover: #e8cfd5;
+  --copy: #342b2e;
+  --copy-muted: #8b7a7f;
+  --copy-subtle: #927f85;
+  --copy-inverse: #ffffff;
+  --line-subtle: #eee4e7;
+  --line: #e8dde0;
+  --line-soft: #e4d5d9;
+  --line-strong: #d0bdc2;
   --foreground: #342b2e; /* Domyslny kolor tekstu. */
   --card: #ffffff; /* Karty i podniesione powierzchnie. */
   --card-foreground: #342b2e; /* Tekst na kartach. */
@@ -69,6 +132,10 @@
   --accent: #e8cfd5; /* Aktywne elementy poza sidebar/nav, miekki akcent. */
   --accent-foreground: #52353d; /* Tekst i ikony na accent. */
   --destructive: #b94a5a; /* Bledy i akcje destrukcyjne. */
+  --danger: #b94a5a;
+  --danger-surface: #fae5e9;
+  --danger-border: #efbec7;
+  --danger-text: #b94a5a;
   --destructive-foreground: #ffffff; /* Tekst i ikony na destructive. */
   --border: #e8dde0; /* Domyslne obramowania i separatory. */
   --input: #e8dde0; /* Obramowania inputow. */
@@ -82,8 +149,41 @@
   --brand: #c08b89; /* Logo, akcenty brandowe i detale dekoracyjne. */
   --brand-soft: #f4e5e7; /* Bardzo delikatne powierzchnie brandowe. */
   --brand-strong: #93616d; /* Mocniejsze akcenty brandowe i hover. */
+  --brand-hover: #a96d79; /* Hover dla brandowych CTA. */
+  --brand-border: #d6b1b7;
+  --brand-border-muted: color-mix(in srgb, var(--brand) 15%, transparent);
+  --brand-divider: color-mix(in srgb, var(--brand) 35%, transparent);
+  --brand-shadow: #e6c9cf;
+  --brand-wash: color-mix(in srgb, var(--brand) 10%, transparent);
+  --brand-wash-subtle: color-mix(in srgb, var(--brand) 5%, transparent);
+  --overlay: #fbf8f899;
+  --backdrop: #fbf8f8cc;
+  --loader-surface: var(--brand-soft);
+  --loader-border: var(--brand-border);
+  --loader-spinner-muted: var(--brand-shadow);
+  --loader-spinner-strong: var(--brand);
+  --datepicker-control-hover: #fbf0f2;
+  --datepicker-control-ring: #e5bbc5;
+  --datepicker-option-hover: var(--brand-soft);
+  --datepicker-option-selected: var(--brand);
+  --datepicker-option-selected-hover: var(--brand-hover);
+  --datepicker-option-selected-foreground: var(--copy-inverse);
+  --light-text: #ffffff; /* Jasny tekst na ciemnym lub mocnym tle. */
+  --selection: color-mix(
+    in srgb,
+    var(--brand) 28%,
+    transparent
+  ); /* Tlo zaznaczonego tekstu. */
   --surface-soft: #f8f1f3; /* Miekkie karty rezerwacji/info i spokojne sekcje. */
   --surface-emphasis: #eedde1; /* Troche mocniejsze wyroznienie powierzchni. */
+  --auth-form-surface: #fffafa; /* Powierzchnia formularzy auth. */
+  --auth-form-border: #e4d5d9; /* Delikatna ramka formularzy auth. */
+  --auth-form-line: #d0bdc2; /* Linie i obramowania pol formularzy auth. */
+  --auth-form-muted: #927f85; /* Placeholdery i drobny tekst formularzy auth. */
+  --register-form-surface: var(--auth-form-surface);
+  --register-form-border: var(--auth-form-border);
+  --register-form-line: var(--auth-form-line);
+  --register-form-muted: var(--auth-form-muted);
   --chart-1: #b97b88; /* Seria danych 1. */
   --chart-2: #93616d; /* Seria danych 2. */
   --chart-3: #e8cfd5; /* Seria danych 3. */
@@ -91,7 +191,7 @@
   --chart-5: #61464e; /* Seria danych 5. */
   --sidebar: #faf5f6; /* Tlo management sidebaru. */
   --sidebar-foreground: #4c3b40; /* Domyslny tekst i ikony w sidebarze. */
-  --sidebar-primary: #b97b88; /* Akcent logo/brandu w sidebarze. */
+  --sidebar-primary: var(--brand); /* Akcent logo/brandu w sidebarze. */
   --sidebar-primary-foreground: #ffffff; /* Tekst i ikony na sidebar primary. */
   --sidebar-accent: #eedde1; /* Aktywny i hoverowany element sidebaru. */
   --sidebar-accent-foreground: #482f36; /* Tekst i ikony na sidebar accent. */
@@ -99,7 +199,7 @@
   --sidebar-ring: #b97b88; /* Focus ring w sidebarze. */
   --nav: #fbf8f8; /* Tlo customer navbara i mobile drawera. */
   --nav-foreground: #342b2e; /* Domyslny tekst i ikony w navbarze. */
-  --nav-brand: #c08b89; /* Akcent logo/brandu w navbarze. */
+  --nav-brand: var(--brand); /* Akcent logo/brandu w navbarze. */
   --nav-accent: #e8cfd5; /* Aktywny i hoverowany element navbara. */
   --nav-accent-foreground: #52353d; /* Tekst i ikony na nav accent. */
   --nav-border: #e8dde0; /* Obramowania i separatory navbara. */
@@ -107,61 +207,133 @@
 }
 
 :root[data-palette="burgundy"] {
-  --background: #fff8f5; /* Glowne tlo aplikacji. */
-  --foreground: #2e2022; /* Domyslny kolor tekstu. */
-  --card: #ffffff; /* Karty i podniesione powierzchnie. */
-  --card-foreground: #2e2022; /* Tekst na kartach. */
-  --popover: #ffffff; /* Dropdowny, menu, tooltipy i panele floating. */
-  --popover-foreground: #2e2022; /* Tekst w popoverach. */
-  --primary: #7a2434; /* Glowne CTA, kluczowe akcje i mocny burgund. */
-  --primary-foreground: #ffffff; /* Tekst i ikony na primary. */
-  --secondary: #f1e0d8; /* Drugorzedne przyciski i subtelne wyroznienia. */
-  --secondary-foreground: #5b3a3e; /* Tekst i ikony na secondary. */
-  --muted: #f7efeb; /* Wyciszone bloki, tla disabled/subtle. */
-  --muted-foreground: #857276; /* Help text, labele i tekst drugorzedny. */
-  --accent: #b85d6a; /* Aktywne elementy poza sidebar/nav, mocny akcent. */
-  --accent-foreground: #ffffff; /* Tekst i ikony na accent. */
-  --destructive: #b63d48; /* Bledy i akcje destrukcyjne. */
-  --destructive-foreground: #ffffff; /* Tekst i ikony na destructive. */
-  --border: #e9ddd9; /* Domyslne obramowania i separatory. */
-  --input: #e9ddd9; /* Obramowania inputow. */
-  --ring: #7a2434; /* Domyslny focus ring. */
-  --success: #3f775e; /* Status sukcesu i pozytywne badge. */
-  --success-foreground: #ffffff; /* Tekst i ikony na success. */
-  --warning: #9b6728; /* Ostrzezenia i badge wymagajace uwagi. */
-  --warning-foreground: #ffffff; /* Tekst i ikony na warning. */
-  --info: #5b6f8f; /* Status informacyjny i neutralne notice. */
-  --info-foreground: #ffffff; /* Tekst i ikony na info. */
-  --brand: #b85d6a; /* Logo, akcenty brandowe i detale dekoracyjne. */
-  --brand-soft: #f4dfda; /* Bardzo delikatne powierzchnie brandowe. */
-  --brand-strong: #7a2434; /* Mocniejsze akcenty brandowe i hover. */
-  --surface-soft: #faece7; /* Miekkie karty rezerwacji/info i spokojne sekcje. */
-  --surface-emphasis: #f1ddd6; /* Troche mocniejsze wyroznienie powierzchni. */
-  --chart-1: #7a2434; /* Seria danych 1. */
-  --chart-2: #b85d6a; /* Seria danych 2. */
-  --chart-3: #f1ddd6; /* Seria danych 3. */
-  --chart-4: #857276; /* Seria danych 4. */
-  --chart-5: #5b3a3e; /* Seria danych 5. */
-  --sidebar: #7a2434; /* Tlo management sidebaru. */
-  --sidebar-foreground: #fff8f5; /* Domyslny tekst i ikony w sidebarze. */
-  --sidebar-primary: #b85d6a; /* Akcent logo/brandu w sidebarze. */
-  --sidebar-primary-foreground: #ffffff; /* Tekst i ikony na sidebar primary. */
-  --sidebar-accent: #681725; /* Aktywny i hoverowany element sidebaru. */
-  --sidebar-accent-foreground: #ffffff; /* Tekst i ikony na sidebar accent. */
-  --sidebar-border: #913143; /* Obramowania i separatory sidebaru. */
-  --sidebar-ring: #b85d6a; /* Focus ring w sidebarze. */
-  --nav: #7a2434; /* Tlo customer navbara i mobile drawera. */
-  --nav-foreground: #fff8f5; /* Domyslny tekst i ikony w navbarze. */
-  --nav-brand: #b85d6a; /* Akcent logo/brandu w navbarze. */
-  --nav-accent: #681725; /* Aktywny i hoverowany element navbara. */
-  --nav-accent-foreground: #ffffff; /* Tekst i ikony na nav accent. */
-  --nav-border: #913143; /* Obramowania i separatory navbara. */
-  --nav-ring: #b85d6a; /* Focus ring w navbarze. */
+  --background: #fcf7f1; /* Glowne tlo aplikacji. */
+  --canvas: #fcf7f1; /* Glowne tlo aplikacji. */
+  --surface: #fff9f5; /* Standardowe jasne powierzchnie. */
+  --surface-panel: #fcf8f5; /* Menu, dropdowny i lekkie panele. */
+  --surface-raised: #ffffff; /* Najjasniejsze podniesione powierzchnie. */
+  --surface-soft: #faf1ec; /* Delikatne karty i sekcje pomocnicze. */
+  --surface-hover: #e9d3c8; /* Hover/active dla lekkich elementow. */
+  --copy: #2f2926; /* Domyslny tekst. */
+  --copy-muted: #8b7c74; /* Opisy i tekst drugorzedny. */
+  --copy-subtle: #9a8a83; /* Placeholdery i bardzo subtelny tekst. */
+  --copy-inverse: #fcf7f1; /* Tekst na mocnym tle brandowym. */
+  --line-subtle: #efe2dc; /* Bardzo subtelne obramowania kart/separatorow. */
+  --line: #e9ded8; /* Standardowe obramowania i separatory. */
+  --line-soft: #e7d7cf; /* Delikatne obramowania paneli/formularzy. */
+  --line-strong: #cdbdb5; /* Linie inputow i mocniejsze obramowania. */
+  --brand: #752237; /* Podstawowy burgund */
+  --brand-hover: #681725; /* 10–15% ciemniejszy */
+  --brand-surface: #f4ddd8; /* Delikatne tlo hover/selected dla brandu. */
+  --brand-border: #dab5ad; /* Delikatne obramowania brandowe. */
+  --brand-border-muted: color-mix(in srgb, var(--brand) 15%, transparent);
+  --brand-divider: color-mix(in srgb, var(--brand) 35%, transparent);
+  --brand-shadow: #e8c9c1; /* Cien brandowych kart i overlay. */
+  --brand-wash: color-mix(in srgb, var(--brand) 10%, transparent);
+  --brand-wash-subtle: color-mix(in srgb, var(--brand) 5%, transparent);
+  --brand-light: #f0c5b8; /* 10–15% jasniejszy */
+  --brand-lighter: #f8e6e1; /* 20–25% jasniejszy */
+  --brand-lightest: #fff3f1; /* 30–35% jasniejszy */
+  --brand-dark: #5a1a2b; /* 10–15% ciemniejszy */
+  --brand-darker: #4a1521; /* 20–25% ciemniejszy */
+  --brand-darkest: #3a1017; /* 30–35% ciemniejszy */
+  --light-element: #fcf7f1; /* Jasne elementy UI */
+  --light-text: #fcf7f1; /* Jasny tekst na ciemnym tle */
+  --element-background-match: #fcf7f1; /* Dopasowanie tła elementu do tła aplikacji */
+  --border-subtle: #efe2dc; /* Bardzo subtelne obramowania kart/separatorow. */
+  --ring-soft: #e5bbb6; /* Lagodny focus ring. */
+  --muted-hover: #fff1ec; /* Delikatny hover na neutralnych elementach. */
+  --destructive-surface: #f9e5e4; /* Tlo komunikatow bledow. */
+  --destructive-border: #efbebb; /* Obramowanie komunikatow bledow. */
+  --destructive-ring: #efc6c2; /* Ring walidacji bledow. */
+  --danger: var(--destructive);
+  --danger-surface: var(--destructive-surface);
+  --danger-border: var(--destructive-border);
+  --danger-text: var(--destructive);
+  --status-success-surface: #e7f0ea; /* Tlo toastow sukcesu. */
+  --status-success-border: #bfd7c8; /* Obramowanie toastow sukcesu. */
+  --status-warning-surface: #fbefe0; /* Tlo toastow ostrzezen. */
+  --status-warning-border: #e8cea2; /* Obramowanie toastow ostrzezen. */
+  --status-info-surface: #edf1f7; /* Tlo toastow informacyjnych. */
+  --status-info-border: #cbd4e2; /* Obramowanie toastow informacyjnych. */
+  --overlay: #fcf7f199; /* Tlo LoadingOverlay. */
+  --backdrop: #fcf7f1cc; /* Tlo backdropow drawerow. */
+  --loader-surface: #f4ddd8; /* Tlo znaku loadera. */
+  --loader-border: #dab5ad; /* Obramowanie znaku loadera. */
+  --loader-spinner-muted: #e8c9c1; /* Slabszy fragment spinnera. */
+  --loader-spinner-strong: #752237; /* Mocniejszy fragment spinnera. */
+  --datepicker-control-hover: #fff1ec; /* Hover triggerow datepickera. */
+  --datepicker-control-ring: #e5bbb6; /* Focus ring triggerow datepickera. */
+  --datepicker-option-hover: #f4ddd8; /* Hover opcji miesiaca/roku/dnia. */
+  --datepicker-option-selected: #c98576; /* Wybrana data i opcja. */
+  --datepicker-option-selected-hover: #752237; /* Hover wybranej daty. */
+  --datepicker-option-selected-foreground: #fcf7f1; /* Tekst na wybranej dacie. */
+  --selection: color-mix(
+    in srgb,
+    var(--brand) 28%,
+    transparent
+  ); /* Tlo zaznaczonego tekstu. */
+  --register-form-surface: #fff9f5; /* Powierzchnia formularza rejestracji. */
+  --register-form-border: #e7d7cf; /* Delikatna ramka formularza. */
+  --register-form-line: #cdbdb5; /* Linie pól formularza. */
+  --register-form-muted: #9a8a83; /* Placeholdery i drobny tekst formularza. */
+  --auth-form-surface: var(--register-form-surface);
+  --auth-form-border: var(--register-form-border);
+  --auth-form-line: var(--register-form-line);
+  --auth-form-muted: var(--register-form-muted);
+  --background: var(--canvas);
+  --foreground: var(--copy);
+  --card: var(--surface-raised);
+  --card-foreground: var(--copy);
+  --popover: var(--surface-panel);
+  --popover-foreground: var(--copy);
+  --primary: var(--brand);
+  --primary-foreground: var(--copy-inverse);
+  --muted-foreground: var(--copy-muted);
+  --accent: var(--surface-hover);
+  --accent-foreground: #4d3932;
+  --destructive: #b94a48;
+  --destructive-foreground: var(--copy-inverse);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--brand);
+  --light-element: var(--copy-inverse);
+  --light-text: var(--copy-inverse);
+  --element-background-match: var(--copy-inverse);
+  --border-subtle: var(--line-subtle);
+  --register-form-surface: var(--surface);
+  --register-form-border: var(--line-soft);
+  --register-form-line: var(--line-strong);
+  --register-form-muted: var(--copy-subtle);
+  --auth-form-surface: var(--surface);
+  --auth-form-border: var(--line-soft);
+  --auth-form-line: var(--line-strong);
+  --auth-form-muted: var(--copy-subtle);
+  --nav: var(--surface-panel);
+  --nav-foreground: var(--copy);
+  --nav-brand: var(--brand);
+  --nav-accent: var(--surface-hover);
+  --nav-accent-foreground: #4d3932;
+  --nav-border: var(--line);
+  --nav-ring: var(--brand);
 }
 
 :root.dark,
 :root.dark[data-palette="nude"] {
   --background: #1d1816;
+  --canvas: #1d1816;
+  --surface: #261f1c;
+  --surface-panel: #261f1c;
+  --surface-raised: #261f1c;
+  --surface-hover: #3a2f2b;
+  --copy: #f8eee8;
+  --copy-muted: #c7b6ad;
+  --copy-subtle: #c7b6ad;
+  --copy-inverse: #2f2926;
+  --line-subtle: #463832;
+  --line: #463832;
+  --line-soft: #463832;
+  --line-strong: #6a554d;
   --foreground: #f8eee8;
   --card: #261f1c;
   --card-foreground: #f8eee8;
@@ -176,6 +348,10 @@
   --accent: #5a4038;
   --accent-foreground: #ffffff;
   --destructive: #e17773;
+  --danger: #e17773;
+  --danger-surface: #3a2f2b;
+  --danger-border: #6a554d;
+  --danger-text: #e17773;
   --destructive-foreground: #2f2926;
   --border: #463832;
   --input: #463832;
@@ -189,8 +365,37 @@
   --brand: #d7a08f;
   --brand-soft: #3a2f2b;
   --brand-strong: #f0c5b8;
+  --brand-hover: #f0c5b8;
+  --brand-border: #6a554d;
+  --brand-border-muted: color-mix(in srgb, var(--brand) 15%, transparent);
+  --brand-divider: color-mix(in srgb, var(--brand) 35%, transparent);
+  --brand-shadow: #3a2f2b;
+  --brand-wash: color-mix(in srgb, var(--brand) 10%, transparent);
+  --brand-wash-subtle: color-mix(in srgb, var(--brand) 5%, transparent);
+  --overlay: #1d181699;
+  --backdrop: #1d1816cc;
+  --loader-surface: var(--brand-soft);
+  --loader-border: var(--brand-border);
+  --loader-spinner-muted: var(--line-strong);
+  --loader-spinner-strong: var(--brand);
+  --datepicker-control-hover: var(--surface-hover);
+  --datepicker-control-ring: var(--line-strong);
+  --datepicker-option-hover: var(--surface-hover);
+  --datepicker-option-selected: var(--brand);
+  --datepicker-option-selected-hover: var(--brand-hover);
+  --datepicker-option-selected-foreground: var(--copy-inverse);
+  --light-text: #2f2926;
+  --selection: color-mix(in srgb, var(--brand) 36%, transparent);
   --surface-soft: #261f1c;
   --surface-emphasis: #3a2f2b;
+  --auth-form-surface: #261f1c;
+  --auth-form-border: #463832;
+  --auth-form-line: #6a554d;
+  --auth-form-muted: #c7b6ad;
+  --register-form-surface: var(--auth-form-surface);
+  --register-form-border: var(--auth-form-border);
+  --register-form-line: var(--auth-form-line);
+  --register-form-muted: var(--auth-form-muted);
   --chart-1: #d7a08f;
   --chart-2: #f0c5b8;
   --chart-3: #5a4038;
@@ -198,7 +403,7 @@
   --chart-5: #8b7c74;
   --sidebar: #261f1c;
   --sidebar-foreground: #f8eee8;
-  --sidebar-primary: #d7a08f;
+  --sidebar-primary: var(--brand);
   --sidebar-primary-foreground: #2f2926;
   --sidebar-accent: #3a2f2b;
   --sidebar-accent-foreground: #ffffff;
@@ -206,7 +411,7 @@
   --sidebar-ring: #d7a08f;
   --nav: #261f1c;
   --nav-foreground: #f8eee8;
-  --nav-brand: #d7a08f;
+  --nav-brand: var(--brand);
   --nav-accent: #3a2f2b;
   --nav-accent-foreground: #ffffff;
   --nav-border: #463832;
@@ -215,6 +420,19 @@
 
 :root.dark[data-palette="mauve"] {
   --background: #1f191c;
+  --canvas: #1f191c;
+  --surface: #2a2226;
+  --surface-panel: #2a2226;
+  --surface-raised: #2a2226;
+  --surface-hover: #3d3035;
+  --copy: #f8eef1;
+  --copy-muted: #c9b7bd;
+  --copy-subtle: #c9b7bd;
+  --copy-inverse: #342b2e;
+  --line-subtle: #47383e;
+  --line: #47383e;
+  --line-soft: #47383e;
+  --line-strong: #66525a;
   --foreground: #f8eef1;
   --card: #2a2226;
   --card-foreground: #f8eef1;
@@ -229,6 +447,10 @@
   --accent: #60424a;
   --accent-foreground: #ffffff;
   --destructive: #e17888;
+  --danger: #e17888;
+  --danger-surface: #3d3035;
+  --danger-border: #66525a;
+  --danger-text: #e17888;
   --destructive-foreground: #321419;
   --border: #47383e;
   --input: #47383e;
@@ -242,8 +464,37 @@
   --brand: #ca93a0;
   --brand-soft: #3d3035;
   --brand-strong: #efc1ca;
+  --brand-hover: #efc1ca;
+  --brand-border: #66525a;
+  --brand-border-muted: color-mix(in srgb, var(--brand) 15%, transparent);
+  --brand-divider: color-mix(in srgb, var(--brand) 35%, transparent);
+  --brand-shadow: #3d3035;
+  --brand-wash: color-mix(in srgb, var(--brand) 10%, transparent);
+  --brand-wash-subtle: color-mix(in srgb, var(--brand) 5%, transparent);
+  --overlay: #1f191c99;
+  --backdrop: #1f191ccc;
+  --loader-surface: var(--brand-soft);
+  --loader-border: var(--brand-border);
+  --loader-spinner-muted: var(--line-strong);
+  --loader-spinner-strong: var(--brand);
+  --datepicker-control-hover: var(--surface-hover);
+  --datepicker-control-ring: var(--line-strong);
+  --datepicker-option-hover: var(--surface-hover);
+  --datepicker-option-selected: var(--brand);
+  --datepicker-option-selected-hover: var(--brand-hover);
+  --datepicker-option-selected-foreground: var(--copy-inverse);
+  --light-text: #342b2e;
+  --selection: color-mix(in srgb, var(--brand) 36%, transparent);
   --surface-soft: #2a2226;
   --surface-emphasis: #3d3035;
+  --auth-form-surface: #2a2226;
+  --auth-form-border: #47383e;
+  --auth-form-line: #66525a;
+  --auth-form-muted: #c9b7bd;
+  --register-form-surface: var(--auth-form-surface);
+  --register-form-border: var(--auth-form-border);
+  --register-form-line: var(--auth-form-line);
+  --register-form-muted: var(--auth-form-muted);
   --chart-1: #ca93a0;
   --chart-2: #efc1ca;
   --chart-3: #60424a;
@@ -251,7 +502,7 @@
   --chart-5: #8b7a7f;
   --sidebar: #2a2226;
   --sidebar-foreground: #f8eef1;
-  --sidebar-primary: #ca93a0;
+  --sidebar-primary: var(--brand);
   --sidebar-primary-foreground: #342b2e;
   --sidebar-accent: #3d3035;
   --sidebar-accent-foreground: #ffffff;
@@ -259,7 +510,7 @@
   --sidebar-ring: #ca93a0;
   --nav: #2a2226;
   --nav-foreground: #f8eef1;
-  --nav-brand: #ca93a0;
+  --nav-brand: var(--brand);
   --nav-accent: #3d3035;
   --nav-accent-foreground: #ffffff;
   --nav-border: #47383e;
@@ -268,6 +519,20 @@
 
 :root.dark[data-palette="burgundy"] {
   --background: #1f1517;
+  --canvas: #1f1517;
+  --surface: #2a1b1e;
+  --surface-panel: #2a1b1e;
+  --surface-raised: #2a1b1e;
+  --surface-soft: #2a1b1e;
+  --surface-hover: #3d292d;
+  --copy: #fff3ef;
+  --copy-muted: #cbb9b4;
+  --copy-subtle: #cbb9b4;
+  --copy-inverse: #2e2022;
+  --line-subtle: #4a3337;
+  --line: #4a3337;
+  --line-soft: #4a3337;
+  --line-strong: #6a4b50;
   --foreground: #fff3ef;
   --card: #2a1b1e;
   --card-foreground: #fff3ef;
@@ -294,9 +559,42 @@
   --info-foreground: #111827;
   --brand: #d0717f;
   --brand-soft: #3d292d;
+  --brand-border-muted: color-mix(in srgb, var(--brand) 15%, transparent);
+  --brand-divider: color-mix(in srgb, var(--brand) 35%, transparent);
   --brand-strong: #ffb5bd;
+  --brand-hover: #ffb5bd;
+  --brand-border: #6a4b50;
+  --brand-shadow: #3d292d;
+  --brand-wash: color-mix(in srgb, var(--brand) 10%, transparent);
+  --brand-wash-subtle: color-mix(in srgb, var(--brand) 5%, transparent);
+  --overlay: #1f151799;
+  --backdrop: #1f1517cc;
+  --loader-surface: var(--brand-soft);
+  --loader-border: var(--brand-border);
+  --loader-spinner-muted: var(--line-strong);
+  --loader-spinner-strong: var(--brand);
+  --datepicker-control-hover: var(--surface-hover);
+  --datepicker-control-ring: var(--line-strong);
+  --datepicker-option-hover: var(--surface-hover);
+  --datepicker-option-selected: var(--brand);
+  --datepicker-option-selected-hover: var(--brand-hover);
+  --datepicker-option-selected-foreground: var(--copy-inverse);
+  --danger: var(--destructive);
+  --danger-surface: #3d292d;
+  --danger-border: #6a4b50;
+  --danger-text: var(--destructive);
+  --light-text: #2e2022;
+  --selection: color-mix(in srgb, var(--brand) 36%, transparent);
   --surface-soft: #2a1b1e;
   --surface-emphasis: #3d292d;
+  --auth-form-surface: #2a1b1e;
+  --auth-form-border: #4a3337;
+  --auth-form-line: #6a4b50;
+  --auth-form-muted: #cbb9b4;
+  --register-form-surface: var(--auth-form-surface);
+  --register-form-border: var(--auth-form-border);
+  --register-form-line: var(--auth-form-line);
+  --register-form-muted: var(--auth-form-muted);
   --chart-1: #d0717f;
   --chart-2: #ffb5bd;
   --chart-3: #9b3e4c;
@@ -304,7 +602,7 @@
   --chart-5: #857276;
   --sidebar: #7a2434;
   --sidebar-foreground: #fff8f5;
-  --sidebar-primary: #d0717f;
+  --sidebar-primary: var(--brand);
   --sidebar-primary-foreground: #2e2022;
   --sidebar-accent: #681725;
   --sidebar-accent-foreground: #ffffff;
@@ -312,9 +610,30 @@
   --sidebar-ring: #d0717f;
   --nav: #7a2434;
   --nav-foreground: #fff8f5;
-  --nav-brand: #d0717f;
+  --nav-brand: var(--brand);
   --nav-accent: #681725;
   --nav-accent-foreground: #ffffff;
   --nav-border: #913143;
   --nav-ring: #d0717f;
+  --background: var(--canvas);
+  --foreground: var(--copy);
+  --card: var(--surface-raised);
+  --card-foreground: var(--copy);
+  --popover: var(--surface-panel);
+  --popover-foreground: var(--copy);
+  --primary-foreground: var(--copy-inverse);
+  --muted-foreground: var(--copy-muted);
+  --border: var(--line);
+  --input: var(--line);
+  --light-text: var(--copy-inverse);
+  --element-background-match: var(--copy-inverse);
+  --surface-emphasis: var(--surface-hover);
+  --auth-form-surface: var(--surface);
+  --auth-form-border: var(--line-soft);
+  --auth-form-line: var(--line-strong);
+  --auth-form-muted: var(--copy-subtle);
+  --register-form-surface: var(--surface);
+  --register-form-border: var(--line-soft);
+  --register-form-line: var(--line-strong);
+  --register-form-muted: var(--copy-subtle);
 }

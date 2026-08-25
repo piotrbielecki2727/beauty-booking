@@ -1,0 +1,281 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AccountRole {
+  Admin
+  Owner
+  Manager
+  Employee
+  Intern
+  Customer
+}
+
+enum BusinessSpecialization {
+  NAILS
+  BROWS_AND_LASHES
+  MAKEUP
+}
+
+enum BusinessType {
+  SOLO
+  TEAM
+}
+
+enum BusinessAvailabilityMode {
+  FIXED_HOURS
+  INDIVIDUAL_SCHEDULES
+}
+
+enum BusinessBookingReleaseMode {
+  ROLLING
+  MANUAL
+}
+
+enum BusinessBookingConfirmationMode {
+  AUTOMATIC
+  MANUAL
+}
+
+enum BusinessMobileServiceFeeType {
+  FREE
+  FIXED
+  CUSTOM
+}
+
+enum BusinessWeekday {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum BusinessOnboardingStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum BusinessSetupStep {
+  BUSINESS_BASICS
+  LOCATION
+  SERVICES
+  ADDONS
+  TEAM
+  TEAM_SERVICES
+  AVAILABILITY
+  BOOKING_RULES
+  PUBLIC_PROFILE
+  SUMMARY
+}
+
+model User {
+  id                              String                  @id @default(uuid())
+  email                           String
+  passwordHash                    String
+  firstName                       String
+  lastName                        String
+  phone                           String?
+  birthDate                       DateTime?
+  role                            AccountRole             @default(Customer)
+  emailVerifiedAt                 DateTime?
+  termsAndPrivacyPolicyAcceptedAt DateTime?
+  createdAt                       DateTime                @default(now())
+  updatedAt                       DateTime                @updatedAt
+  businessId                      String
+  business                        Business                @relation(fields: [businessId], references: [id], onDelete: Restrict)
+  businessMemberships             BusinessMembership[]
+  businessTeamMembers             BusinessTeamMember[]
+  emailVerificationCodes          EmailVerificationCode[]
+
+  @@unique([businessId, email])
+  @@index([businessId])
+  @@index([role])
+}
+
+model EmailVerificationCode {
+  id             String    @id @default(uuid())
+  codeHash       String
+  expiresAt      DateTime
+  failedAttempts Int       @default(0)
+  usedAt         DateTime?
+  createdAt      DateTime  @default(now())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, usedAt, expiresAt])
+}
+
+model Business {
+  id                             String                        @id @default(uuid())
+  name                           String
+  slug                           String                        @unique
+  specializations                BusinessSpecialization[]      @default([])
+  businessType                   BusinessType?
+  availabilityMode               BusinessAvailabilityMode?
+  timeZone                       String                        @default("Europe/Warsaw")
+  contactEmail                   String?
+  contactPhone                   String?
+  facebookUrl                    String?
+  instagramUrl                   String?
+  pinterestUrl                   String?
+  tiktokUrl                      String?
+  youtubeUrl                     String?
+  mobileServicesEnabled          Boolean                       @default(false)
+  mobileServiceMaxDistanceKm     Int?
+  mobileServiceTravelTimeMinutes Int?
+  mobileServiceFeeType           BusinessMobileServiceFeeType?
+  mobileServiceFixedFeeAmount    Int?
+  city                           String?
+  postalCode                     String?
+  street                         String?
+  buildingNumber                 String?
+  apartmentNumber                String?
+  parkingNote                    String?
+  locationNote                   String?
+  onboardingStatus               BusinessOnboardingStatus      @default(NOT_STARTED)
+  onboardingCurrentStep          BusinessSetupStep?
+  onboardingCompletedSteps       BusinessSetupStep[]           @default([])
+  onboardingCompletedAt          DateTime?
+  createdAt                      DateTime                      @default(now())
+  updatedAt                      DateTime                      @updatedAt
+  domains                        BusinessDomain[]
+  memberships                    BusinessMembership[]
+  services                       BusinessService[]
+  teamMembers                    BusinessTeamMember[]
+  users                          User[]
+  openingHours                   BusinessOpeningHour[]
+  bookingSettings                BusinessBookingSettings?
+  bookingReleaseWindows          BookingReleaseWindow[]
+}
+
+model BusinessBookingSettings {
+  businessId                String                          @id
+  bookingReleaseMode        BusinessBookingReleaseMode
+  bookingHorizonDays        Int?
+  minimumAdvanceMinutes     Int
+  cancellationDeadlineHours Int
+  inSalonConfirmationMode   BusinessBookingConfirmationMode
+  allowSpecificTeamMember   Boolean                         @default(true)
+  allowAnyTeamMember        Boolean                         @default(true)
+  createdAt                 DateTime                        @default(now())
+  updatedAt                 DateTime                        @updatedAt
+  business                  Business                        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+model BookingReleaseWindow {
+  id                      String    @id @default(uuid())
+  startDate               DateTime  @db.Date
+  endDate                 DateTime  @db.Date
+  publishedAt             DateTime?
+  scheduledPublishDate    DateTime? @db.Date
+  scheduledPublishMinutes Int?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  businessId              String
+  business                Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, startDate, endDate])
+  @@index([scheduledPublishDate, scheduledPublishMinutes, publishedAt])
+}
+
+model BusinessOpeningHour {
+  id              String          @id @default(uuid())
+  dayOfWeek       BusinessWeekday
+  isOpen          Boolean
+  opensAtMinutes  Int?
+  closesAtMinutes Int?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  businessId      String
+  business        Business        @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, dayOfWeek])
+  @@index([businessId])
+}
+
+model BusinessService {
+  id              String                 @id @default(uuid())
+  name            String
+  specialization  BusinessSpecialization
+  durationMinutes Int
+  priceAmount     Int
+  isActive        Boolean                @default(true)
+  description     String?
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+  businessId      String
+  business        Business               @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+}
+
+model BusinessDomain {
+  id         String   @id @default(uuid())
+  hostname   String   @unique
+  isPrimary  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+}
+
+model BusinessMembership {
+  id               String      @id @default(uuid())
+  role             AccountRole
+  providesServices Boolean?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  businessId       String
+  userId           String
+  business         Business    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, userId])
+  @@index([userId])
+}
+
+model BusinessTeamMember {
+  id               String                   @id @default(uuid())
+  fullName         String
+  email            String?
+  role             AccountRole
+  providesServices Boolean                  @default(true)
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
+  businessId       String
+  userId           String?
+  business         Business                 @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  user             User?                    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  invitations      BusinessTeamInvitation[]
+
+  @@unique([businessId, email])
+  @@unique([businessId, userId])
+  @@index([businessId])
+  @@index([userId])
+}
+
+model BusinessTeamInvitation {
+  id           String             @id @default(uuid())
+  email        String
+  tokenHash    String             @unique
+  expiresAt    DateTime
+  acceptedAt   DateTime?
+  cancelledAt  DateTime?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  teamMemberId String
+  teamMember   BusinessTeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@index([teamMemberId])
+}
