@@ -30,6 +30,7 @@ const businessSetupSelect = {
   city: true,
   contactEmail: true,
   contactPhone: true,
+  description: true,
   facebookUrl: true,
   instagramUrl: true,
   locationNote: true,
@@ -114,6 +115,7 @@ const findBusinessSetupById = ({
 const findBusinessSetupStatusById = (businessId: string) =>
   prisma.business.findUnique({
     select: {
+      businessType: true,
       onboardingStatus: true,
     },
     where: {
@@ -319,6 +321,7 @@ const updateBusinessDetails = ({
   completedSteps,
   contactEmail,
   contactPhone,
+  description,
   facebookUrl,
   instagramUrl,
   onboardingCurrentStep,
@@ -332,6 +335,7 @@ const updateBusinessDetails = ({
   completedSteps: BusinessSetupStep[];
   contactEmail: string;
   contactPhone: string;
+  description: string;
   facebookUrl: string;
   instagramUrl: string;
   onboardingCurrentStep: "SUMMARY" | null;
@@ -345,6 +349,7 @@ const updateBusinessDetails = ({
     data: {
       contactEmail: contactEmail.trim().toLowerCase() || null,
       contactPhone: contactPhone.trim() || null,
+      description: description.trim() || null,
       facebookUrl: toNullableUrl(facebookUrl),
       instagramUrl: toNullableUrl(instagramUrl),
       onboardingCompletedSteps: {

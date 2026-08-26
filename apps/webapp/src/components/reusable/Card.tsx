@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 import type { ComponentProps, ReactNode } from "react";
 
-type CardProperties = ComponentProps<typeof BaseCard> & {
+type CardProperties = Omit<ComponentProps<typeof BaseCard>, "title"> & {
   action?: ReactNode;
   children: ReactNode;
   contentClassName?: string;

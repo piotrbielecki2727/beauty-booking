@@ -11,13 +11,17 @@ import {
 } from "@/features/businessSetup/api";
 import { subscribeToBusinessSetupStatus } from "@/features/businessSetup/businessSetupStatusEvents";
 
-import type { BusinessOnboardingStatus } from "@beauty-booking/shared";
+import type {
+  BusinessOnboardingStatus,
+  BusinessType,
+} from "@beauty-booking/shared";
 
 export const useBusinessSetupStatus = () => {
   const locale = useLocale();
   const { data: session, status: sessionStatus } = useSession();
   const [setupStatus, setSetupStatus] =
     useState<BusinessOnboardingStatus | null>(null);
+  const [businessType, setBusinessType] = useState<BusinessType | null>(null);
   const [isSetupStatusRequestLoading, setIsSetupStatusRequestLoading] =
     useState(true);
   const [hasSetupStatusError, setHasSetupStatusError] = useState(false);
@@ -29,8 +33,9 @@ export const useBusinessSetupStatus = () => {
 
   useEffect(
     () =>
-      subscribeToBusinessSetupStatus((status) => {
-        setSetupStatus(status);
+      subscribeToBusinessSetupStatus((change) => {
+        setBusinessType(change.businessType);
+        setSetupStatus(change.status);
         setHasSetupStatusError(false);
         setIsSetupStatusRequestLoading(false);
       }),
@@ -57,6 +62,7 @@ export const useBusinessSetupStatus = () => {
     void getBusinessSetupStatus(accessToken)
       .then((response) => {
         if (isMounted) {
+          setBusinessType(response.businessType);
           setSetupStatus(response.status);
           setHasSetupStatusError(false);
         }
@@ -89,6 +95,7 @@ export const useBusinessSetupStatus = () => {
   }, [accessToken, locale, sessionStatus]);
 
   return {
+    businessType,
     hasSetupStatusError:
       hasSetupStatusError && !isRedirectingToLogin,
     isSetupStatusLoading:

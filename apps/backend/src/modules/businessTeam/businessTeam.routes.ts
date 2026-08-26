@@ -9,7 +9,10 @@ import {
 } from "@/modules/businessTeam/businessTeam.controller";
 import { createBusinessTeamInvitationRequestSchema } from "@/modules/businessTeam/businessTeam.schemas";
 import { requireAuth } from "@/modules/auth/auth.middleware";
-import { requireCompletedBusinessSetup } from "@/modules/businessSetup/businessSetup.middleware";
+import {
+  requireCompletedBusinessSetup,
+  requireTeamBusiness,
+} from "@/modules/businessSetup/businessSetup.middleware";
 import { validateBody } from "@/middlewares/validateRequest";
 import { asyncHandler } from "@/utils/asyncHandler";
 
@@ -19,6 +22,7 @@ const teamInvitationsRouter = Router();
 businessTeamRouter.use(
   asyncHandler(requireAuth),
   asyncHandler(requireCompletedBusinessSetup),
+  asyncHandler(requireTeamBusiness),
 );
 
 businessTeamRouter.get(

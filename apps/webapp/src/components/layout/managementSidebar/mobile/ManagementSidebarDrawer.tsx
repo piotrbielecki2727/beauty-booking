@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { sidebarControlClassNames } from "@/components/layout/layoutControlVariantStyles";
 import {
-  managementNavItems,
+  getManagementNavItems,
   managementSetupNavItems,
 } from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { ManagementNavItem } from "@/components/layout/managementSidebar/shared/ManagementNavItem";
@@ -18,12 +18,16 @@ import { useTenantContext } from "@/features/tenant";
 import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
+import type { BusinessType } from "@beauty-booking/shared";
+
 type ManagementSidebarDrawerProperties = {
+  businessType: BusinessType | null;
   isSetupMode: boolean;
   onNavigate: () => void;
 };
 
 export const ManagementSidebarDrawer = ({
+  businessType,
   isSetupMode,
   onNavigate,
 }: ManagementSidebarDrawerProperties) => {
@@ -32,7 +36,9 @@ export const ManagementSidebarDrawer = ({
   const { business } = useTenantContext();
   const brandLabel =
     !isSetupMode && business?.name ? business.name : t("common.appName");
-  const navItems = isSetupMode ? managementSetupNavItems : managementNavItems;
+  const navItems = isSetupMode
+    ? managementSetupNavItems
+    : getManagementNavItems(businessType);
 
   return (
     <Drawer.Portal>

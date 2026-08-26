@@ -11,13 +11,17 @@ import { useTenantContext } from "@/features/tenant";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
+import type { BusinessType } from "@beauty-booking/shared";
+
 type ManagementSidebarMobileProperties = {
+  businessType: BusinessType | null;
   isOpen: boolean;
   isSetupMode: boolean;
   onIsOpenChange: (isOpen: boolean) => void;
 };
 
 export const ManagementSidebarMobile = ({
+  businessType,
   isOpen,
   isSetupMode,
   onIsOpenChange,
@@ -48,6 +52,7 @@ export const ManagementSidebarMobile = ({
         </Drawer.Trigger>
 
         <ManagementSidebarDrawer
+          businessType={businessType}
           isSetupMode={isSetupMode}
           onNavigate={() => onIsOpenChange(false)}
         />

@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import {
   getTenantContext,
@@ -15,6 +22,7 @@ type TenantContextValue = {
   business: TenantBusiness | null;
   tenantContextErrorStatus?: number;
   isTenantContextLoading: boolean;
+  updateBusinessName: (name: string) => void;
 };
 
 const TenantContext = createContext<TenantContextValue | null>(null);
@@ -63,13 +71,25 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  const updateBusinessName = useCallback((name: string) => {
+    setBusiness((currentBusiness) =>
+      currentBusiness ? { ...currentBusiness, name } : currentBusiness,
+    );
+  }, []);
+
   const value = useMemo(
     () => ({
       business,
       tenantContextErrorStatus,
       isTenantContextLoading,
+      updateBusinessName,
     }),
-    [business, isTenantContextLoading, tenantContextErrorStatus],
+    [
+      business,
+      isTenantContextLoading,
+      tenantContextErrorStatus,
+      updateBusinessName,
+    ],
   );
 
   if (tenantContextErrorStatus === 404) {

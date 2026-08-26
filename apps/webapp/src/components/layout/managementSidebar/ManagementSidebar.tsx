@@ -6,11 +6,15 @@ import { ManagementSidebarDesktop } from "@/components/layout/managementSidebar/
 import { ManagementSidebarMobile } from "@/components/layout/managementSidebar/mobile/ManagementSidebarMobile";
 import { useManagementSidebarTransition } from "@/components/layout/managementSidebar/useManagementSidebarTransition";
 
+import type { BusinessType } from "@beauty-booking/shared";
+
 export const ManagementSidebar = ({
+  businessType,
   isCollapsed,
   isSetupMode,
   onIsCollapsedChange,
 }: {
+  businessType: BusinessType | null;
   isCollapsed: boolean;
   isSetupMode: boolean;
   onIsCollapsedChange: (isCollapsed: boolean) => void;
@@ -21,11 +25,13 @@ export const ManagementSidebar = ({
   return (
     <>
       <ManagementSidebarMobile
+        businessType={businessType}
         isOpen={isMobileOpen}
         isSetupMode={isSetupMode}
         onIsOpenChange={setIsMobileOpen}
       />
       <ManagementSidebarDesktop
+        businessType={businessType}
         isCollapsed={isCollapsed}
         isSetupMode={isSetupMode}
         transition={transition}

@@ -8,18 +8,11 @@ import {
   StoreIcon,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaPinterest,
-  FaTiktok,
-  FaYoutube,
-} from "react-icons/fa6";
 
 import { IconBadge } from "@/components/reusable";
+import { businessSetupSocialMediaFields } from "@/features/businessSetup/businessSetupSocialMediaConfig";
 
 import type { ReactNode } from "react";
-import type { IconType } from "react-icons";
 import type { BusinessSetupResponse } from "@beauty-booking/shared";
 
 type BusinessSummaryStepProperties = {
@@ -36,18 +29,6 @@ type SummarySectionProperties = {
   icon: ReactNode;
   title: string;
 };
-
-const socialMediaFields = [
-  { icon: FaInstagram, key: "instagram", name: "instagramUrl" },
-  { icon: FaFacebook, key: "facebook", name: "facebookUrl" },
-  { icon: FaTiktok, key: "tiktok", name: "tiktokUrl" },
-  { icon: FaPinterest, key: "pinterest", name: "pinterestUrl" },
-  { icon: FaYoutube, key: "youtube", name: "youtubeUrl" },
-] as const satisfies ReadonlyArray<{
-  icon: IconType;
-  key: string;
-  name: keyof BusinessSetupResponse["publicProfile"];
-}>;
 
 const SummaryItem = ({ label, value }: SummaryItemProperties) => (
   <div className="grid min-w-0 gap-1.5">
@@ -100,7 +81,7 @@ export const BusinessSummaryStep = ({
       .filter(Boolean)
       .join(" "),
   ].filter(Boolean);
-  const socialProfiles = socialMediaFields.flatMap((field) => {
+  const socialProfiles = businessSetupSocialMediaFields.flatMap((field) => {
     const value = setup?.publicProfile[field.name];
 
     return value ? [{ ...field, value }] : [];

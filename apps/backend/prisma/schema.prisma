@@ -124,6 +124,7 @@ model Business {
   timeZone                       String                        @default("Europe/Warsaw")
   contactEmail                   String?
   contactPhone                   String?
+  description                    String?
   facebookUrl                    String?
   instagramUrl                   String?
   pinterestUrl                   String?

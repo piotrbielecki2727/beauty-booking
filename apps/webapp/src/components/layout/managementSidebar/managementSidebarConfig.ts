@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import type { ManagementNavItemConfig } from "@/components/layout/managementSidebar/managementSidebarTypes";
+import type { BusinessType } from "@beauty-booking/shared";
 
 export const SIDEBAR_TRANSITION_DURATION = 300;
 export const MANAGEMENT_SIDEBAR_COLLAPSED_KEY =
@@ -54,3 +55,16 @@ export const managementSetupNavItems: ManagementNavItemConfig[] = [
     labelKey: "initialSetup",
   },
 ];
+
+export const isManagementTeamRoute = (pathname: string) =>
+  pathname === "/management/employees" ||
+  pathname.startsWith("/management/employees/");
+
+export const getManagementNavItems = (
+  businessType: BusinessType | null,
+) =>
+  businessType === "SOLO"
+    ? managementNavItems.filter(
+        (item) => !isManagementTeamRoute(item.href),
+      )
+    : managementNavItems;

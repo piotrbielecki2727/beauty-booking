@@ -3,27 +3,33 @@
 import { useTranslations } from "next-intl";
 
 import {
-  managementNavItems,
+  getManagementNavItems,
   managementSetupNavItems,
 } from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { ManagementNavItem } from "@/components/layout/managementSidebar/shared/ManagementNavItem";
 import { isNavItemActive } from "@/components/layout/managementSidebar/shared/isNavItemActive";
 import { usePathname } from "@/i18n/navigation";
 
+import type { BusinessType } from "@beauty-booking/shared";
+
 type ManagementSidebarNavProperties = {
+  businessType: BusinessType | null;
   isCollapsed: boolean;
   isSetupMode: boolean;
   isTransitioning: boolean;
 };
 
 export const ManagementSidebarNav = ({
+  businessType,
   isCollapsed,
   isSetupMode,
   isTransitioning,
 }: ManagementSidebarNavProperties) => {
   const pathname = usePathname();
   const t = useTranslations();
-  const navItems = isSetupMode ? managementSetupNavItems : managementNavItems;
+  const navItems = isSetupMode
+    ? managementSetupNavItems
+    : getManagementNavItems(businessType);
 
   return (
     <nav

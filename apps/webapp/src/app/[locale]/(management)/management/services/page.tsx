@@ -1,9 +1,5 @@
-import { PageContainer } from "@/components/layout/PageContainer";
+import { ManagementPageLayout } from "@/components/layout/ManagementPageLayout";
 
 export default function ManagementServicesPage() {
-  return (
-    <PageContainer isFullWidth>
-      <h1 className="text-2xl font-semibold tracking-tight">Usługi</h1>
-    </PageContainer>
-  );
+  return <ManagementPageLayout title="Usługi" />;
 }

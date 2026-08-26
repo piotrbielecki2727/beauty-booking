@@ -29,3 +29,5 @@ Recommended document shape:
 Current documents:
 
 - [Authentication And Authorization](./authentication-and-authorization.md)
+- [Business Setup](./business-setup.md)
+- [Current Application State](./current-application-state.md)

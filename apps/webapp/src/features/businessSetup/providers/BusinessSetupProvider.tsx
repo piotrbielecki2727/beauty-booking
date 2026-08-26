@@ -6,6 +6,8 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useReducer,
+  useRef,
   useState,
 } from "react";
 import { useSession } from "next-auth/react";
@@ -26,10 +28,19 @@ import {
   startBusinessSetup,
 } from "@/features/businessSetup/api";
 import { notifyBusinessSetupStatusChanged } from "@/features/businessSetup/businessSetupStatusEvents";
+import {
+  businessSetupDraftSteps,
+  businessSetupFormReducer,
+  initialBusinessSetupFormState,
+} from "@/features/businessSetup/providers/businessSetupFormState";
 import { appToast } from "@/features/notifications";
 
 import type { ReactNode } from "react";
 import type { BusinessAddonsForm } from "@/features/businessSetup/businessSetupAddonsSchema";
+import type {
+  BusinessSetupDrafts,
+  BusinessSetupDraftStep,
+} from "@/features/businessSetup/providers/businessSetupFormState";
 import type {
   BusinessBasicsForm,
   BusinessBookingRulesForm,
@@ -75,19 +86,6 @@ type BusinessSetupContextValue = {
   startSetup: () => Promise<void>;
 };
 
-type BusinessSetupDrafts = {
-  ADDONS?: BusinessAddonsForm;
-  BUSINESS_BASICS?: BusinessBasicsForm;
-  BOOKING_RULES?: BusinessBookingRulesForm;
-  LOCATION?: BusinessLocationForm;
-  PUBLIC_PROFILE?: BusinessDetailsForm;
-  AVAILABILITY?: BusinessOpeningHoursForm;
-  SERVICES?: BusinessServicesForm;
-  TEAM?: BusinessTeamForm;
-};
-
-type BusinessSetupDraftStep = keyof BusinessSetupDrafts;
-
 type SaveBusinessSetupRequest<Values> = (properties: {
   accessToken: string;
   values: Values;
@@ -108,16 +106,29 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
   const [activeStep, setActiveStepState] = useState<BusinessSetupStep | null>(
     null,
   );
-  const [drafts, setDrafts] = useState<BusinessSetupDrafts>({});
-  const [dirtySteps, setDirtySteps] = useState<BusinessSetupStep[]>([]);
-  const [stepsWithValidationErrors, setStepsWithValidationErrors] = useState<
-    BusinessSetupStep[]
-  >([]);
+  const [{ drafts, stepsWithValidationErrors }, dispatchFormAction] =
+    useReducer(businessSetupFormReducer, initialBusinessSetupFormState);
   const [isSetupRequestLoading, setIsSetupRequestLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const isSavingReference = useRef(false);
   const accessToken = session?.accessToken;
   const isSetupLoading =
     status === "loading" || (Boolean(accessToken) && isSetupRequestLoading);
+
+  const beginSaving = useCallback(() => {
+    if (isSavingReference.current) {
+      return false;
+    }
+
+    isSavingReference.current = true;
+    setIsSaving(true);
+    return true;
+  }, []);
+
+  const finishSaving = useCallback(() => {
+    isSavingReference.current = false;
+    setIsSaving(false);
+  }, []);
 
   const endExpiredSession = useCallback(async () => {
     await endAccountSession(`/${locale}/login`);
@@ -189,29 +200,19 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       values: Values,
       request: SaveBusinessSetupRequest<Values>,
     ) => {
-      if (!accessToken || isSaving) {
+      if (!accessToken || !beginSaving()) {
         return;
       }
-
-      setIsSaving(true);
 
       try {
         const nextSetup = await request({ accessToken, values });
 
         setSetup(nextSetup);
-        setDrafts((currentDrafts) => {
-          const nextDrafts = { ...currentDrafts };
-
-          delete nextDrafts[step];
-
-          return nextDrafts;
+        notifyBusinessSetupStatusChanged({
+          businessType: nextSetup.basics.businessType,
+          status: nextSetup.setup.status,
         });
-        setDirtySteps((currentSteps) =>
-          currentSteps.filter((currentStep) => currentStep !== step),
-        );
-        setStepsWithValidationErrors((currentSteps) =>
-          currentSteps.filter((currentStep) => currentStep !== step),
-        );
+        dispatchFormAction({ step, type: "clearStep" });
         appToast.success({
           title: t("businessSetup.feedback.savedSuccessfully"),
         });
@@ -220,19 +221,19 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
           throw error;
         }
       } finally {
-        setIsSaving(false);
+        finishSaving();
       }
     },
-    [accessToken, handleUnauthorizedError, isSaving, t],
+    [accessToken, beginSaving, finishSaving, handleUnauthorizedError, t],
   );
 
   const setActiveStep = useCallback(
     (step: BusinessSetupStep) => {
-      if (!isSaving) {
+      if (!isSavingReference.current) {
         setActiveStepState(step);
       }
     },
-    [isSaving],
+    [],
   );
 
   const setDraft = useCallback(
@@ -240,34 +241,13 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       step: Step,
       values: NonNullable<BusinessSetupDrafts[Step]>,
     ) => {
-      setDrafts((currentDrafts) => ({
-        ...currentDrafts,
-        [step]: values,
-      }));
-      setDirtySteps((currentSteps) =>
-        currentSteps.includes(step) ? currentSteps : [...currentSteps, step],
-      );
+      dispatchFormAction({ step, type: "setDraft", values });
     },
     [],
   );
 
   const clearDraft = useCallback((step: BusinessSetupDraftStep) => {
-    setDrafts((currentDrafts) => {
-      if (!currentDrafts[step]) {
-        return currentDrafts;
-      }
-
-      const nextDrafts = { ...currentDrafts };
-
-      delete nextDrafts[step];
-
-      return nextDrafts;
-    });
-    setDirtySteps((currentSteps) =>
-      currentSteps.includes(step)
-        ? currentSteps.filter((currentStep) => currentStep !== step)
-        : currentSteps,
-    );
+    dispatchFormAction({ step, type: "clearStep" });
   }, []);
 
   const setStepHasValidationErrors = useCallback(
@@ -275,65 +255,60 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
       step: BusinessSetupDraftStep,
       hasValidationErrors: boolean,
     ) => {
-      setStepsWithValidationErrors((currentSteps) => {
-        const alreadyHasValidationErrors = currentSteps.includes(step);
-
-        if (hasValidationErrors === alreadyHasValidationErrors) {
-          return currentSteps;
-        }
-
-        return hasValidationErrors
-          ? [...currentSteps, step]
-          : currentSteps.filter((currentStep) => currentStep !== step);
-      });
+      dispatchFormAction({ hasValidationErrors, step, type: "setValidation" });
     },
     [],
   );
 
   const completeSetup = useCallback(async () => {
-    if (!accessToken || isSaving) {
+    if (!accessToken || !beginSaving()) {
       return;
     }
-
-    setIsSaving(true);
 
     try {
       const nextSetup = await completeBusinessSetup({ accessToken });
 
       setSetup(nextSetup);
-      notifyBusinessSetupStatusChanged(nextSetup.setup.status);
+      notifyBusinessSetupStatusChanged({
+        businessType: nextSetup.basics.businessType,
+        status: nextSetup.setup.status,
+      });
     } catch (error: unknown) {
       if (!(await handleUnauthorizedError(error))) {
         throw error;
       }
     } finally {
-      setIsSaving(false);
+      finishSaving();
     }
-  }, [accessToken, handleUnauthorizedError, isSaving]);
+  }, [accessToken, beginSaving, finishSaving, handleUnauthorizedError]);
 
   const startSetup = useCallback(async () => {
-    if (!accessToken || isSaving) {
+    if (!accessToken || !beginSaving()) {
       return;
     }
-
-    setIsSaving(true);
 
     try {
       const nextSetup = await startBusinessSetup({ accessToken });
 
       setSetup(nextSetup);
-      notifyBusinessSetupStatusChanged(nextSetup.setup.status);
+      notifyBusinessSetupStatusChanged({
+        businessType: nextSetup.basics.businessType,
+        status: nextSetup.setup.status,
+      });
     } catch (error: unknown) {
       if (!(await handleUnauthorizedError(error))) {
         throw error;
       }
     } finally {
-      setIsSaving(false);
+      finishSaving();
     }
-  }, [accessToken, handleUnauthorizedError, isSaving]);
+  }, [accessToken, beginSaving, finishSaving, handleUnauthorizedError]);
 
   const resolvedActiveStep =
     activeStep ?? setup?.setup.currentStep ?? "BUSINESS_BASICS";
+  const dirtySteps = businessSetupDraftSteps.filter(
+    (step) => drafts[step] !== undefined,
+  );
   const savedTeam = useMemo<BusinessTeamForm>(
     () => ({
       teamMembers: setup?.teamMembers ?? [],
@@ -341,8 +316,9 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
     [setup?.teamMembers],
   );
   const hasUnsavedChanges = dirtySteps.length > 0;
-  const hasActiveStepValidationErrors = stepsWithValidationErrors.includes(
-    resolvedActiveStep,
+  const hasActiveStepValidationErrors = businessSetupDraftSteps.some(
+    (step) =>
+      step === resolvedActiveStep && stepsWithValidationErrors.includes(step),
   );
 
   const saveBasics = useCallback(
@@ -362,35 +338,21 @@ export const BusinessSetupProvider = ({ children }: { children: ReactNode }) => 
   );
   const saveAddons = useCallback(
     async (values: BusinessAddonsForm) => {
-      if (isSaving) {
+      if (!beginSaving()) {
         return;
       }
 
-      setIsSaving(true);
-
       try {
         setSavedAddons(values);
-        setDrafts((currentDrafts) => {
-          const nextDrafts = { ...currentDrafts };
-
-          delete nextDrafts.ADDONS;
-
-          return nextDrafts;
-        });
-        setDirtySteps((currentSteps) =>
-          currentSteps.filter((currentStep) => currentStep !== "ADDONS"),
-        );
-        setStepsWithValidationErrors((currentSteps) =>
-          currentSteps.filter((currentStep) => currentStep !== "ADDONS"),
-        );
+        dispatchFormAction({ step: "ADDONS", type: "clearStep" });
         appToast.success({
           title: t("businessSetup.feedback.savedSuccessfully"),
         });
       } finally {
-        setIsSaving(false);
+        finishSaving();
       }
     },
-    [isSaving, t],
+    [beginSaving, finishSaving, t],
   );
   const saveTeam = useCallback(
     (values: BusinessTeamForm) => saveStep("TEAM", values, saveBusinessTeam),

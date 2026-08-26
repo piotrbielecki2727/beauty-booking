@@ -151,6 +151,7 @@ const toBusinessSetupResponse = (
   publicProfile: {
     contactEmail: business.contactEmail,
     contactPhone: business.contactPhone,
+    description: business.description,
     facebookUrl: business.facebookUrl,
     instagramUrl: business.instagramUrl,
     pinterestUrl: business.pinterestUrl,
@@ -201,6 +202,7 @@ const getBusinessSetupStatus = async (
   }
 
   return {
+    businessType: business.businessType,
     status: business.onboardingStatus,
   };
 };
@@ -434,6 +436,7 @@ const saveBusinessDetails = async (
     ),
     contactEmail: values.contactEmail ?? "",
     contactPhone: values.contactPhone ?? "",
+    description: values.description ?? "",
     facebookUrl: values.facebookUrl ?? "",
     instagramUrl: values.instagramUrl ?? "",
     onboardingCurrentStep:

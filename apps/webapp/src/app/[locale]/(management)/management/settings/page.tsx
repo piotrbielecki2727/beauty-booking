@@ -1,9 +1,19 @@
-import { PageContainer } from "@/components/layout/PageContainer";
+import { getTranslations } from "next-intl/server";
 
-export default function ManagementSettingsPage() {
+import { ManagementPageLayout } from "@/components/layout/ManagementPageLayout";
+import { BusinessSetupProvider } from "@/features/businessSetup/providers";
+import { BusinessSalonSettings } from "@/features/businessSettings";
+
+export default async function ManagementSettingsPage() {
+  const t = await getTranslations();
   return (
-    <PageContainer isFullWidth>
-      <h1 className="text-2xl font-semibold tracking-tight">Ustawienia</h1>
-    </PageContainer>
+    <ManagementPageLayout
+      description={t("managementSettings.description")}
+      title={t("managementSettings.title")}
+    >
+      <BusinessSetupProvider>
+        <BusinessSalonSettings />
+      </BusinessSetupProvider>
+    </ManagementPageLayout>
   );
 }

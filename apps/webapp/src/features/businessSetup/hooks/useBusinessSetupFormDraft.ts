@@ -21,6 +21,7 @@ export const useBusinessSetupFormDraft = <Values extends FieldValues>({
 }: UseBusinessSetupFormDraftProperties<Values>) => {
   const { clearDraft, setStepHasValidationErrors } = useBusinessSetup();
   const values = useWatch({ control: form.control });
+  const valuesFingerprint = JSON.stringify(values);
   const { errors, isDirty } = form.formState;
   const hasValidationErrors = Object.keys(errors).length > 0;
 
@@ -31,7 +32,7 @@ export const useBusinessSetupFormDraft = <Values extends FieldValues>({
     }
 
     clearDraft(step);
-  }, [clearDraft, form, isDirty, onDraftChange, step, values]);
+  }, [clearDraft, form, isDirty, onDraftChange, step, valuesFingerprint]);
 
   useEffect(() => {
     setStepHasValidationErrors(step, hasValidationErrors);
