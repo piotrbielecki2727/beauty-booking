@@ -45,7 +45,7 @@ export const ManagementSidebarDrawer = ({
       <Drawer.Backdrop className="fixed inset-0 z-50 bg-backdrop backdrop-blur-sm transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0 md:hidden" />
 
       <Drawer.Viewport className="fixed inset-0 z-50 flex justify-end md:hidden">
-        <Drawer.Popup className="h-full w-80 max-w-[85vw] border-l border-line bg-canvas p-4 text-copy shadow-md outline-none transition-transform duration-200 data-ending-style:translate-x-full data-starting-style:translate-x-full">
+        <Drawer.Popup className="h-full w-80 max-w-[85vw] border-l border-sidebar-border bg-sidebar p-4 text-sidebar-foreground shadow-md outline-none transition-transform duration-200 data-ending-style:translate-x-full data-starting-style:translate-x-full">
           <Drawer.Content className="flex h-full flex-col gap-6">
             <div className="flex items-center justify-between gap-4">
               <Drawer.Title className="min-w-0">

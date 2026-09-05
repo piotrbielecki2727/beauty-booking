@@ -1,148 +1,222 @@
-import { z } from "zod";
-
 import {
   acceptBusinessTeamInvitationResponseSchema,
+  businessTeamMemberMutationResponseSchema,
+  businessTeamOwnerMutationResponseSchema,
   businessTeamInvitationPreviewSchema,
   businessTeamResponseSchema,
+  cancelBusinessTeamInvitationResponseSchema,
+  createBusinessTeamMemberRequestSchema,
   createBusinessTeamInvitationResponseSchema,
+  updateBusinessTeamMemberRequestSchema,
+  updateBusinessTeamOwnerRequestSchema,
   type AcceptBusinessTeamInvitationResponse,
+  type BusinessTeamMemberMutationResponse,
   type BusinessTeamInvitationPreview,
+  type BusinessTeamMemberListStatus,
+  type BusinessTeamOwnerMutationResponse,
   type BusinessTeamResponse,
+  type CancelBusinessTeamInvitationResponse,
+  type CreateBusinessTeamMemberRequest,
   type CreateBusinessTeamInvitationResponse,
+  type UpdateBusinessTeamMemberRequest,
+  type UpdateBusinessTeamOwnerRequest,
 } from "@beauty-booking/shared";
 
-import { backendApiUrl } from "@/config";
+import { ApiRequestError, apiRequest } from "@/lib/apiRequest";
 
-type BusinessTeamRequestOptions<ResponseSchema extends z.ZodType> = {
-  accessToken?: string;
-  body?: unknown;
-  method: "GET" | "POST";
-  path: string;
-  schema: ResponseSchema;
-};
+const businessTeamApiErrorName = "BusinessTeamApiError";
 
-class BusinessTeamApiError extends Error {
-  status?: number;
-
-  constructor(message: string, status?: number) {
-    super(message);
-    this.name = "BusinessTeamApiError";
-    this.status = status;
-  }
-}
-
-const requestBusinessTeam = async <ResponseSchema extends z.ZodType>({
+const getBusinessTeam = ({
   accessToken,
-  body,
-  method,
-  path,
-  schema,
-}: BusinessTeamRequestOptions<ResponseSchema>) => {
-  const headers = new Headers();
-
-  if (accessToken) {
-    headers.set("Authorization", `Bearer ${accessToken}`);
-  }
-
-  if (body !== undefined) {
-    headers.set("Content-Type", "application/json");
-  }
-
-  const response = await fetch(`${backendApiUrl}${path}`, {
-    body: body === undefined ? undefined : JSON.stringify(body),
-    cache: "no-store",
-    headers,
-    method,
-  });
-  const payload = (await response.json().catch(() => undefined)) as unknown;
-
-  if (!response.ok) {
-    const errorPayload = payload as { message?: string } | undefined;
-
-    throw new BusinessTeamApiError(
-      errorPayload?.message ?? "Request failed",
-      response.status,
-    );
-  }
-
-  const parsedPayload = schema.safeParse(payload);
-
-  if (!parsedPayload.success) {
-    throw new BusinessTeamApiError("Invalid response");
-  }
-
-  return parsedPayload.data;
-};
-
-const getBusinessTeam = (
-  accessToken: string,
-): Promise<BusinessTeamResponse> =>
-  requestBusinessTeam({
+  signal,
+  status,
+}: {
+  accessToken: string;
+  signal?: AbortSignal;
+  status?: BusinessTeamMemberListStatus;
+}): Promise<BusinessTeamResponse> =>
+  apiRequest({
     accessToken,
+    errorName: businessTeamApiErrorName,
     method: "GET",
-    path: "/business/team",
+    path: `/business/team${status ? `?status=${status}` : ""}`,
     schema: businessTeamResponseSchema,
+    signal,
+  });
+
+const createBusinessTeamMember = ({
+  accessToken,
+  signal,
+  values,
+}: {
+  accessToken: string;
+  signal?: AbortSignal;
+  values: CreateBusinessTeamMemberRequest;
+}): Promise<BusinessTeamMemberMutationResponse> =>
+  apiRequest({
+    accessToken,
+    body: createBusinessTeamMemberRequestSchema.parse(values),
+    errorName: businessTeamApiErrorName,
+    method: "POST",
+    path: "/business/team/members",
+    schema: businessTeamMemberMutationResponseSchema,
+    signal,
+  });
+
+const updateBusinessTeamMember = ({
+  accessToken,
+  signal,
+  teamMemberId,
+  values,
+}: {
+  accessToken: string;
+  signal?: AbortSignal;
+  teamMemberId: string;
+  values: UpdateBusinessTeamMemberRequest;
+}): Promise<BusinessTeamMemberMutationResponse> =>
+  apiRequest({
+    accessToken,
+    body: updateBusinessTeamMemberRequestSchema.parse(values),
+    errorName: businessTeamApiErrorName,
+    method: "PATCH",
+    path: `/business/team/members/${teamMemberId}`,
+    schema: businessTeamMemberMutationResponseSchema,
+    signal,
+  });
+
+const updateBusinessTeamOwner = ({
+  accessToken,
+  signal,
+  values,
+}: {
+  accessToken: string;
+  signal?: AbortSignal;
+  values: UpdateBusinessTeamOwnerRequest;
+}): Promise<BusinessTeamOwnerMutationResponse> =>
+  apiRequest({
+    accessToken,
+    body: updateBusinessTeamOwnerRequestSchema.parse(values),
+    errorName: businessTeamApiErrorName,
+    method: "PATCH",
+    path: "/business/team/owner",
+    schema: businessTeamOwnerMutationResponseSchema,
+    signal,
+  });
+
+const deactivateBusinessTeamMember = ({
+  accessToken,
+  signal,
+  teamMemberId,
+}: {
+  accessToken: string;
+  signal?: AbortSignal;
+  teamMemberId: string;
+}): Promise<BusinessTeamMemberMutationResponse> =>
+  apiRequest({
+    accessToken,
+    errorName: businessTeamApiErrorName,
+    method: "POST",
+    path: `/business/team/members/${teamMemberId}/deactivate`,
+    schema: businessTeamMemberMutationResponseSchema,
+    signal,
+  });
+
+const reactivateBusinessTeamMember = ({
+  accessToken,
+  signal,
+  teamMemberId,
+}: {
+  accessToken: string;
+  signal?: AbortSignal;
+  teamMemberId: string;
+}): Promise<BusinessTeamMemberMutationResponse> =>
+  apiRequest({
+    accessToken,
+    errorName: businessTeamApiErrorName,
+    method: "POST",
+    path: `/business/team/members/${teamMemberId}/reactivate`,
+    schema: businessTeamMemberMutationResponseSchema,
+    signal,
   });
 
 const createBusinessTeamInvitation = ({
   accessToken,
-  email,
+  signal,
   teamMemberId,
 }: {
   accessToken: string;
-  email?: string;
+  signal?: AbortSignal;
   teamMemberId: string;
 }): Promise<CreateBusinessTeamInvitationResponse> =>
-  requestBusinessTeam({
+  apiRequest({
     accessToken,
-    body: email ? { email } : {},
+    errorName: businessTeamApiErrorName,
     method: "POST",
     path: `/business/team/members/${teamMemberId}/invitations`,
     schema: createBusinessTeamInvitationResponseSchema,
+    signal,
   });
 
 const cancelBusinessTeamInvitation = ({
   accessToken,
   invitationId,
+  signal,
 }: {
   accessToken: string;
   invitationId: string;
-}): Promise<BusinessTeamResponse> =>
-  requestBusinessTeam({
+  signal?: AbortSignal;
+}): Promise<CancelBusinessTeamInvitationResponse> =>
+  apiRequest({
     accessToken,
+    errorName: businessTeamApiErrorName,
     method: "POST",
     path: `/business/team/invitations/${invitationId}/cancel`,
-    schema: businessTeamResponseSchema,
+    schema: cancelBusinessTeamInvitationResponseSchema,
+    signal,
   });
 
 const getBusinessTeamInvitationPreview = (
   token: string,
+  options?: {
+    signal?: AbortSignal;
+  },
 ): Promise<BusinessTeamInvitationPreview> =>
-  requestBusinessTeam({
+  apiRequest({
+    errorName: businessTeamApiErrorName,
     method: "GET",
     path: `/team-invitations/${token}`,
     schema: businessTeamInvitationPreviewSchema,
+    signal: options?.signal,
   });
 
 const acceptBusinessTeamInvitation = ({
   accessToken,
+  signal,
   token,
 }: {
   accessToken: string;
+  signal?: AbortSignal;
   token: string;
 }): Promise<AcceptBusinessTeamInvitationResponse> =>
-  requestBusinessTeam({
+  apiRequest({
     accessToken,
+    errorName: businessTeamApiErrorName,
     method: "POST",
     path: `/team-invitations/${token}/accept`,
     schema: acceptBusinessTeamInvitationResponseSchema,
+    signal,
   });
 
 export {
   acceptBusinessTeamInvitation,
-  BusinessTeamApiError,
+  ApiRequestError as BusinessTeamApiError,
   cancelBusinessTeamInvitation,
+  createBusinessTeamMember,
   createBusinessTeamInvitation,
+  deactivateBusinessTeamMember,
   getBusinessTeam,
   getBusinessTeamInvitationPreview,
+  reactivateBusinessTeamMember,
+  updateBusinessTeamOwner,
+  updateBusinessTeamMember,
 };

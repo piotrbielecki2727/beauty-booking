@@ -81,12 +81,14 @@ const roleBadgeClassNames =
 const getRoleBadgeClassNames = (role: BusinessTeamMemberRole | "Owner") =>
   cn(
     roleBadgeClassNames,
-    role === "Owner" && "border-brand bg-brand-soft text-brand",
+    role === "Owner" &&
+      "border-transparent bg-[var(--role-badge-owner-surface)] text-[var(--role-badge-owner-text)]",
     role === "Manager" &&
-      "border-[var(--status-warning-border,var(--border))] bg-[var(--status-warning-surface,var(--background))] text-warning",
+      "border-transparent bg-[var(--role-badge-manager-surface)] text-[var(--role-badge-manager-text)]",
     role === "Employee" &&
-      "border-[var(--status-success-border,var(--border))] bg-[var(--status-success-surface,var(--background))] text-success",
-    role === "Intern" && "border-line-strong bg-surface text-copy-muted",
+      "border-transparent bg-[var(--role-badge-employee-surface)] text-[var(--role-badge-employee-text)]",
+    role === "Intern" &&
+      "border-transparent bg-[var(--role-badge-intern-surface)] text-[var(--role-badge-intern-text)]",
   );
 
 const getProvidesServicesBadgeClassNames = (providesServices: boolean) =>

@@ -1,6 +1,9 @@
 export * from "./Accordion";
+export * from "./AppTable";
+export * from "./BooleanStatusBadge";
 export * from "./Card";
 export * from "./Button";
+export * from "./BirthdayControl";
 export * from "./Checkbox";
 export * from "./ConfirmationDialog";
 export * from "./DatePicker";
@@ -19,6 +22,7 @@ export * from "./ScrollArea";
 export * from "./Switch";
 export * from "./Tabs";
 export * from "./Tooltip";
+export * from "./TruncatedTextTooltip";
 export * from "./Textarea";
 export * from "./TimePicker";
 export * from "./timePickerOptions";

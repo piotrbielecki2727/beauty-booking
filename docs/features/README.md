@@ -31,3 +31,4 @@ Current documents:
 - [Authentication And Authorization](./authentication-and-authorization.md)
 - [Business Setup](./business-setup.md)
 - [Current Application State](./current-application-state.md)
+- [Frontend Query And API Pattern](./frontend-query-api-pattern.md)

@@ -1,3 +1,5 @@
 export {
-  createBusinessTeamInvitationRequestSchema,
+  createBusinessTeamMemberRequestSchema,
+  updateBusinessTeamMemberRequestSchema,
+  updateBusinessTeamOwnerRequestSchema,
 } from "@beauty-booking/shared";

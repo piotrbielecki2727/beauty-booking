@@ -2,10 +2,12 @@ import { z } from "zod";
 
 import {
   authRegistrationFlowResponseSchema,
+  authMeResponseSchema,
   authResponseSchema,
   authVerifyEmailResponseSchema,
   type AccountLoginValues,
   type AccountRegistrationValues,
+  type AuthMeResponse,
   type AuthRegistrationFlowResponse,
   type AuthRegistrationTokenRequest,
   type AuthResponse,
@@ -198,6 +200,28 @@ export const loginAccount = (
     schema: authResponseSchema,
     tenantHost: options?.tenantHost,
   });
+};
+
+export const getCurrentAccount = async (
+  accessToken: string,
+): Promise<AuthMeResponse> => {
+  let response: Response;
+
+  try {
+    response = await fetch(`${backendApiUrl}/auth/me`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      method: "GET",
+    });
+  } catch {
+    throw new AccountAuthApiError({
+      code: "connectionError",
+    });
+  }
+
+  return parseJsonResponse(response, authMeResponseSchema);
 };
 
 export const logoutAccount = async (accessToken: string) => {

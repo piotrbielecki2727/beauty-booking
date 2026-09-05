@@ -13,6 +13,7 @@ import { useRegisterForm, type RegisterFormMode } from "./hooks";
 
 type RegisterFormProperties = {
   mode?: RegisterFormMode;
+  redirectTo?: string;
 };
 
 const registerFormCardClassName =
@@ -20,7 +21,10 @@ const registerFormCardClassName =
 const registerFormDataCardClassName =
   "w-full border-0 bg-transparent py-0 shadow-none ring-0 [--card-spacing:--spacing(0)]";
 
-export const RegisterForm = ({ mode = "register" }: RegisterFormProperties) => {
+export const RegisterForm = ({
+  mode = "register",
+  redirectTo,
+}: RegisterFormProperties) => {
   const t = useTranslations();
   const {
     codeExpiresText,
@@ -41,7 +45,7 @@ export const RegisterForm = ({ mode = "register" }: RegisterFormProperties) => {
     submitVerificationCode,
     verificationForm,
     verificationTarget,
-  } = useRegisterForm(mode);
+  } = useRegisterForm(mode, redirectTo);
 
   const isVerifyMode = mode === "verify";
   const pageTitle = confirmedEmail
@@ -62,7 +66,12 @@ export const RegisterForm = ({ mode = "register" }: RegisterFormProperties) => {
 
   const renderCurrentRegisterStep = () => {
     if (confirmedEmail) {
-      return <RegisterFormSuccessState email={confirmedEmail} />;
+      return (
+        <RegisterFormSuccessState
+          email={confirmedEmail}
+          redirectTo={redirectTo}
+        />
+      );
     }
 
     if (isVerifyMode) {

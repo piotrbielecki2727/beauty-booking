@@ -4,12 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useLocale } from "next-intl";
 
+import { getCurrentAccount } from "@/features/account/api";
+import { getDefaultAccountRedirectPath } from "@/features/account/config/roleRoutes";
 import { endAccountSession } from "@/features/account/lib";
 import {
   BusinessSetupApiError,
   getBusinessSetupStatus,
 } from "@/features/businessSetup/api";
 import { subscribeToBusinessSetupStatus } from "@/features/businessSetup/businessSetupStatusEvents";
+import { useRouter } from "@/i18n/navigation";
 
 import type {
   BusinessOnboardingStatus,
@@ -18,15 +21,21 @@ import type {
 
 export const useBusinessSetupStatus = () => {
   const locale = useLocale();
-  const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
+  const {
+    data: session,
+    status: sessionStatus,
+    update: updateSession,
+  } = useSession();
   const [setupStatus, setSetupStatus] =
     useState<BusinessOnboardingStatus | null>(null);
   const [businessType, setBusinessType] = useState<BusinessType | null>(null);
   const [isSetupStatusRequestLoading, setIsSetupStatusRequestLoading] =
     useState(true);
   const [hasSetupStatusError, setHasSetupStatusError] = useState(false);
-  const [isRedirectingToLogin, setIsRedirectingToLogin] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const hasStartedLoginRedirect = useRef(false);
+  const hasStartedAccessRedirect = useRef(false);
   const accessToken = session?.accessToken;
   const hasMissingAccessToken =
     sessionStatus !== "loading" && !accessToken;
@@ -50,7 +59,7 @@ export const useBusinessSetupStatus = () => {
     if (!accessToken) {
       if (!hasStartedLoginRedirect.current) {
         hasStartedLoginRedirect.current = true;
-        setIsRedirectingToLogin(true);
+        setIsRedirecting(true);
         void endAccountSession(`/${locale}/login`);
       }
 
@@ -75,9 +84,32 @@ export const useBusinessSetupStatus = () => {
         if (error instanceof BusinessSetupApiError && error.status === 401) {
           if (!hasStartedLoginRedirect.current) {
             hasStartedLoginRedirect.current = true;
-            setIsRedirectingToLogin(true);
+            setIsRedirecting(true);
             void endAccountSession(`/${locale}/login`);
           }
+          return;
+        }
+
+        if (error instanceof BusinessSetupApiError && error.status === 403) {
+          if (!hasStartedAccessRedirect.current) {
+            hasStartedAccessRedirect.current = true;
+            setIsRedirecting(true);
+
+            void getCurrentAccount(accessToken)
+              .then(async ({ user }) => {
+                await updateSession({
+                  user: {
+                    role: user.role,
+                  },
+                });
+                router.replace(getDefaultAccountRedirectPath(user.role));
+                router.refresh();
+              })
+              .catch(() => {
+                void endAccountSession(`/${locale}/login`);
+              });
+          }
+
           return;
         }
 
@@ -92,14 +124,14 @@ export const useBusinessSetupStatus = () => {
     return () => {
       isMounted = false;
     };
-  }, [accessToken, locale, sessionStatus]);
+  }, [accessToken, locale, router, sessionStatus, updateSession]);
 
   return {
     businessType,
     hasSetupStatusError:
-      hasSetupStatusError && !isRedirectingToLogin,
+      hasSetupStatusError && !isRedirecting,
     isSetupStatusLoading:
-      isRedirectingToLogin ||
+      isRedirecting ||
       hasMissingAccessToken ||
       sessionStatus === "loading" ||
       (Boolean(accessToken) && isSetupStatusRequestLoading),

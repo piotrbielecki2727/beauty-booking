@@ -24,19 +24,22 @@ import type { BusinessLocationForm } from "@beauty-booking/shared";
 
 type BusinessMobileServicesFieldsProperties = {
   control: Control<BusinessLocationForm>;
+  index: number;
 };
 
 export const BusinessMobileServicesFields = ({
   control,
+  index,
 }: BusinessMobileServicesFieldsProperties) => {
   const t = useTranslations();
+  const fieldPrefix = `locations.${index}` as const;
   const mobileServicesEnabled = useWatch({
     control,
-    name: "mobileServicesEnabled",
+    name: `${fieldPrefix}.mobileServicesEnabled`,
   });
   const mobileServiceFeeType = useWatch({
     control,
-    name: "mobileServiceFeeType",
+    name: `${fieldPrefix}.mobileServiceFeeType`,
   });
 
   return (
@@ -49,7 +52,7 @@ export const BusinessMobileServicesFields = ({
           containerClassName="min-w-0"
           control={control}
           label={t("businessSetup.location.fields.mobileServicesEnabled")}
-          name="mobileServicesEnabled"
+          name={`${fieldPrefix}.mobileServicesEnabled`}
         />
       </div>
       <p className="text-sm leading-5 text-copy-muted">
@@ -68,7 +71,7 @@ export const BusinessMobileServicesFields = ({
             label={t(
               "businessSetup.location.fields.mobileServiceMaxDistanceKm",
             )}
-            name="mobileServiceMaxDistanceKm"
+            name={`${fieldPrefix}.mobileServiceMaxDistanceKm`}
             placeholder="15"
           />
           <InputControl
@@ -81,7 +84,7 @@ export const BusinessMobileServicesFields = ({
             label={t(
               "businessSetup.location.fields.mobileServiceTravelTimeMinutes",
             )}
-            name="mobileServiceTravelTimeMinutes"
+            name={`${fieldPrefix}.mobileServiceTravelTimeMinutes`}
             placeholder="30"
           />
           <SegmentedControlControl
@@ -92,7 +95,7 @@ export const BusinessMobileServicesFields = ({
             label={t(
               "businessSetup.location.fields.mobileServiceFeeType",
             )}
-            name="mobileServiceFeeType"
+            name={`${fieldPrefix}.mobileServiceFeeType`}
             options={(["FREE", "FIXED", "CUSTOM"] as const).map(
               (feeType) => ({
                 label: t(
@@ -114,7 +117,7 @@ export const BusinessMobileServicesFields = ({
               label={t(
                 "businessSetup.location.fields.mobileServiceFixedFee",
               )}
-              name="mobileServiceFixedFee"
+              name={`${fieldPrefix}.mobileServiceFixedFee`}
               placeholder="30,00"
             />
           ) : null}

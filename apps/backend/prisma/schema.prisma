@@ -130,18 +130,6 @@ model Business {
   pinterestUrl                   String?
   tiktokUrl                      String?
   youtubeUrl                     String?
-  mobileServicesEnabled          Boolean                       @default(false)
-  mobileServiceMaxDistanceKm     Int?
-  mobileServiceTravelTimeMinutes Int?
-  mobileServiceFeeType           BusinessMobileServiceFeeType?
-  mobileServiceFixedFeeAmount    Int?
-  city                           String?
-  postalCode                     String?
-  street                         String?
-  buildingNumber                 String?
-  apartmentNumber                String?
-  parkingNote                    String?
-  locationNote                   String?
   onboardingStatus               BusinessOnboardingStatus      @default(NOT_STARTED)
   onboardingCurrentStep          BusinessSetupStep?
   onboardingCompletedSteps       BusinessSetupStep[]           @default([])
@@ -153,9 +141,34 @@ model Business {
   services                       BusinessService[]
   teamMembers                    BusinessTeamMember[]
   users                          User[]
+  locations                      BusinessLocation[]
   openingHours                   BusinessOpeningHour[]
   bookingSettings                BusinessBookingSettings?
   bookingReleaseWindows          BookingReleaseWindow[]
+}
+
+model BusinessLocation {
+  id                             String                        @id @default(uuid())
+  city                           String
+  postalCode                     String
+  street                         String?
+  buildingNumber                 String
+  apartmentNumber                String?
+  parkingNote                    String?
+  locationNote                   String?
+  mobileServicesEnabled          Boolean                       @default(false)
+  mobileServiceMaxDistanceKm     Int?
+  mobileServiceTravelTimeMinutes Int?
+  mobileServiceFeeType           BusinessMobileServiceFeeType?
+  mobileServiceFixedFeeAmount    Int?
+  sortOrder                      Int
+  createdAt                      DateTime                      @default(now())
+  updatedAt                      DateTime                      @updatedAt
+  businessId                     String
+  business                       Business                      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, sortOrder])
+  @@index([businessId])
 }
 
 model BusinessBookingSettings {
@@ -250,8 +263,12 @@ model BusinessTeamMember {
   id               String                   @id @default(uuid())
   fullName         String
   email            String?
+  phoneNumber      String?
+  birthdayMonth    Int?
+  birthdayDay      Int?
   role             AccountRole
   providesServices Boolean                  @default(true)
+  deactivatedAt    DateTime?
   createdAt        DateTime                 @default(now())
   updatedAt        DateTime                 @updatedAt
   businessId       String
@@ -263,12 +280,14 @@ model BusinessTeamMember {
   @@unique([businessId, email])
   @@unique([businessId, userId])
   @@index([businessId])
+  @@index([businessId, deactivatedAt])
   @@index([userId])
 }
 
 model BusinessTeamInvitation {
   id           String             @id @default(uuid())
   email        String
+  token        String?            @unique
   tokenHash    String             @unique
   expiresAt    DateTime
   acceptedAt   DateTime?

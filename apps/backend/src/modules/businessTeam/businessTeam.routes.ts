@@ -3,11 +3,20 @@ import { Router } from "express";
 import {
   acceptBusinessTeamInvitationController,
   cancelBusinessTeamInvitationController,
+  createBusinessTeamMemberController,
   createBusinessTeamInvitationController,
+  deactivateBusinessTeamMemberController,
   getBusinessTeamController,
   getBusinessTeamInvitationPreviewController,
+  reactivateBusinessTeamMemberController,
+  updateBusinessTeamOwnerController,
+  updateBusinessTeamMemberController,
 } from "@/modules/businessTeam/businessTeam.controller";
-import { createBusinessTeamInvitationRequestSchema } from "@/modules/businessTeam/businessTeam.schemas";
+import {
+  createBusinessTeamMemberRequestSchema,
+  updateBusinessTeamMemberRequestSchema,
+  updateBusinessTeamOwnerRequestSchema,
+} from "@/modules/businessTeam/businessTeam.schemas";
 import { requireAuth } from "@/modules/auth/auth.middleware";
 import {
   requireCompletedBusinessSetup,
@@ -31,8 +40,35 @@ businessTeamRouter.get(
 );
 
 businessTeamRouter.post(
+  "/members",
+  validateBody(createBusinessTeamMemberRequestSchema),
+  asyncHandler(createBusinessTeamMemberController),
+);
+
+businessTeamRouter.patch(
+  "/owner",
+  validateBody(updateBusinessTeamOwnerRequestSchema),
+  asyncHandler(updateBusinessTeamOwnerController),
+);
+
+businessTeamRouter.patch(
+  "/members/:teamMemberId",
+  validateBody(updateBusinessTeamMemberRequestSchema),
+  asyncHandler(updateBusinessTeamMemberController),
+);
+
+businessTeamRouter.post(
+  "/members/:teamMemberId/deactivate",
+  asyncHandler(deactivateBusinessTeamMemberController),
+);
+
+businessTeamRouter.post(
+  "/members/:teamMemberId/reactivate",
+  asyncHandler(reactivateBusinessTeamMemberController),
+);
+
+businessTeamRouter.post(
   "/members/:teamMemberId/invitations",
-  validateBody(createBusinessTeamInvitationRequestSchema),
   asyncHandler(createBusinessTeamInvitationController),
 );
 

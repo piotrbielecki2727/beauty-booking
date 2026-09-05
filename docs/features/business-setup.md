@@ -7,7 +7,7 @@ The current MVP initial owner setup and permanent salon-settings flow are implem
 Implemented steps:
 
 - business basics,
-- location,
+- locations,
 - booking-page contact details,
 - summary view.
 
@@ -18,7 +18,7 @@ pages, but they are not part of the initial setup flow.
 Current wizard order:
 
 - business basics,
-- location,
+- locations,
 - booking-page contact details,
 - summary.
 
@@ -52,6 +52,11 @@ Routes:
 - `PATCH /business/setup/business-type`
 - `PATCH /business/setup/services`
 - `GET /business/team`
+- `POST /business/team/members`
+- `PATCH /business/team/members/:teamMemberId`
+- `PATCH /business/team/owner`
+- `POST /business/team/members/:teamMemberId/deactivate`
+- `POST /business/team/members/:teamMemberId/reactivate`
 - `POST /business/team/members/:teamMemberId/invitations`
 - `POST /business/team/invitations/:invitationId/cancel`
 - `GET /team-invitations/:token`
@@ -89,24 +94,29 @@ Business setup state is stored on `Business`:
 - `onboardingCompletedSteps`,
 - `onboardingCompletedAt`.
 
-Business basics, salon location and default mobile-service settings are stored
-on `Business`. `availabilityMode` stores whether availability is bounded by
-salon-wide `FIXED_HOURS` or comes only from `INDIVIDUAL_SCHEDULES`. The salon
-address is always the primary location. The optional
-`mobileServicesEnabled` capability exposes a maximum travel distance, a default
+Business basics are stored on `Business`. Salon locations and per-location
+mobile-service defaults are stored in `BusinessLocation`. `availabilityMode`
+stores whether availability is bounded by salon-wide `FIXED_HOURS` or comes
+only from `INDIVIDUAL_SCHEDULES`. A business must have at least one saved
+location and may have multiple locations; no location is marked as primary.
+Single-location businesses can use that location implicitly in later service
+and booking flows, while multi-location businesses will require explicit
+location selection where it matters. Each location stores an address, arrival
+notes and optional mobile-service settings: maximum travel distance, default
 travel-time buffer and a fee configured as `FREE`, `FIXED` or `CUSTOM`. Fixed
-fees are persisted in integer minor units. Enabling the capability does not
-make every service mobile; service-level location availability belongs to the
-later operational services configuration. Mobile bookings will require manual
-salon confirmation in the MVP.
+fees are persisted in integer minor units. Enabling mobile services for a
+location does not make every service mobile; service-level location
+availability belongs to the later operational services configuration. Mobile
+bookings will require manual salon confirmation in the MVP.
 
-The Polish address contract accepts letters, Polish characters, spaces and
-hyphen for locality, requires it to start with an uppercase letter and contain
-2-50 characters; postal code uses `NN-NNN`; street is optional and accepts
-letters, Polish characters, digits, spaces, hyphen and dot; building number
-accepts digits plus an optional single letter; apartment number is optional
-digits only; arrival and parking notes are optional text up to 500 characters
-without links, HTML or emoji.
+The location contract accepts 1-10 locations and rejects duplicate addresses.
+The Polish address fields accept letters, Polish characters, spaces and hyphen
+for locality, require it to start with an uppercase letter and contain 2-50
+characters; postal code uses `NN-NNN`; street is optional and accepts letters,
+Polish characters, digits, spaces, hyphen and dot; building number accepts
+digits plus an optional single letter; apartment number is optional digits only;
+arrival and parking notes are optional text up to 500 characters without links,
+HTML or emoji.
 
 Salon-wide weekly opening hours are stored in `BusinessOpeningHour`. The
 preserved endpoint replaces the complete seven-day schedule in one transaction
@@ -154,6 +164,20 @@ when changing the business model so returning to `TEAM` restores the previous
 choice.
 
 Team members are stored in `BusinessTeamMember` and belong to one business.
+The operational employees page creates and updates these profiles through the
+team management endpoints. The shared request contract contains full name,
+optional e-mail, optional phone number, optional birthday day/month, role
+(`Manager`, `Employee` or `Intern`) and `providesServices`. Backend validation
+rejects the owner's e-mail, duplicate member e-mails in the same business and
+e-mail changes for a profile that already has active account access. Updating an
+active profile also updates the linked `User.role` and `BusinessMembership`
+role/service-provider flag. Removing a member is implemented as deactivation:
+active invitations are cancelled, the profile remains stored and can be
+reactivated later.
+`GET /business/team` returns the owner as a complete `owner` object with name,
+e-mail, phone, birthday day/month and `providesServices`, plus `teamMembers`.
+Each member `access` object is discriminated by `status` and only exposes an
+`inviteUrl` for active pending invitations.
 
 The first wizard step persists `businessType`, salon name and specializations
 through `PATCH /business/setup/business-basics`. For `SOLO`, the owner's
@@ -173,13 +197,14 @@ flow. Public registration should not automatically grant management access only
 because a registered e-mail matches a team profile.
 
 Panel access invitations are stored in `BusinessTeamInvitation`. The database
-stores only `tokenHash`; the plaintext token is returned once from the temporary
-test endpoint and can later be sent by a real e-mail adapter. Creating a new
-invitation cancels any previous active invitation for the same team member.
-Accepting an invitation requires an authenticated user in the same business with
-the same e-mail as the invitation, then links `BusinessTeamMember.userId`,
-creates or updates `BusinessMembership`, and updates `User.role` to the invited
-role.
+stores a random token so the active link can be copied again after refresh, and
+also stores `tokenHash` for token lookup. Invitation responses include `sentAt`,
+`expiresAt` and the current `inviteUrl`. Creating an invitation reuses an
+existing active invitation for the same team member instead of generating a new
+link; expired or cancelled invitations can be replaced. Accepting an invitation
+requires an authenticated user in the same business with the same e-mail as the
+invitation, then links `BusinessTeamMember.userId`, creates or updates
+`BusinessMembership`, and updates `User.role` to the invited role.
 
 Services are stored in `BusinessService` and belong to one business. Prices are
 stored as integer minor units in `priceAmount`. Service setup validates names as
@@ -227,20 +252,35 @@ published immediately or scheduled. Team-only controls decide whether clients
 may select a specific provider and whether they may choose “any team member”.
 It is no longer mounted by the initial wizard.
 
-The employees page contains a temporary testing section for panel invitations.
-It lists saved team members, shows access status (`NO_ACCESS`, `INVITED`,
-`ACTIVE`), generates a test invite URL, previews the token and can cancel or
-attempt to accept the invitation as the currently signed-in account. Real e-mail
-delivery is intentionally not implemented yet.
+The employees page lists saved team members, shows invitation/access status
+(`NO_ACCESS`, `INVITED`, `EXPIRED`, `ACTIVE`), uses modal-based create/edit
+forms and can create, copy or cancel panel invitations. Employee e-mail, phone
+number and birthday day/month are optional operational fields. An e-mail can be
+added later, but once saved it cannot be changed by the standard edit flow.
+Clicking `Invite` creates or returns a 3-day invitation link only when there is
+no active link for that employee; active links are returned by
+`GET /business/team` with `sentAt` so they remain copyable and display the
+actual send date after refresh. Real e-mail delivery is intentionally not
+implemented yet.
+
+The invitation link opens `/team-invitations/:token` in the web app. The page
+prefetches the invitation preview on the server and hydrates it into React
+Query. It shows expired, cancelled and accepted states, sends unauthenticated
+users to login with a return path, checks that the signed-in account e-mail
+matches the invitation and accepts the invite through a mutation. After
+acceptance, the client session role is refreshed and the user is sent to
+`/management`.
 
 Permanent salon settings live at `/management/settings` under one `Salon` tab.
 The page groups editable persisted values into separate basic-information,
-location and customer-data forms instead of mirroring the wizard steps. Each
-form validates with the shared wizard schema and saves independently. Save
-actions are enabled only for a form whose values differ from its persisted
-baseline. Leaving the page with dirty forms opens a shared guard with stay,
-discard-and-leave and save-and-leave actions. Save-and-leave validates every
-dirty form and cancels navigation when any form is invalid or a request fails.
+locations and customer-data forms instead of mirroring the wizard steps. The
+locations form reuses the wizard list UI and lets the owner add, remove, edit
+and save multiple locations. Each form validates with the shared wizard schema
+and saves independently. Save actions are enabled only for a form whose values
+differ from its persisted baseline. Leaving the page with dirty forms opens a
+shared guard with stay, discard-and-leave and save-and-leave actions.
+Save-and-leave validates every dirty form and cancels navigation when any form
+is invalid or a request fails.
 Business model is a separate confirmed action rather than a regular select.
 During a confirmed `SOLO`/`TEAM` change the frontend displays a viewport loader
 and then synchronizes the mounted setup status so management navigation updates

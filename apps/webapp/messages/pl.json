@@ -4,6 +4,7 @@
     "close": "Zamknij",
     "english": "Angielski",
     "polish": "Polski",
+    "retry": "Spróbuj ponownie",
     "selectPlaceholder": "Wybierz"
   },
   "tenant": {
@@ -27,6 +28,18 @@
       "connectionError": "Nie można połączyć się z usługą kont. Sprawdź, czy backend jest uruchomiony.",
       "invalidResponse": "Backend zwrócił nieprawidłową odpowiedź dla operacji konta.",
       "requestFailed": "Nie udało się wykonać operacji."
+    },
+    "businessTeam": {
+      "badRequest": "Sprawdź dane i spróbuj ponownie.",
+      "cancelled": "Operacja została przerwana.",
+      "conflict": "Te dane kolidują z aktualnym stanem zespołu. Odśwież widok i spróbuj ponownie.",
+      "connectionError": "Nie można połączyć się z usługą zespołu. Sprawdź, czy backend jest uruchomiony.",
+      "forbidden": "Nie masz uprawnień do wykonania tej operacji.",
+      "invalidResponse": "Backend zwrócił nieprawidłową odpowiedź dla operacji zespołu.",
+      "notFound": "Nie znaleziono tego zasobu zespołu. Odśwież widok i spróbuj ponownie.",
+      "requestFailed": "Nie udało się wykonać operacji na zespole.",
+      "timeout": "Operacja trwała zbyt długo. Spróbuj ponownie.",
+      "unauthorized": "Sesja wygasła. Zaloguj się ponownie."
     }
   },
   "confirmationDialog": {
@@ -98,44 +111,106 @@
     }
   },
   "managementEmployees": {
-    "teamAccess": {
-      "acceptAsCurrent": "Akceptuj jako bieżące konto",
-      "acceptFailed": "Nie udało się zaakceptować zaproszenia.",
-      "accepted": "Zaproszenie zaakceptowane.",
-      "cancel": "Anuluj",
+    "title": "Pracownicy",
+    "feedback": {
       "cancelFailed": "Nie udało się anulować zaproszenia.",
-      "checkPreview": "Sprawdź token",
       "copied": "Link skopiowany.",
-      "copy": "Kopiuj link",
-      "description": "Tymczasowy panel do testowania zaproszeń bez realnej wysyłki e-mail.",
-      "email": "Adres e-mail",
-      "emailPlaceholder": "anna@example.com",
-      "empty": "Najpierw dodaj członków zespołu w konfiguracji salonu.",
-      "generatedTitle": "Wygenerowany link testowy",
-      "invite": "Zaproś",
+      "copyFailed": "Nie udało się skopiować linku.",
+      "created": "Pracownik dodany.",
       "inviteCreated": "Zaproszenie wygenerowane.",
       "inviteFailed": "Nie udało się wygenerować zaproszenia.",
-      "invitationStatuses": {
-        "ACCEPTED": "zaakceptowane",
-        "CANCELLED": "anulowane",
-        "EXPIRED": "wygasłe",
-        "PENDING": "aktywne"
-      },
       "loadFailed": "Nie udało się pobrać zespołu.",
-      "loading": "Ładowanie zespołu...",
-      "noServices": "nie wykonuje usług",
-      "preview": "{businessName} · status: {status}",
-      "previewFailed": "Nie udało się sprawdzić tokenu.",
-      "providesServices": "wykonuje usługi",
-      "resend": "Wyślij ponownie",
-      "statuses": {
-        "ACTIVE": "Dostęp aktywny",
-        "INVITED": "Zaproszenie wysłane",
-        "NO_ACCESS": "Dostęp nieaktywny"
-      },
-      "title": "Dostęp do panelu"
+      "saveFailed": "Nie udało się zapisać pracownika.",
+      "updated": "Pracownik zapisany.",
+      "deactivated": "Pracownik zdezaktywowany.",
+      "deactivateFailed": "Nie udało się zdezaktywować pracownika.",
+      "inviteCancelled": "Zaproszenie anulowane.",
+      "reactivated": "Pracownik aktywowany.",
+      "reactivateFailed": "Nie udało się aktywować pracownika."
     },
-    "title": "Pracownicy"
+    "form": {
+      "addTitle": "Nowy pracownik",
+      "cancel": "Anuluj",
+      "description": "Dodaj dane pracownika. Zaproszenie do panelu możesz wygenerować po zapisaniu e-maila.",
+      "editTitle": "Edytuj pracownika",
+      "emailLocked": "Adres e-mail nie może być zmieniony po zapisaniu.",
+      "fields": {
+        "birthday": "Urodziny",
+        "email": "E-mail",
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "phoneNumber": "Nr. telefonu",
+        "providesServices": "Wykonuje usługi",
+        "role": "Rola"
+      },
+      "placeholders": {
+        "email": "anna@example.com",
+        "firstName": "Anna",
+        "lastName": "Kowalska",
+        "phoneNumber": "123456789"
+      },
+      "save": "Zapisz",
+      "saving": "Zapisywanie",
+      "editDescription": "Zmień dane pracownika.",
+      "editOwnerTitle": "Edytuj właściciela",
+      "ownerDescription": "Zmień dane właściciela używane w zespole."
+    },
+    "invitation": {
+      "cancel": "Anuluj zaproszenie",
+      "copy": "Kopiuj link",
+      "actions": "Akcje zaproszenia"
+    },
+    "team": {
+      "add": "Dodaj pracownika",
+      "activeTitle": "Aktywni",
+      "columns": {
+        "actions": "Akcje",
+        "birthday": "Urodziny",
+        "email": "E-mail",
+        "employee": "Pracownik",
+        "phoneNumber": "Nr. telefonu",
+        "providesServices": "Wykonuje usługi",
+        "role": "Rola",
+        "status": "Zaproszenie"
+      },
+      "edit": "Edytuj",
+      "empty": "Nie dodano jeszcze żadnego pracownika.",
+      "emptyInactive": "Nie ma zdezaktywowanych pracowników.",
+      "invite": "Zaproś",
+      "inactiveTitle": "Zdezaktywowani",
+      "noEmail": "Brak e-maila",
+      "no": "Nie",
+      "notProvided": "-",
+      "statuses": {
+        "ACTIVE": "Przyjęte",
+        "EXPIRED": "Wygasło",
+        "INVITED": "Zaproszenie wysłane",
+        "INVITED_DAYS_AGO": "Wysłano {count} dni temu",
+        "INVITED_TODAY": "Wysłano dzisiaj",
+        "INVITED_YESTERDAY": "Wysłano wczoraj",
+        "NO_ACCESS": "Brak zaproszenia",
+        "OWNER": "Właściciel"
+      },
+      "yes": "Tak",
+      "activate": "Aktywuj",
+      "deactivate": "Dezaktywuj",
+      "loading": "Ładowanie pracowników",
+      "tabsLabel": "Widok pracowników",
+      "addEmail": "Dodaj e-mail"
+    },
+    "description": "Dodawaj pracowników, przypisuj role i zarządzaj dostępem do panelu.",
+    "deactivateDialog": {
+      "cancel": "Zostaw",
+      "confirm": "Dezaktywuj",
+      "description": "Pracownik {name} zniknie z aktywnej listy i będzie dostępny w zakładce zdezaktywowanych.",
+      "title": "Dezaktywować pracownika?"
+    },
+    "cancelInvitationDialog": {
+      "cancel": "Zostaw",
+      "confirm": "Anuluj zaproszenie",
+      "description": "Link z zaproszeniem dla {name} przestanie działać.",
+      "title": "Anulować zaproszenie?"
+    }
   },
   "managementSettings": {
     "description": "Zarządzaj informacjami o swoim salonie i sposobem jego działania.",
@@ -202,8 +277,8 @@
           "title": "Dane dla klientów"
         },
         "location": {
-          "description": "Adres, informacje dojazdowe i usługi mobilne.",
-          "title": "Lokalizacja"
+          "description": "Adresy, informacje o dojeździe i usługi mobilne.",
+          "title": "Lokalizacje"
         }
       },
       "tabLabel": "Salon",
@@ -231,7 +306,7 @@
     },
     "welcome": {
       "callout": "Na początek potrzebujemy tylko kilku podstawowych informacji o Twoim salonie.\nPozostałe elementy skonfigurujesz później w panelu.",
-      "description": "Beauty Booking pomoże Ci uporządkować codzienną pracę salonu — od zarządzania kalendarzem i zespołem po obsługę rezerwacji klientów.",
+      "description": "Beauty Booking pomaga uporządkować codzienną pracę salonu - od zarządzania kalendarzem i zespołem po obsługę rezerwacji klientów.",
       "eyebrow": "Witaj w Beauty Booking",
       "features": {
         "calendar": {
@@ -293,13 +368,13 @@
       },
       "logo": {
         "dropLabel": "Przeciągnij plik tutaj lub kliknij, aby wybrać",
-        "helperText": "JPG, PNG, WEBP lub SVG. Maks. {maxFileSizeMb} MB. Rozdzielczość od {minWidth} × {minHeight} do {maxWidth} × {maxHeight} px.",
+        "helperText": "JPG, PNG, WEBP lub SVG. Maks. {maxFileSizeMb} MB. Rozdzielczość od {minWidth} x {minHeight} do {maxWidth} x {maxHeight} px.",
         "previewAlt": "Podgląd wybranego logo salonu",
         "previewLabel": "Podgląd",
         "removeLabel": "Usuń wybrane logo",
         "validation": {
-          "dimensionsTooLarge": "Obraz może mieć maksymalnie {width} × {height} px.",
-          "dimensionsTooSmall": "Obraz musi mieć co najmniej {width} × {height} px.",
+          "dimensionsTooLarge": "Obraz może mieć maksymalnie {width} x {height} px.",
+          "dimensionsTooSmall": "Obraz musi mieć co najmniej {width} x {height} px.",
           "fileTooLarge": "Obraz może mieć maksymalnie {maxFileSizeMb} MB.",
           "imageUnreadable": "Nie udało się odczytać wybranego obrazu.",
           "unsupportedType": "Wybierz obraz JPG, PNG, WEBP lub SVG."
@@ -359,7 +434,7 @@
       },
       "description": "Ustal, kiedy klientki widzą wolne terminy i na jakich zasadach mogą rezerwować wizyty.",
       "fields": {
-        "allowAnyTeamMember": "Klient może wybrać „Dowolna osoba”",
+        "allowAnyTeamMember": "Klienci mogą wybrać \"Dowolnego pracownika\"",
         "allowSpecificTeamMember": "Klient może wybrać konkretną osobę",
         "cancellationDeadline": "Do kiedy klient może samodzielnie anulować wizytę?",
         "confirmationMode": "Sposób potwierdzania wizyt stacjonarnych",
@@ -415,15 +490,15 @@
       "title": "Zasady rezerwacji"
     },
     "location": {
-      "description": "Podaj adres salonu oraz określ, czy oferujesz również usługi z dojazdem do klienta.",
+      "description": "Wpisz adresy, pod którymi przyjmujesz klientów, i wybierz, czy dojeżdżasz też do klientów.",
       "descriptions": {
-        "apartmentNumber": "Opcjonalnie — numer lokalu.",
+        "apartmentNumber": "Opcjonalnie - numer lokalu.",
         "buildingNumber": "Numer budynku, np. 12A.",
         "city": "Miejscowość, w której przyjmujesz klientki.",
-        "locationNote": "Opcjonalnie — dodaj wskazówki, np. wejście od podwórza, domofon lub piętro.",
-        "parkingNote": "Opcjonalnie — wskaż, gdzie można zaparkować lub czy parking jest płatny.",
+        "locationNote": "Opcjonalnie - dodaj wskazówki, np. wejście, domofon albo piętro.",
+        "parkingNote": "Opcjonalnie - wyjaśnij, gdzie klienci mogą zaparkować i czy parking jest płatny.",
         "postalCode": "Ułatwia poprawne zapisanie i wyszukanie adresu.",
-        "street": "Opcjonalnie — podaj nazwę ulicy, jeśli występuje w adresie."
+        "street": "Opcjonalnie - wpisz ulicę, jeśli adres ją ma."
       },
       "fields": {
         "apartmentNumber": "Numer lokalu",
@@ -456,10 +531,13 @@
         "street": "Np. Lipowa"
       },
       "sections": {
-        "address": "Adres salonu",
+        "address": "Adres",
         "mobileServices": "Usługi z dojazdem"
       },
-      "title": "Lokalizacja"
+      "title": "Lokalizacje",
+      "add": "Dodaj lokalizację",
+      "locationTitle": "Lokalizacja {number}",
+      "remove": "Usuń lokalizację"
     },
     "openingHours": {
       "closed": "Zamknięte",
@@ -645,7 +723,7 @@
       "availability": "Godziny otwarcia",
       "bookingRules": "Zasady rezerwacji",
       "businessBasics": "Twój salon",
-      "location": "Lokalizacja",
+      "location": "Lokalizacje",
       "publicProfile": "Dane strony",
       "services": "Usługi",
       "summary": "Podsumowanie",
@@ -654,7 +732,7 @@
     },
     "stepDescriptions": {
       "businessBasics": "Podstawowe informacje o Twoim salonie.",
-      "location": "Adres salonu, informacje dojazdowe i usługi mobilne.",
+      "location": "Adresy salonu, szczegóły dojazdu i usługi mobilne.",
       "publicProfile": "Dane kontaktowe widoczne na stronie rezerwacji.",
       "summary": "Na ostatnim ekranie przejrzysz wszystkie informacje i zapiszesz konfigurację."
     },
@@ -695,7 +773,7 @@
   },
   "footer": {
     "description": "Twoje miejsce do rezerwacji najlepszych usług beauty. Piękno zaczyna się od chwili dla siebie.",
-    "copyright": "© 2026 Beauty Booking. Wszelkie prawa zastrzeżone.",
+    "copyright": "(c) 2026 Beauty Booking. Wszelkie prawa zastrzeżone.",
     "sections": {
       "customers": "Dla klientów",
       "information": "Informacje"
@@ -952,7 +1030,10 @@
         "postalCodeInvalid": "Kod pocztowy wpisz w formacie 00-000.",
         "streetInvalid": "Ulica może zawierać litery, cyfry, spacje, myślnik i kropkę.",
         "streetMaxLength": "Ulica może mieć maksymalnie 60 znaków.",
-        "streetMinLength": "Ulica musi mieć minimum 2 znaki."
+        "streetMinLength": "Ulica musi mieć minimum 2 znaki.",
+        "duplicate": "Ta lokalizacja została już dodana.",
+        "maxItems": "Możesz dodać maksymalnie 10 lokalizacji.",
+        "minItems": "Dodaj co najmniej jedną lokalizację."
       },
       "openingHours": {
         "allDaysRequired": "Ustaw godziny dla każdego dnia tygodnia.",
@@ -970,7 +1051,8 @@
         "fullNameInvalid": "Imię i nazwisko może zawierać litery, spacje, apostrof i myślnik.",
         "fullNameMaxLength": "Imię i nazwisko może mieć maksymalnie 80 znaków.",
         "fullNameMinLength": "Imię i nazwisko musi mieć minimum 2 znaki.",
-        "maxItems": "Możesz dodać maksymalnie 50 osób."
+        "maxItems": "Możesz dodać maksymalnie 50 osób.",
+        "birthdayInvalid": "Wybierz prawidłowy dzień i miesiąc urodzin."
       },
       "services": {
         "descriptionMaxLength": "Opis może mieć maksymalnie 500 znaków.",
@@ -996,5 +1078,66 @@
         "serviceRequired": "Wybierz usługę dla dodatku."
       }
     }
+  },
+  "businessTeamInvitation": {
+    "actions": {
+      "accept": "Przyjmij zaproszenie",
+      "accepting": "Przyjmowanie",
+      "home": "Wróć na stronę główną",
+      "login": "Zaloguj się",
+      "loginHint": "Zaloguj się na konto z adresem e-mail przypisanym do tego zaproszenia.",
+      "register": "Utwórz konto",
+      "signingOut": "Wylogowywanie",
+      "switchAccount": "Wyloguj się i użyj właściwego konta"
+    },
+    "details": {
+      "businessName": "Salon",
+      "email": "E-mail",
+      "expiresAt": "Ważne do",
+      "fullName": "Osoba",
+      "role": "Rola",
+      "status": "Status"
+    },
+    "eyebrow": "Zaproszenie do zespołu",
+    "feedback": {
+      "acceptFailed": "Nie udało się przyjąć zaproszenia.",
+      "loadFailed": "Nie udało się pobrać zaproszenia."
+    },
+    "mismatch": {
+      "description": "Jesteś zalogowany jako {accountEmail}, a zaproszenie jest przypisane do {invitationEmail}.",
+      "title": "To zaproszenie jest dla innego konta"
+    },
+    "states": {
+      "accepted": {
+        "description": "Ten link został już użyty. Możesz wrócić do aplikacji.",
+        "title": "Zaproszenie już przyjęte"
+      },
+      "cancelled": {
+        "description": "Właściciel salonu anulował ten link. Poproś o nowe zaproszenie.",
+        "title": "Zaproszenie anulowane"
+      },
+      "expired": {
+        "description": "Ten link nie jest już aktywny. Poproś właściciela salonu o nowe zaproszenie.",
+        "title": "Zaproszenie wygasło"
+      },
+      "pending": {
+        "description": "Sprawdź szczegóły zaproszenia i przyjmij dostęp do panelu tego salonu.",
+        "title": "Dołącz do zespołu salonu"
+      },
+      "unavailable": {
+        "description": "Link jest nieprawidłowy albo zaproszenie nie istnieje.",
+        "title": "Nie znaleziono zaproszenia"
+      }
+    },
+    "statuses": {
+      "ACCEPTED": "Przyjęte",
+      "CANCELLED": "Anulowane",
+      "EXPIRED": "Wygasłe",
+      "PENDING": "Aktywne"
+    }
+  },
+  "birthdayControl": {
+    "day": "Dzień",
+    "month": "Miesiąc"
   }
 }

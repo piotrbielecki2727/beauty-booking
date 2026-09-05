@@ -22,12 +22,15 @@ import type { BusinessLocationForm } from "@beauty-booking/shared";
 
 type BusinessAddressFieldsProperties = {
   control: Control<BusinessLocationForm>;
+  index: number;
 };
 
 export const BusinessAddressFields = ({
   control,
+  index,
 }: BusinessAddressFieldsProperties) => {
   const t = useTranslations();
+  const fieldPrefix = `locations.${index}` as const;
 
   return (
     <section className="grid content-start gap-5">
@@ -49,7 +52,7 @@ export const BusinessAddressFields = ({
           isRequired
           label={t("businessSetup.location.fields.city")}
           maxLength={50}
-          name="city"
+          name={`${fieldPrefix}.city`}
           placeholder={t("businessSetup.location.placeholders.city")}
         />
         <InputControl
@@ -62,7 +65,7 @@ export const BusinessAddressFields = ({
           isRequired
           label={t("businessSetup.location.fields.postalCode")}
           maxLength={6}
-          name="postalCode"
+          name={`${fieldPrefix}.postalCode`}
           placeholder={t("businessSetup.location.placeholders.postalCode")}
         />
         <InputControl
@@ -73,7 +76,7 @@ export const BusinessAddressFields = ({
           inputClassName={businessSetupFieldClassNames}
           label={t("businessSetup.location.fields.street")}
           maxLength={60}
-          name="street"
+          name={`${fieldPrefix}.street`}
           placeholder={t("businessSetup.location.placeholders.street")}
         />
         <InputControl
@@ -85,7 +88,7 @@ export const BusinessAddressFields = ({
           isRequired
           label={t("businessSetup.location.fields.buildingNumber")}
           maxLength={6}
-          name="buildingNumber"
+          name={`${fieldPrefix}.buildingNumber`}
           placeholder={t(
             "businessSetup.location.placeholders.buildingNumber",
           )}
@@ -99,7 +102,7 @@ export const BusinessAddressFields = ({
           inputMode="numeric"
           label={t("businessSetup.location.fields.apartmentNumber")}
           maxLength={4}
-          name="apartmentNumber"
+          name={`${fieldPrefix}.apartmentNumber`}
           placeholder={t(
             "businessSetup.location.placeholders.apartmentNumber",
           )}
@@ -111,7 +114,7 @@ export const BusinessAddressFields = ({
         feedbackMode={businessSetupFeedbackMode}
         label={t("businessSetup.location.fields.parkingNote")}
         maxLength={500}
-        name="parkingNote"
+        name={`${fieldPrefix}.parkingNote`}
         placeholder={t("businessSetup.location.placeholders.parkingNote")}
         textareaClassName={cn(
           businessSetupFieldClassNames,
@@ -124,7 +127,7 @@ export const BusinessAddressFields = ({
         feedbackMode={businessSetupFeedbackMode}
         label={t("businessSetup.location.fields.locationNote")}
         maxLength={500}
-        name="locationNote"
+        name={`${fieldPrefix}.locationNote`}
         placeholder={t("businessSetup.location.placeholders.locationNote")}
         textareaClassName={cn(
           businessSetupFieldClassNames,

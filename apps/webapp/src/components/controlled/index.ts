@@ -1,4 +1,5 @@
 export * from "./CheckboxControl";
+export * from "./BirthdayControlControl";
 export * from "./DatePickerControl";
 export * from "./DropdownMenuControl";
 export * from "./InputControl";

@@ -21,7 +21,7 @@ export const PhoneNumberInput = forwardRef<
   (
     {
       autoComplete = "tel-national",
-      countryCode = "+48",
+      countryCode,
       inputClassName,
       inputMode = "numeric",
       maxLength = 9,
@@ -35,11 +35,13 @@ export const PhoneNumberInput = forwardRef<
         ref={ref}
         autoComplete={autoComplete}
         icon={
-          <span className="border-r border-border pr-2 text-sm font-medium text-muted-foreground">
-            {countryCode}
-          </span>
+          countryCode ? (
+            <span className="border-r border-border pr-2 text-sm font-medium text-muted-foreground">
+              {countryCode}
+            </span>
+          ) : undefined
         }
-        inputClassName={cn(inputClassName, "pl-12" )}
+        inputClassName={cn(inputClassName, countryCode && "pl-12")}
         inputMode={inputMode}
         maxLength={maxLength}
         type="tel"

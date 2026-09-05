@@ -4,16 +4,20 @@ import { ArrowRightIcon, CheckIcon, HeartIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components";
+import { getAuthRedirectQuery } from "@/features/account/lib";
 import { Link } from "@/i18n/navigation";
 
 type RegisterFormSuccessStateProperties = {
   email: string;
+  redirectTo?: string;
 };
 
 export const RegisterFormSuccessState = ({
   email,
+  redirectTo,
 }: RegisterFormSuccessStateProperties) => {
   const t = useTranslations();
+  const loginHref = `/login${getAuthRedirectQuery(redirectTo)}`;
 
   return (
     <div className="grid justify-items-center gap-8 py-4 text-center sm:px-8 sm:py-8">
@@ -41,7 +45,7 @@ export const RegisterFormSuccessState = ({
         <Button
           className="relative h-12 rounded-md bg-brand px-10 text-copy-inverse hover:bg-brand-hover"
           isFullWidth
-          render={<Link href="/login" />}
+          render={<Link href={loginHref} />}
         >
           <span>{t("auth.register.actions.goToLogin")}</span>
           <ArrowRightIcon

@@ -18,6 +18,8 @@ const authRoutes = ["/login", "/register", "/register/verify"];
 
 const publicRoutes = ["/"];
 
+const authOptionalRoutes = ["/team-invitations"];
+
 const protectedRouteRules: RoleRouteRule[] = [
   {
     path: "/management/settings",
@@ -54,6 +56,11 @@ const isAuthRoute = (pathname: string) =>
 const isPublicRoute = (pathname: string) =>
   publicRoutes.some((routePath) => isSameOrNestedPath(pathname, routePath));
 
+const isAuthOptionalRoute = (pathname: string) =>
+  authOptionalRoutes.some((routePath) =>
+    isSameOrNestedPath(pathname, routePath),
+  );
+
 const canAccessRoleRoute = (role: AccountRole, rule: RoleRouteRule) =>
   rule.roles.some((allowedRole) => allowedRole === role);
 
@@ -62,10 +69,12 @@ const getDefaultAccountRedirectPath = (role: AccountRole) =>
 
 export {
   authRoutes,
+  authOptionalRoutes,
   canAccessRoleRoute,
   customerAreaRoles,
   findRoleRouteRule,
   getDefaultAccountRedirectPath,
+  isAuthOptionalRoute,
   isAuthRoute,
   isPublicRoute,
   isSameOrNestedPath,
