@@ -26,6 +26,7 @@ import {
   getStoredRegistrationToken,
   storeRegistrationToken,
 } from "@/features/account/components/register/utils";
+import { getAuthRedirectQuery } from "@/features/account/lib";
 import { appToast } from "@/features/notifications/lib";
 import { useRouter } from "@/i18n/navigation";
 
@@ -77,9 +78,11 @@ const formatCodeCountdown = (seconds: number) => {
 
 export const useRegisterForm = (
   mode: RegisterFormMode,
+  redirectTo?: string,
 ): UseRegisterFormReturn => {
   const router = useRouter();
   const t = useTranslations();
+  const authRedirectQuery = getAuthRedirectQuery(redirectTo);
   const [canResendAt, setCanResendAt] = useState<string | null>(null);
   const [codeExpiresAt, setCodeExpiresAt] = useState<string | null>(null);
   const [confirmedEmail, setConfirmedEmail] = useState<string>();
@@ -188,7 +191,7 @@ export const useRegisterForm = (
 
   useEffect(() => {
     if (mode === "register" && getStoredRegistrationToken()) {
-      router.replace("/register/verify");
+      router.replace(`/register/verify${authRedirectQuery}`);
       return;
     }
 
@@ -202,7 +205,7 @@ export const useRegisterForm = (
       const storedRegistrationToken = getStoredRegistrationToken();
 
       if (!storedRegistrationToken) {
-        router.replace("/register");
+        router.replace(`/register${authRedirectQuery}`);
         return;
       }
 
@@ -218,7 +221,7 @@ export const useRegisterForm = (
         applyRegistrationResponse(response);
 
         if (!response.verificationRequired && response.status !== "VERIFIED") {
-          router.replace("/register");
+          router.replace(`/register${authRedirectQuery}`);
         }
       } catch (error) {
         if (!isActive) {
@@ -230,7 +233,7 @@ export const useRegisterForm = (
           description: getRegisterFormErrorMessage(error),
           title: t("auth.register.feedback.resumeRegistrationFailed"),
         });
-        router.replace("/register");
+        router.replace(`/register${authRedirectQuery}`);
       }
     };
 
@@ -243,7 +246,14 @@ export const useRegisterForm = (
     return () => {
       isActive = false;
     };
-  }, [applyRegistrationResponse, getRegisterFormErrorMessage, mode, router, t]);
+  }, [
+    applyRegistrationResponse,
+    authRedirectQuery,
+    getRegisterFormErrorMessage,
+    mode,
+    router,
+    t,
+  ]);
 
   useEffect(() => {
     if (!isVerificationStep) {
@@ -263,7 +273,7 @@ export const useRegisterForm = (
       if (response.verificationRequired) {
         storeRegistrationToken(response.registrationToken);
         setIsRedirectingToVerification(true);
-        router.replace("/register/verify");
+        router.replace(`/register/verify${authRedirectQuery}`);
         return;
       }
 
@@ -291,7 +301,7 @@ export const useRegisterForm = (
     }
 
     clearStoredRegistrationToken();
-    router.replace("/register");
+    router.replace(`/register${authRedirectQuery}`);
   };
 
   const submitVerificationCode = async (
@@ -319,7 +329,7 @@ export const useRegisterForm = (
           description: message,
           title: t("auth.register.feedback.registrationExpired"),
         });
-        router.replace("/register");
+        router.replace(`/register${authRedirectQuery}`);
         return;
       }
 
@@ -363,7 +373,7 @@ export const useRegisterForm = (
           description: getRegisterFormErrorMessage(error),
           title: t("auth.register.feedback.registrationExpired"),
         });
-        router.replace("/register");
+        router.replace(`/register${authRedirectQuery}`);
         return;
       }
 

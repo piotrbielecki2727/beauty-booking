@@ -23,7 +23,7 @@ export const ManagementSidebarDesktop = ({
 }: ManagementSidebarDesktopProperties) => {
   return (
     <aside
-      className="sticky top-0 z-30 hidden h-dvh min-w-0 self-start flex-col overflow-visible border-r border-line bg-canvas text-copy md:flex"
+      className="sticky top-0 z-30 hidden h-dvh min-w-0 self-start flex-col overflow-visible border-r border-sidebar-border bg-sidebar text-sidebar-foreground md:flex"
     >
       <ManagementSidebarHeader
         isCollapsed={isCollapsed}

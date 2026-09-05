@@ -103,7 +103,8 @@ export const BusinessBookingRulesStep = ({
   });
   const isTeamBusiness = initialSetup?.basics.businessType === "TEAM";
   const hasMobileServices =
-    initialSetup?.location.mobileServicesEnabled === true;
+    initialSetup?.locations.some((location) => location.mobileServicesEnabled) ===
+    true;
 
   useBusinessSetupFormDraft({
     form,

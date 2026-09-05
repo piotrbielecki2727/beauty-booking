@@ -1,10 +1,10 @@
 export type LayoutControlVariant = "default" | "nav" | "sidebar";
 
 export const sidebarControlClassNames =
-  "text-brand transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-sidebar-ring";
+  "text-brand transition-colors hover:bg-sidebar-accent focus-visible:outline-sidebar-ring";
 
 export const sidebarControlActiveClassNames =
-  "bg-sidebar-accent text-sidebar-accent-foreground";
+  "bg-sidebar-accent font-semibold";
 
 export const layoutControlBorderClassNames: Record<
   LayoutControlVariant,

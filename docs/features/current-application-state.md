@@ -91,12 +91,20 @@ restores access to preserved records.
 - Team members and invitations are persisted per business.
 - Team reads and invitation-management endpoints require completed setup and a
   `TEAM` business.
-- The employees page contains a temporary invitation test panel that can create,
-  inspect, cancel and accept invitation tokens.
+- The employees page exposes the team table with active/deactivated tabs,
+  modal-based member editing, owner detail editing, invitation link creation,
+  link copying and invitation cancellation.
+- Team reads return owner details as a nested `owner` object and member access
+  as a status-discriminated object.
+- Team member removal is implemented as deactivation: deactivated members stay
+  persisted and can be activated again.
+- Invitation links expire after 3 days. Active invitation links are exposed to
+  the owner from the team list together with `sentAt` and `expiresAt`. The
+  random token is stored to recreate the link after refresh, and `tokenHash` is
+  used for invitation lookup.
 - Switching to `SOLO` does not delete members, invitations or related saved
   configuration.
-- Real invitation e-mail delivery and the final employee-management experience
-  are not implemented yet.
+- Real invitation e-mail delivery is not implemented yet.
 
 ## Backend Foundation
 
@@ -118,7 +126,8 @@ wizard.
 ## Current Management and Customer Pages
 
 - Management setup and salon settings have functional feature flows.
-- The employees route currently hosts the temporary invitation test panel.
+- The employees route currently manages team members, owner team details and
+  invitation links for `TEAM` businesses.
 - Management dashboard, calendar, bookings and services are shells or
   placeholders and do not yet provide their final operational functionality.
 - Customer home exposes session information for development; customer bookings

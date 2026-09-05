@@ -13,7 +13,10 @@ import { IconBadge } from "@/components/reusable";
 import { businessSetupSocialMediaFields } from "@/features/businessSetup/businessSetupSocialMediaConfig";
 
 import type { ReactNode } from "react";
-import type { BusinessSetupResponse } from "@beauty-booking/shared";
+import type {
+  BusinessLocationResponse,
+  BusinessSetupResponse,
+} from "@beauty-booking/shared";
 
 type BusinessSummaryStepProperties = {
   setup: BusinessSetupResponse | null;
@@ -61,40 +64,37 @@ const toExternalUrl = (value: string) =>
 const formatPhoneNumber = (value: string) =>
   value.replace(/(\d{3})(?=\d)/g, "$1 ");
 
+const getLocationAddressLines = (location: BusinessLocationResponse) => {
+  const streetAndNumber = [
+    location.street,
+    location.buildingNumber
+      ? `${location.buildingNumber}${location.apartmentNumber ? `/${location.apartmentNumber}` : ""}`
+      : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return [
+    streetAndNumber,
+    [location.postalCode, location.city].filter(Boolean).join(" "),
+  ].filter(Boolean);
+};
+
 export const BusinessSummaryStep = ({
   setup,
 }: BusinessSummaryStepProperties) => {
   const locale = useLocale();
   const t = useTranslations();
   const emptyValue = t("businessSetup.summary.empty");
-  const streetAndNumber = [
-    setup?.location.street,
-    setup?.location.buildingNumber
-      ? `${setup.location.buildingNumber}${setup.location.apartmentNumber ? `/${setup.location.apartmentNumber}` : ""}`
-      : null,
-  ]
-    .filter(Boolean)
-    .join(" ");
-  const addressLines = [
-    streetAndNumber,
-    [setup?.location.postalCode, setup?.location.city]
-      .filter(Boolean)
-      .join(" "),
-  ].filter(Boolean);
+  const currencyFormatter = new Intl.NumberFormat(locale, {
+    currency: "PLN",
+    style: "currency",
+  });
   const socialProfiles = businessSetupSocialMediaFields.flatMap((field) => {
     const value = setup?.publicProfile[field.name];
 
     return value ? [{ ...field, value }] : [];
   });
-  const fixedFeeValue = Number(
-    setup?.location.mobileServiceFixedFee.replace(",", "."),
-  );
-  const formattedFixedFee = Number.isFinite(fixedFeeValue)
-    ? new Intl.NumberFormat(locale, {
-        currency: "PLN",
-        style: "currency",
-      }).format(fixedFeeValue)
-    : emptyValue;
 
   return (
     <div className="grid min-w-0 gap-4 @min-[44rem]/step:grid-cols-2">
@@ -143,94 +143,133 @@ export const BusinessSummaryStep = ({
         icon={<MapPinIcon />}
         title={t("businessSetup.location.sections.address")}
       >
-        <SummaryItem
-          label={t("businessSetup.summary.fields.address")}
-          value={
-            addressLines.length ? (
-              <span className="grid">
-                {addressLines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </span>
-            ) : (
-              emptyValue
-            )
-          }
-        />
-        {setup?.location.parkingNote ? (
+        {setup?.locations.length ? (
+          setup.locations.map((location, index) => {
+            const addressLines = getLocationAddressLines(location);
+
+            return (
+              <div className="grid gap-4" key={location.id}>
+                <SummaryItem
+                  label={t("businessSetup.location.locationTitle", {
+                    number: index + 1,
+                  })}
+                  value={
+                    addressLines.length ? (
+                      <span className="grid">
+                        {addressLines.map((line) => (
+                          <span key={line}>{line}</span>
+                        ))}
+                      </span>
+                    ) : (
+                      emptyValue
+                    )
+                  }
+                />
+                {location.parkingNote ? (
+                  <SummaryItem
+                    label={t("businessSetup.location.fields.parkingNote")}
+                    value={location.parkingNote}
+                  />
+                ) : null}
+                {location.locationNote ? (
+                  <SummaryItem
+                    label={t("businessSetup.location.fields.locationNote")}
+                    value={location.locationNote}
+                  />
+                ) : null}
+              </div>
+            );
+          })
+        ) : (
           <SummaryItem
-            label={t("businessSetup.location.fields.parkingNote")}
-            value={setup.location.parkingNote}
+            label={t("businessSetup.summary.fields.address")}
+            value={emptyValue}
           />
-        ) : null}
-        {setup?.location.locationNote ? (
-          <SummaryItem
-            label={t("businessSetup.location.fields.locationNote")}
-            value={setup.location.locationNote}
-          />
-        ) : null}
+        )}
       </SummarySection>
 
       <SummarySection
         icon={<CarFrontIcon />}
         title={t("businessSetup.location.sections.mobileServices")}
       >
-        <SummaryItem
-          label={t("businessSetup.summary.fields.mobileServices")}
-          value={t(
-            setup?.location.mobileServicesEnabled
-              ? "businessSetup.summary.yes"
-              : "businessSetup.summary.no",
-          )}
-        />
-        {setup?.location.mobileServicesEnabled ? (
-          <>
-            <SummaryItem
-              label={t(
-                "businessSetup.location.fields.mobileServiceMaxDistanceKm",
-              )}
-              value={
-                setup.location.mobileServiceMaxDistanceKm === null
-                  ? emptyValue
-                  : t("businessSetup.summary.values.kilometers", {
-                      value: setup.location.mobileServiceMaxDistanceKm,
-                    })
-              }
-            />
-            <SummaryItem
-              label={t(
-                "businessSetup.location.fields.mobileServiceTravelTimeMinutes",
-              )}
-              value={
-                setup.location.mobileServiceTravelTimeMinutes === null
-                  ? emptyValue
-                  : t("businessSetup.summary.values.minutes", {
-                      value: setup.location.mobileServiceTravelTimeMinutes,
-                    })
-              }
-            />
-            <SummaryItem
-              label={t(
-                "businessSetup.location.fields.mobileServiceFeeType",
-              )}
-              value={
-                setup.location.mobileServiceFeeType
-                  ? t(
-                      `businessSetup.location.mobileServiceFeeTypes.${setup.location.mobileServiceFeeType}`,
-                    )
-                  : emptyValue
-              }
-            />
-            {setup.location.mobileServiceFeeType === "FIXED" ? (
-              <SummaryItem
-                label={t(
-                  "businessSetup.location.fields.mobileServiceFixedFee",
-                )}
-                value={formattedFixedFee}
-              />
-            ) : null}
-          </>
-        ) : null}
+        {setup?.locations.length ? (
+          setup.locations.map((location, index) => {
+            const fixedFeeValue = Number(
+              location.mobileServiceFixedFee.replace(",", "."),
+            );
+            const formattedFixedFee = Number.isFinite(fixedFeeValue)
+              ? currencyFormatter.format(fixedFeeValue)
+              : emptyValue;
+
+            return (
+              <div className="grid gap-4" key={location.id}>
+                <SummaryItem
+                  label={t("businessSetup.location.locationTitle", {
+                    number: index + 1,
+                  })}
+                  value={t(
+                    location.mobileServicesEnabled
+                      ? "businessSetup.summary.yes"
+                      : "businessSetup.summary.no",
+                  )}
+                />
+                {location.mobileServicesEnabled ? (
+                  <>
+                    <SummaryItem
+                      label={t(
+                        "businessSetup.location.fields.mobileServiceMaxDistanceKm",
+                      )}
+                      value={
+                        location.mobileServiceMaxDistanceKm === null
+                          ? emptyValue
+                          : t("businessSetup.summary.values.kilometers", {
+                              value: location.mobileServiceMaxDistanceKm,
+                            })
+                      }
+                    />
+                    <SummaryItem
+                      label={t(
+                        "businessSetup.location.fields.mobileServiceTravelTimeMinutes",
+                      )}
+                      value={
+                        location.mobileServiceTravelTimeMinutes === null
+                          ? emptyValue
+                          : t("businessSetup.summary.values.minutes", {
+                              value: location.mobileServiceTravelTimeMinutes,
+                            })
+                      }
+                    />
+                    <SummaryItem
+                      label={t(
+                        "businessSetup.location.fields.mobileServiceFeeType",
+                      )}
+                      value={
+                        location.mobileServiceFeeType
+                          ? t(
+                              `businessSetup.location.mobileServiceFeeTypes.${location.mobileServiceFeeType}`,
+                            )
+                          : emptyValue
+                      }
+                    />
+                    {location.mobileServiceFeeType === "FIXED" ? (
+                      <SummaryItem
+                        label={t(
+                          "businessSetup.location.fields.mobileServiceFixedFee",
+                        )}
+                        value={formattedFixedFee}
+                      />
+                    ) : null}
+                  </>
+                ) : null}
+              </div>
+            );
+          })
+        ) : (
+          <SummaryItem
+            label={t("businessSetup.summary.fields.mobileServices")}
+            value={emptyValue}
+          />
+        )}
       </SummarySection>
 
       <SummarySection

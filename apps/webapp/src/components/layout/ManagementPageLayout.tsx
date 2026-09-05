@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
 type ManagementPageLayoutProperties = {
+  action?: ReactNode;
   children?: ReactNode;
   className?: string;
   contentClassName?: string;
@@ -14,6 +15,7 @@ type ManagementPageLayoutProperties = {
 };
 
 export const ManagementPageLayout = ({
+  action,
   children,
   className,
   contentClassName,
@@ -26,9 +28,9 @@ export const ManagementPageLayout = ({
       "flex min-h-[calc(100dvh-4rem)] flex-col md:min-h-dvh",
       className,
     )}
-    isFullWidth
   >
     <PageHeader
+      action={action}
       className={headerClassName}
       description={description}
       title={title}

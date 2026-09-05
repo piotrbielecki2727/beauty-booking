@@ -36,6 +36,10 @@ export const authResponseSchema = z.object({
   user: publicAccountSchema,
 });
 
+export const authMeResponseSchema = z.object({
+  user: publicAccountSchema,
+});
+
 export const authRegistrationStatusSchema = z.enum([
   "PENDING",
   "REGISTRATION_EXPIRED",

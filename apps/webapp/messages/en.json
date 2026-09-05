@@ -4,6 +4,7 @@
     "close": "Close",
     "english": "English",
     "polish": "Polish",
+    "retry": "Try again",
     "selectPlaceholder": "Choose"
   },
   "tenant": {
@@ -27,6 +28,18 @@
       "connectionError": "Cannot connect to the account service. Check whether the backend is running.",
       "invalidResponse": "The backend returned an invalid response for the account operation.",
       "requestFailed": "Could not complete the operation."
+    },
+    "businessTeam": {
+      "badRequest": "Check the details and try again.",
+      "cancelled": "The operation was cancelled.",
+      "conflict": "These details conflict with the current team state. Refresh the view and try again.",
+      "connectionError": "Cannot connect to the team service. Check whether the backend is running.",
+      "forbidden": "You do not have permission to perform this operation.",
+      "invalidResponse": "The backend returned an invalid response for the team operation.",
+      "notFound": "This team resource was not found. Refresh the view and try again.",
+      "requestFailed": "Could not complete the team operation.",
+      "timeout": "The operation took too long. Try again.",
+      "unauthorized": "Your session expired. Log in again."
     }
   },
   "confirmationDialog": {
@@ -46,12 +59,12 @@
     "inspirations": "Inspirations",
     "collapseSidebar": "Collapse sidebar",
     "customerMain": "Main",
-      "dashboard": "Dashboard",
-      "employees": "Employees",
-      "expandSidebar": "Expand sidebar",
-      "home": "Home",
-      "initialSetup": "Initial setup",
-      "management": "Management",
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "expandSidebar": "Expand sidebar",
+    "home": "Home",
+    "initialSetup": "Initial setup",
+    "management": "Management",
     "mobile": "Mobile",
     "openMenu": "Open menu",
     "profile": "Profile",
@@ -98,44 +111,106 @@
     }
   },
   "managementEmployees": {
-    "teamAccess": {
-      "acceptAsCurrent": "Accept as current account",
-      "acceptFailed": "Could not accept the invitation.",
-      "accepted": "Invitation accepted.",
-      "cancel": "Cancel",
+    "title": "Employees",
+    "feedback": {
       "cancelFailed": "Could not cancel the invitation.",
-      "checkPreview": "Check token",
       "copied": "Link copied.",
-      "copy": "Copy link",
-      "description": "Temporary panel for testing invitations without real e-mail delivery.",
-      "email": "E-mail address",
-      "emailPlaceholder": "anna@example.com",
-      "empty": "Add team members in salon setup first.",
-      "generatedTitle": "Generated test link",
-      "invite": "Invite",
+      "copyFailed": "Could not copy the link.",
+      "created": "Employee added.",
       "inviteCreated": "Invitation generated.",
       "inviteFailed": "Could not generate the invitation.",
-      "invitationStatuses": {
-        "ACCEPTED": "accepted",
-        "CANCELLED": "cancelled",
-        "EXPIRED": "expired",
-        "PENDING": "active"
-      },
       "loadFailed": "Could not load the team.",
-      "loading": "Loading team...",
-      "noServices": "does not provide services",
-      "preview": "{businessName} · status: {status}",
-      "previewFailed": "Could not check the token.",
-      "providesServices": "provides services",
-      "resend": "Resend",
-      "statuses": {
-        "ACTIVE": "Access active",
-        "INVITED": "Invitation sent",
-        "NO_ACCESS": "Access inactive"
-      },
-      "title": "Panel access"
+      "saveFailed": "Could not save the employee.",
+      "updated": "Employee saved.",
+      "deactivated": "Employee deactivated.",
+      "deactivateFailed": "Could not deactivate the employee.",
+      "inviteCancelled": "Invitation cancelled.",
+      "reactivated": "Employee activated.",
+      "reactivateFailed": "Could not activate the employee."
     },
-    "title": "Employees"
+    "form": {
+      "addTitle": "New employee",
+      "cancel": "Cancel",
+      "description": "Add employee details. You can generate panel access after saving an e-mail.",
+      "editTitle": "Edit employee",
+      "emailLocked": "The e-mail address cannot be changed after it is saved.",
+      "fields": {
+        "birthday": "Birthday",
+        "email": "E-mail",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "phoneNumber": "Phone number",
+        "providesServices": "Provides services",
+        "role": "Role"
+      },
+      "placeholders": {
+        "email": "anna@example.com",
+        "firstName": "Anna",
+        "lastName": "Kowalska",
+        "phoneNumber": "123456789"
+      },
+      "save": "Save",
+      "saving": "Saving",
+      "editDescription": "Update employee details.",
+      "editOwnerTitle": "Edit owner",
+      "ownerDescription": "Update owner details used by the team."
+    },
+    "invitation": {
+      "cancel": "Cancel invitation",
+      "copy": "Copy link",
+      "actions": "Invitation actions"
+    },
+    "team": {
+      "add": "Add employee",
+      "activeTitle": "Active",
+      "columns": {
+        "actions": "Actions",
+        "birthday": "Birthday",
+        "email": "E-mail",
+        "employee": "Employee",
+        "phoneNumber": "Phone number",
+        "providesServices": "Provides services",
+        "role": "Role",
+        "status": "Invitation"
+      },
+      "edit": "Edit",
+      "empty": "No employees have been added yet.",
+      "emptyInactive": "There are no deactivated employees.",
+      "invite": "Invite",
+      "inactiveTitle": "Deactivated",
+      "noEmail": "No e-mail",
+      "no": "No",
+      "notProvided": "-",
+      "statuses": {
+        "ACTIVE": "Accepted",
+        "EXPIRED": "Expired",
+        "INVITED": "Invitation sent",
+        "INVITED_DAYS_AGO": "Sent {count} days ago",
+        "INVITED_TODAY": "Sent today",
+        "INVITED_YESTERDAY": "Sent yesterday",
+        "NO_ACCESS": "No invitation",
+        "OWNER": "Owner"
+      },
+      "yes": "Yes",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "loading": "Loading employees",
+      "tabsLabel": "Employee view",
+      "addEmail": "Add e-mail"
+    },
+    "description": "Add employees, assign roles and manage panel access.",
+    "deactivateDialog": {
+      "cancel": "Keep",
+      "confirm": "Deactivate",
+      "description": "{name} will disappear from the active list and remain available under deactivated employees.",
+      "title": "Deactivate employee?"
+    },
+    "cancelInvitationDialog": {
+      "cancel": "Keep",
+      "confirm": "Cancel invitation",
+      "description": "The invitation link for {name} will stop working.",
+      "title": "Cancel invitation?"
+    }
   },
   "managementSettings": {
     "description": "Manage your salon information and how the business operates.",
@@ -202,8 +277,8 @@
           "title": "Customer information"
         },
         "location": {
-          "description": "Address, arrival information, and mobile services.",
-          "title": "Location"
+          "description": "Addresses, arrival information, and mobile services.",
+          "title": "Locations"
         }
       },
       "tabLabel": "Salon",
@@ -231,7 +306,7 @@
     },
     "welcome": {
       "callout": "To get started, we only need a few basic details about your salon.\nYou can configure everything else later in the management panel.",
-      "description": "Beauty Booking helps you organize your salon's daily work — from managing the calendar and team to handling client bookings.",
+      "description": "Beauty Booking helps you organize your salon's daily work - from managing the calendar and team to handling client bookings.",
       "eyebrow": "Welcome to Beauty Booking",
       "features": {
         "calendar": {
@@ -293,13 +368,13 @@
       },
       "logo": {
         "dropLabel": "Drag a file here or click to choose",
-        "helperText": "JPG, PNG, WEBP or SVG. Max {maxFileSizeMb} MB. Resolution from {minWidth} × {minHeight} to {maxWidth} × {maxHeight} px.",
+        "helperText": "JPG, PNG, WEBP or SVG. Max {maxFileSizeMb} MB. Resolution from {minWidth} x {minHeight} to {maxWidth} x {maxHeight} px.",
         "previewAlt": "Preview of the selected salon logo",
         "previewLabel": "Preview",
         "removeLabel": "Remove selected logo",
         "validation": {
-          "dimensionsTooLarge": "The image can be at most {width} × {height} px.",
-          "dimensionsTooSmall": "The image must be at least {width} × {height} px.",
+          "dimensionsTooLarge": "The image can be at most {width} x {height} px.",
+          "dimensionsTooSmall": "The image must be at least {width} x {height} px.",
           "fileTooLarge": "The image can be at most {maxFileSizeMb} MB.",
           "imageUnreadable": "The selected image could not be read.",
           "unsupportedType": "Choose a JPG, PNG, WEBP or SVG image."
@@ -359,7 +434,7 @@
       },
       "description": "Decide when clients can see available dates and the rules that apply when they book an appointment.",
       "fields": {
-        "allowAnyTeamMember": "Clients can choose “Any team member”",
+        "allowAnyTeamMember": "Clients can choose \"Any team member\"",
         "allowSpecificTeamMember": "Clients can choose a specific team member",
         "cancellationDeadline": "How late can a client cancel their appointment?",
         "confirmationMode": "Confirmation method for in-salon appointments",
@@ -415,15 +490,15 @@
       "title": "Booking rules"
     },
     "location": {
-      "description": "Enter your salon address and choose whether you also travel to clients.",
+      "description": "Enter the addresses where you see clients and choose whether you also travel to clients.",
       "descriptions": {
-        "apartmentNumber": "Optional — unit number.",
+        "apartmentNumber": "Optional - unit number.",
         "buildingNumber": "Building number, e.g. 12A.",
         "city": "The locality where you see clients.",
-        "locationNote": "Optional — add directions such as the entrance, intercom or floor.",
-        "parkingNote": "Optional — explain where clients can park and whether parking is paid.",
+        "locationNote": "Optional - add directions such as the entrance, intercom or floor.",
+        "parkingNote": "Optional - explain where clients can park and whether parking is paid.",
         "postalCode": "Helps save and locate the address correctly.",
-        "street": "Optional — enter a street name if the address has one."
+        "street": "Optional - enter a street name if the address has one."
       },
       "fields": {
         "apartmentNumber": "Apartment number",
@@ -456,10 +531,13 @@
         "street": "e.g. Beauty Street"
       },
       "sections": {
-        "address": "Salon address",
+        "address": "Address",
         "mobileServices": "Mobile services"
       },
-      "title": "Location"
+      "title": "Locations",
+      "add": "Add location",
+      "locationTitle": "Location {number}",
+      "remove": "Remove location"
     },
     "openingHours": {
       "closed": "Closed",
@@ -645,7 +723,7 @@
       "availability": "Opening hours",
       "bookingRules": "Booking rules",
       "businessBasics": "Your salon",
-      "location": "Location",
+      "location": "Locations",
       "publicProfile": "Booking page",
       "services": "Services",
       "summary": "Summary",
@@ -654,7 +732,7 @@
     },
     "stepDescriptions": {
       "businessBasics": "The essential information about your salon.",
-      "location": "Salon address, arrival details, and mobile services.",
+      "location": "Salon addresses, arrival details, and mobile services.",
       "publicProfile": "Contact details displayed on your booking page.",
       "summary": "Review all information and save your setup on the final screen."
     },
@@ -695,7 +773,7 @@
   },
   "footer": {
     "description": "Your place to book the best beauty services. Beauty begins with a moment for yourself.",
-    "copyright": "© 2026 Beauty Booking. All rights reserved.",
+    "copyright": "(c) 2026 Beauty Booking. All rights reserved.",
     "sections": {
       "customers": "For customers",
       "information": "Information"
@@ -952,7 +1030,10 @@
         "postalCodeInvalid": "Enter postal code in the 00-000 format.",
         "streetInvalid": "Street can contain letters, digits, spaces, a hyphen and a dot.",
         "streetMaxLength": "Street can contain up to 60 characters.",
-        "streetMinLength": "Street must contain at least 2 characters."
+        "streetMinLength": "Street must contain at least 2 characters.",
+        "duplicate": "This location has already been added.",
+        "maxItems": "You can add up to 10 locations.",
+        "minItems": "Add at least one location."
       },
       "openingHours": {
         "allDaysRequired": "Set opening hours for every day of the week.",
@@ -970,7 +1051,8 @@
         "fullNameInvalid": "Full name can contain letters, spaces, apostrophes and hyphens.",
         "fullNameMaxLength": "Full name can contain up to 80 characters.",
         "fullNameMinLength": "Full name must contain at least 2 characters.",
-        "maxItems": "You can add up to 50 people."
+        "maxItems": "You can add up to 50 people.",
+        "birthdayInvalid": "Select a valid birthday day and month."
       },
       "services": {
         "descriptionMaxLength": "Description can contain up to 500 characters.",
@@ -996,5 +1078,66 @@
         "serviceRequired": "Select a service for this add-on."
       }
     }
+  },
+  "businessTeamInvitation": {
+    "actions": {
+      "accept": "Accept invitation",
+      "accepting": "Accepting",
+      "home": "Back to home",
+      "login": "Log in",
+      "loginHint": "Log in to the account with the e-mail address assigned to this invitation.",
+      "register": "Create account",
+      "signingOut": "Signing out",
+      "switchAccount": "Sign out and use the right account"
+    },
+    "details": {
+      "businessName": "Salon",
+      "email": "E-mail",
+      "expiresAt": "Valid until",
+      "fullName": "Person",
+      "role": "Role",
+      "status": "Status"
+    },
+    "eyebrow": "Team invitation",
+    "feedback": {
+      "acceptFailed": "Could not accept the invitation.",
+      "loadFailed": "Could not load the invitation."
+    },
+    "mismatch": {
+      "description": "You are logged in as {accountEmail}, while this invitation is assigned to {invitationEmail}.",
+      "title": "This invitation is for another account"
+    },
+    "states": {
+      "accepted": {
+        "description": "This link has already been used. You can return to the app.",
+        "title": "Invitation already accepted"
+      },
+      "cancelled": {
+        "description": "The salon owner cancelled this link. Ask for a new invitation.",
+        "title": "Invitation cancelled"
+      },
+      "expired": {
+        "description": "This link is no longer active. Ask the salon owner for a new invitation.",
+        "title": "Invitation expired"
+      },
+      "pending": {
+        "description": "Review the invitation details and accept panel access for this salon.",
+        "title": "Join the salon team"
+      },
+      "unavailable": {
+        "description": "The link is invalid or the invitation does not exist.",
+        "title": "Invitation not found"
+      }
+    },
+    "statuses": {
+      "ACCEPTED": "Accepted",
+      "CANCELLED": "Cancelled",
+      "EXPIRED": "Expired",
+      "PENDING": "Active"
+    }
+  },
+  "birthdayControl": {
+    "day": "Day",
+    "month": "Month"
   }
 }

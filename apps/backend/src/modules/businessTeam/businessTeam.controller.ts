@@ -1,11 +1,18 @@
 import type { Request, Response } from "express";
 
+import { businessTeamMemberListStatusSchema } from "@beauty-booking/shared";
+
 import {
   acceptBusinessTeamInvitation,
   cancelBusinessTeamInvitation,
+  createBusinessTeamMember,
   createBusinessTeamInvitation,
+  deactivateBusinessTeamMember,
   getBusinessTeam,
   getBusinessTeamInvitationPreview,
+  reactivateBusinessTeamMember,
+  updateBusinessTeamOwner,
+  updateBusinessTeamMember,
 } from "@/modules/businessTeam/businessTeam.service";
 import { ApiError } from "@/utils/apiError";
 
@@ -35,6 +42,14 @@ const getRouteParam = (request: Request, name: string) => {
   return value;
 };
 
+const getTeamListStatus = (request: Request) => {
+  const parsedStatus = businessTeamMemberListStatusSchema.safeParse(
+    request.query.status,
+  );
+
+  return parsedStatus.success ? parsedStatus.data : "ACTIVE";
+};
+
 const getBusinessTeamController = async (
   request: Request,
   response: Response,
@@ -43,7 +58,11 @@ const getBusinessTeamController = async (
     throw new ApiError(401, "Brak aktywnej sesji.");
   }
 
-  const result = await getBusinessTeam(request.user);
+  const result = await getBusinessTeam({
+    inviteBaseUrl: getInviteBaseUrl(request),
+    listStatus: getTeamListStatus(request),
+    user: request.user,
+  });
   response.json(result);
 };
 
@@ -59,9 +78,84 @@ const createBusinessTeamInvitationController = async (
     inviteBaseUrl: getInviteBaseUrl(request),
     teamMemberId: getRouteParam(request, "teamMemberId"),
     user: request.user,
+  });
+  response.status(201).json(result);
+};
+
+const createBusinessTeamMemberController = async (
+  request: Request,
+  response: Response,
+) => {
+  if (!request.user) {
+    throw new ApiError(401, "Brak aktywnej sesji.");
+  }
+
+  const result = await createBusinessTeamMember({
+    user: request.user,
     values: request.body,
   });
   response.status(201).json(result);
+};
+
+const updateBusinessTeamMemberController = async (
+  request: Request,
+  response: Response,
+) => {
+  if (!request.user) {
+    throw new ApiError(401, "Brak aktywnej sesji.");
+  }
+
+  const result = await updateBusinessTeamMember({
+    teamMemberId: getRouteParam(request, "teamMemberId"),
+    user: request.user,
+    values: request.body,
+  });
+  response.json(result);
+};
+
+const updateBusinessTeamOwnerController = async (
+  request: Request,
+  response: Response,
+) => {
+  if (!request.user) {
+    throw new ApiError(401, "Brak aktywnej sesji.");
+  }
+
+  const result = await updateBusinessTeamOwner({
+    user: request.user,
+    values: request.body,
+  });
+  response.json(result);
+};
+
+const deactivateBusinessTeamMemberController = async (
+  request: Request,
+  response: Response,
+) => {
+  if (!request.user) {
+    throw new ApiError(401, "Brak aktywnej sesji.");
+  }
+
+  const result = await deactivateBusinessTeamMember({
+    teamMemberId: getRouteParam(request, "teamMemberId"),
+    user: request.user,
+  });
+  response.json(result);
+};
+
+const reactivateBusinessTeamMemberController = async (
+  request: Request,
+  response: Response,
+) => {
+  if (!request.user) {
+    throw new ApiError(401, "Brak aktywnej sesji.");
+  }
+
+  const result = await reactivateBusinessTeamMember({
+    teamMemberId: getRouteParam(request, "teamMemberId"),
+    user: request.user,
+  });
+  response.json(result);
 };
 
 const cancelBusinessTeamInvitationController = async (
@@ -107,7 +201,12 @@ const acceptBusinessTeamInvitationController = async (
 export {
   acceptBusinessTeamInvitationController,
   cancelBusinessTeamInvitationController,
+  createBusinessTeamMemberController,
   createBusinessTeamInvitationController,
+  deactivateBusinessTeamMemberController,
   getBusinessTeamController,
   getBusinessTeamInvitationPreviewController,
+  reactivateBusinessTeamMemberController,
+  updateBusinessTeamOwnerController,
+  updateBusinessTeamMemberController,
 };

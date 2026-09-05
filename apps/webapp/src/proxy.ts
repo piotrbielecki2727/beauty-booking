@@ -6,6 +6,7 @@ import {
   canAccessRoleRoute,
   findRoleRouteRule,
   getDefaultAccountRedirectPath,
+  isAuthOptionalRoute,
   isAuthRoute,
   isPublicRoute,
   isSameOrNestedPath,
@@ -85,6 +86,10 @@ const proxy = auth((request) => {
         getDefaultAccountRedirectPath(session.role),
       ),
     );
+  }
+
+  if (isAuthOptionalRoute(pathname)) {
+    return intlProxy(request);
   }
 
   if (session) {

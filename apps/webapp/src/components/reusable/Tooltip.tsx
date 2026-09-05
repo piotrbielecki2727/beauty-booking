@@ -22,6 +22,7 @@ type TooltipProperties = {
   disabled?: boolean;
   side?: TooltipContentProperties["side"];
   sideOffset?: TooltipContentProperties["sideOffset"];
+  shouldKeepTriggerWhenDisabled?: boolean;
 };
 
 export const Tooltip = ({
@@ -36,8 +37,9 @@ export const Tooltip = ({
   disabled = false,
   side,
   sideOffset,
+  shouldKeepTriggerWhenDisabled = false,
 }: TooltipProperties) => {
-  if (disabled) {
+  if (disabled && !shouldKeepTriggerWhenDisabled) {
     return children;
   }
 
@@ -49,15 +51,17 @@ export const Tooltip = ({
         delay={delay}
         render={children}
       />
-      <TooltipContent
-        align={align}
-        alignOffset={alignOffset}
-        className={contentClassName}
-        side={side}
-        sideOffset={sideOffset}
-      >
-        {content}
-      </TooltipContent>
+      {disabled ? null : (
+        <TooltipContent
+          align={align}
+          alignOffset={alignOffset}
+          className={contentClassName}
+          side={side}
+          sideOffset={sideOffset}
+        >
+          {content}
+        </TooltipContent>
+      )}
     </TooltipRoot>
   );
 };

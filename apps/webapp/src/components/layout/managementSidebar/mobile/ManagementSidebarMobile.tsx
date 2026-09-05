@@ -32,7 +32,7 @@ export const ManagementSidebarMobile = ({
     !isSetupMode && business?.name ? business.name : t("common.appName");
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 self-start items-center justify-between border-b border-line bg-canvas px-4 text-copy sm:static sm:z-auto md:hidden">
+    <header className="sticky top-0 z-40 flex h-16 self-start items-center justify-between border-b border-sidebar-border bg-sidebar px-4 text-sidebar-foreground sm:static sm:z-auto md:hidden">
       <Link
         href={isSetupMode ? "/management/setup" : "/management"}
         className="flex min-w-0 items-center gap-2"

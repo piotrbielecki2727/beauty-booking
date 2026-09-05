@@ -71,7 +71,7 @@ export const ManagementSidebarHeader = ({
             "absolute right-0 top-1/2 z-20 size-6 -translate-y-1/2 translate-x-1/2 p-0",
             "border border-line bg-canvas shadow-sm",
             sidebarControlClassNames,
-            "aria-expanded:bg-canvas aria-expanded:text-brand aria-expanded:hover:bg-sidebar-accent aria-expanded:hover:text-sidebar-accent-foreground focus-visible:outline-2",
+            "aria-expanded:bg-canvas aria-expanded:text-brand aria-expanded:hover:bg-sidebar-accent focus-visible:outline-2",
           )}
         >
           <ToggleIcon className="size-4" aria-hidden="true" />

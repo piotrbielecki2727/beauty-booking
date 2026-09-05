@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm docker:up && pnpm --filter @beauty-booking/backend db:deploy && pnpm --filter @beauty-booking/shared build && pnpm -r --parallel --filter @beauty-booking/shared --filter @beauty-booking/webapp --filter @beauty-booking/backend dev",
+    "start": "pnpm docker:up && pnpm --filter @beauty-booking/backend db:deploy && pnpm --filter @beauty-booking/shared build && pnpm -r --parallel --filter @beauty-booking/webapp --filter @beauty-booking/backend start",
     "docker:up": "docker compose up -d --wait",
     "docker:down": "docker compose down",
     "build": "pnpm -r build",

@@ -1,6 +1,7 @@
 import type {
   BusinessBookingRulesForm,
   BusinessLocationForm,
+  BusinessLocationFormItem,
   BusinessOpeningHoursForm,
   BusinessServicesForm,
   BusinessSetupStep,
@@ -12,9 +13,7 @@ import type {
 import { prisma } from "@/db/prisma";
 
 const businessSetupSelect = {
-  apartmentNumber: true,
   availabilityMode: true,
-  buildingNumber: true,
   businessType: true,
   bookingSettings: {
     select: {
@@ -27,18 +26,31 @@ const businessSetupSelect = {
       minimumAdvanceMinutes: true,
     },
   },
-  city: true,
   contactEmail: true,
   contactPhone: true,
   description: true,
   facebookUrl: true,
   instagramUrl: true,
-  locationNote: true,
-  mobileServiceFeeType: true,
-  mobileServiceFixedFeeAmount: true,
-  mobileServiceMaxDistanceKm: true,
-  mobileServicesEnabled: true,
-  mobileServiceTravelTimeMinutes: true,
+  locations: {
+    orderBy: {
+      sortOrder: "asc",
+    },
+    select: {
+      apartmentNumber: true,
+      buildingNumber: true,
+      city: true,
+      id: true,
+      locationNote: true,
+      mobileServiceFeeType: true,
+      mobileServiceFixedFeeAmount: true,
+      mobileServiceMaxDistanceKm: true,
+      mobileServicesEnabled: true,
+      mobileServiceTravelTimeMinutes: true,
+      parkingNote: true,
+      postalCode: true,
+      street: true,
+    },
+  },
   name: true,
   onboardingCompletedAt: true,
   onboardingCompletedSteps: true,
@@ -52,9 +64,7 @@ const businessSetupSelect = {
       opensAtMinutes: true,
     },
   },
-  parkingNote: true,
   pinterestUrl: true,
-  postalCode: true,
   services: {
     orderBy: {
       createdAt: "asc",
@@ -70,7 +80,6 @@ const businessSetupSelect = {
     },
   },
   specializations: true,
-  street: true,
   tiktokUrl: true,
   teamMembers: {
     orderBy: {
@@ -398,7 +407,7 @@ const toNullableUrl = (value: string | undefined) => {
 const toPriceAmount = (price: string) =>
   Math.round(Number(price.replace(",", ".")) * 100);
 
-const toMobileServiceFixedFeeAmount = (location: BusinessLocationForm) =>
+const toMobileServiceFixedFeeAmount = (location: BusinessLocationFormItem) =>
   location.mobileServicesEnabled && location.mobileServiceFeeType === "FIXED"
     ? toPriceAmount(location.mobileServiceFixedFee)
     : null;
@@ -412,60 +421,81 @@ const toMinutesAfterMidnight = (value: string) => {
 const updateBusinessLocation = ({
   businessId,
   completedSteps,
-  location,
+  locations,
   onboardingCurrentStep,
   onboardingStatus,
   userId,
 }: {
   businessId: string;
   completedSteps: BusinessSetupStep[];
-  location: BusinessLocationForm;
+  locations: BusinessLocationForm["locations"];
   onboardingCurrentStep: BusinessSetupStep | null;
   onboardingStatus: "IN_PROGRESS" | "COMPLETED";
   userId: string;
 }) =>
-  prisma.business.update({
-    data: {
-      apartmentNumber: toNullableText(location.apartmentNumber),
-      buildingNumber: location.buildingNumber,
-      city: location.city,
-      locationNote: toNullableText(location.locationNote),
-      mobileServiceFeeType: location.mobileServicesEnabled
-        ? location.mobileServiceFeeType
-        : null,
-      mobileServiceFixedFeeAmount:
-        toMobileServiceFixedFeeAmount(location),
-      mobileServiceMaxDistanceKm: location.mobileServicesEnabled
-        ? Number(location.mobileServiceMaxDistanceKm)
-        : null,
-      mobileServicesEnabled: location.mobileServicesEnabled,
-      mobileServiceTravelTimeMinutes: location.mobileServicesEnabled
-        ? Number(location.mobileServiceTravelTimeMinutes)
-        : null,
-      onboardingCompletedSteps: {
-        set: completedSteps,
+  prisma.$transaction(async (transaction) => {
+    await transaction.businessLocation.deleteMany({
+      where: {
+        businessId,
       },
-      onboardingCurrentStep,
-      onboardingStatus,
-      parkingNote: toNullableText(location.parkingNote),
-      postalCode: location.postalCode,
-      street: toNullableText(location.street),
-    },
-    select: {
-      ...businessSetupSelect,
-      memberships: {
-        select: {
-          providesServices: true,
+    });
+
+    await transaction.businessLocation.createMany({
+      data: locations.map((location, index) => ({
+        apartmentNumber: toNullableText(location.apartmentNumber),
+        buildingNumber: location.buildingNumber,
+        businessId,
+        city: location.city,
+        id: location.id,
+        locationNote: toNullableText(location.locationNote),
+        mobileServiceFeeType: location.mobileServicesEnabled
+          ? location.mobileServiceFeeType
+          : null,
+        mobileServiceFixedFeeAmount: toMobileServiceFixedFeeAmount(location),
+        mobileServiceMaxDistanceKm: location.mobileServicesEnabled
+          ? Number(location.mobileServiceMaxDistanceKm)
+          : null,
+        mobileServicesEnabled: location.mobileServicesEnabled,
+        mobileServiceTravelTimeMinutes: location.mobileServicesEnabled
+          ? Number(location.mobileServiceTravelTimeMinutes)
+          : null,
+        parkingNote: toNullableText(location.parkingNote),
+        postalCode: location.postalCode,
+        sortOrder: index,
+        street: toNullableText(location.street),
+      })),
+    });
+
+    await transaction.business.update({
+      data: {
+        onboardingCompletedSteps: {
+          set: completedSteps,
         },
-        take: 1,
-        where: {
-          userId,
+        onboardingCurrentStep,
+        onboardingStatus,
+      },
+      where: {
+        id: businessId,
+      },
+    });
+
+    return transaction.business.findUnique({
+      select: {
+        ...businessSetupSelect,
+        memberships: {
+          select: {
+            providesServices: true,
+          },
+          take: 1,
+          where: {
+            userId,
+          },
         },
       },
-    },
-    where: {
-      id: businessId,
-    },
+      where: {
+        id: businessId,
+      },
+    });
   });
 
 const updateBusinessOpeningHours = ({

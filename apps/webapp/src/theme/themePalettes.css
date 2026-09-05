@@ -5,6 +5,11 @@
   --surface: #fffaf7;
   --surface-panel: #fcf8f5;
   --surface-raised: #ffffff;
+  --table-surface: #fffdfb;
+  --table-header-surface: #f7eee9;
+  --table-border: #ded0c9;
+  --table-row-border: #e4d6cf;
+  --table-row-hover: #faf1ec;
   --surface-hover: #e9d3c8;
   --copy: #2f2926;
   --copy-muted: #8b7c74;
@@ -52,6 +57,26 @@
   --brand-shadow: #e8c9c1;
   --brand-wash: color-mix(in srgb, var(--brand) 10%, transparent);
   --brand-wash-subtle: color-mix(in srgb, var(--brand) 5%, transparent);
+  --role-badge-owner-surface: var(--brand);
+  --role-badge-owner-text: var(--primary-foreground);
+  --role-badge-manager-surface: color-mix(
+    in srgb,
+    var(--brand) 86%,
+    var(--surface) 14%
+  );
+  --role-badge-manager-text: var(--primary-foreground);
+  --role-badge-employee-surface: color-mix(
+    in srgb,
+    var(--brand) 76%,
+    var(--surface) 24%
+  );
+  --role-badge-employee-text: var(--primary-foreground);
+  --role-badge-intern-surface: color-mix(
+    in srgb,
+    var(--brand) 66%,
+    var(--surface) 34%
+  );
+  --role-badge-intern-text: var(--primary-foreground);
   --overlay: #fcf8f599;
   --backdrop: #fcf8f5cc;
   --loader-surface: var(--brand-soft);
@@ -109,6 +134,11 @@
   --surface: #fffafa;
   --surface-panel: #fbf8f8;
   --surface-raised: #ffffff;
+  --table-surface: #fffdfc;
+  --table-header-surface: #f7eef1;
+  --table-border: #decfd4;
+  --table-row-border: #e4d5da;
+  --table-row-hover: #f8f1f3;
   --surface-hover: #e8cfd5;
   --copy: #342b2e;
   --copy-muted: #8b7a7f;
@@ -207,21 +237,26 @@
 }
 
 :root[data-palette="burgundy"] {
-  --background: #fcf7f1; /* Glowne tlo aplikacji. */
-  --canvas: #fcf7f1; /* Glowne tlo aplikacji. */
-  --surface: #fff9f5; /* Standardowe jasne powierzchnie. */
-  --surface-panel: #fcf8f5; /* Menu, dropdowny i lekkie panele. */
+  --background: #f8efe8; /* Glowne tlo aplikacji. */
+  --canvas: #f8efe8; /* Glowne tlo aplikacji. */
+  --surface: #fffaf7; /* Standardowe jasne powierzchnie. */
+  --surface-panel: #fbf4ef; /* Menu, dropdowny i lekkie panele. */
   --surface-raised: #ffffff; /* Najjasniejsze podniesione powierzchnie. */
   --surface-soft: #faf1ec; /* Delikatne karty i sekcje pomocnicze. */
+  --table-surface: #fffaf7;
+  --table-header-surface: #f3e5dd;
+  --table-border: #d8c6bd;
+  --table-row-border: #decec6;
+  --table-row-hover: #f6e9e2;
   --surface-hover: #e9d3c8; /* Hover/active dla lekkich elementow. */
   --copy: #2f2926; /* Domyslny tekst. */
   --copy-muted: #8b7c74; /* Opisy i tekst drugorzedny. */
   --copy-subtle: #9a8a83; /* Placeholdery i bardzo subtelny tekst. */
   --copy-inverse: #fcf7f1; /* Tekst na mocnym tle brandowym. */
-  --line-subtle: #efe2dc; /* Bardzo subtelne obramowania kart/separatorow. */
-  --line: #e9ded8; /* Standardowe obramowania i separatory. */
-  --line-soft: #e7d7cf; /* Delikatne obramowania paneli/formularzy. */
-  --line-strong: #cdbdb5; /* Linie inputow i mocniejsze obramowania. */
+  --line-subtle: #eadbd3; /* Bardzo subtelne obramowania kart/separatorow. */
+  --line: #dfd0c7; /* Standardowe obramowania i separatory. */
+  --line-soft: #dcc9c0; /* Delikatne obramowania paneli/formularzy. */
+  --line-strong: #c3afa5; /* Linie inputow i mocniejsze obramowania. */
   --brand: #752237; /* Podstawowy burgund */
   --brand-hover: #681725; /* 10–15% ciemniejszy */
   --brand-surface: #f4ddd8; /* Delikatne tlo hover/selected dla brandu. */
@@ -237,6 +272,14 @@
   --brand-dark: #5a1a2b; /* 10–15% ciemniejszy */
   --brand-darker: #4a1521; /* 20–25% ciemniejszy */
   --brand-darkest: #3a1017; /* 30–35% ciemniejszy */
+  --role-badge-owner-surface: var(--brand);
+  --role-badge-owner-text: #ffffff;
+  --role-badge-manager-surface: #874052;
+  --role-badge-manager-text: #ffffff;
+  --role-badge-employee-surface: #965264;
+  --role-badge-employee-text: #ffffff;
+  --role-badge-intern-surface: #a2616e;
+  --role-badge-intern-text: #ffffff;
   --light-element: #fcf7f1; /* Jasne elementy UI */
   --light-text: #fcf7f1; /* Jasny tekst na ciemnym tle */
   --element-background-match: #fcf7f1; /* Dopasowanie tła elementu do tła aplikacji */
@@ -309,6 +352,12 @@
   --auth-form-border: var(--line-soft);
   --auth-form-line: var(--line-strong);
   --auth-form-muted: var(--copy-subtle);
+  --sidebar: #f1e3dc;
+  --sidebar-foreground: #4a3436;
+  --sidebar-accent: #e7d3cb;
+  --sidebar-accent-foreground: #3b292b;
+  --sidebar-border: #d8c6bd;
+  --sidebar-ring: var(--brand);
   --nav: var(--surface-panel);
   --nav-foreground: var(--copy);
   --nav-brand: var(--brand);
@@ -325,6 +374,11 @@
   --surface: #261f1c;
   --surface-panel: #261f1c;
   --surface-raised: #261f1c;
+  --table-surface: #261f1c;
+  --table-header-surface: #332a26;
+  --table-border: #5a4841;
+  --table-row-border: #463832;
+  --table-row-hover: #332a26;
   --surface-hover: #3a2f2b;
   --copy: #f8eee8;
   --copy-muted: #c7b6ad;
@@ -424,6 +478,11 @@
   --surface: #2a2226;
   --surface-panel: #2a2226;
   --surface-raised: #2a2226;
+  --table-surface: #2a2226;
+  --table-header-surface: #352a2f;
+  --table-border: #5a4850;
+  --table-row-border: #47383e;
+  --table-row-hover: #352a2f;
   --surface-hover: #3d3035;
   --copy: #f8eef1;
   --copy-muted: #c9b7bd;
@@ -524,6 +583,11 @@
   --surface-panel: #2a1b1e;
   --surface-raised: #2a1b1e;
   --surface-soft: #2a1b1e;
+  --table-surface: #2a1b1e;
+  --table-header-surface: #352428;
+  --table-border: #5c3f44;
+  --table-row-border: #4a3337;
+  --table-row-hover: #352428;
   --surface-hover: #3d292d;
   --copy: #fff3ef;
   --copy-muted: #cbb9b4;

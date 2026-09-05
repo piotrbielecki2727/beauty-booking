@@ -103,7 +103,7 @@ const postalCodeRegex = /^\d{2}-\d{3}$/;
 const noteCharactersRegex = /^[\p{L}\p{N}\s.,;:!?'"()/-]+$/u;
 const linkRegex = /(https?:\/\/|www\.)/i;
 const serviceNameRegex = /^[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż0-9 -]{2,60}$/u;
-const teamMemberNameRegex = /^[\p{L}\p{M}'\u2019 -]{2,80}$/u;
+export const teamMemberNameRegex = /^[\p{L}\p{M}'\u2019 -]{2,80}$/u;
 
 const optionalSocialProfileSchema = (allowedHosts: string[]) =>
   z
@@ -286,8 +286,9 @@ const businessAddressSchema = z.object({
 
 const optionalNumericTextSchema = z.string().trim();
 
-export const businessLocationFormSchema = businessAddressSchema
+export const businessLocationFormItemSchema = businessAddressSchema
   .extend({
+    id: z.string().uuid().optional(),
     mobileServiceFeeType: businessMobileServiceFeeTypeSchema,
     mobileServiceFixedFee: optionalNumericTextSchema,
     mobileServiceMaxDistanceKm: optionalNumericTextSchema,
@@ -346,10 +347,51 @@ export const businessLocationFormSchema = businessAddressSchema
     }
   });
 
+const getBusinessLocationAddressKey = (
+  location: z.infer<typeof businessLocationFormItemSchema>,
+) =>
+  [
+    location.city,
+    location.postalCode,
+    location.street,
+    location.buildingNumber,
+    location.apartmentNumber,
+  ]
+    .map((value) => value?.trim().toLowerCase() ?? "")
+    .join("|");
+
+export const businessLocationFormSchema = z
+  .object({
+    locations: z
+      .array(businessLocationFormItemSchema)
+      .min(1, "validation.business.location.minItems")
+      .max(10, "validation.business.location.maxItems"),
+  })
+  .superRefine((values, context) => {
+    const addressIndexes = new Map<string, number>();
+
+    values.locations.forEach((location, index) => {
+      const addressKey = getBusinessLocationAddressKey(location);
+      const duplicateIndex = addressIndexes.get(addressKey);
+
+      if (duplicateIndex === undefined) {
+        addressIndexes.set(addressKey, index);
+        return;
+      }
+
+      context.addIssue({
+        code: "custom",
+        message: "validation.business.location.duplicate",
+        path: ["locations", index, "city"],
+      });
+    });
+  });
+
 export const businessLocationResponseSchema = z.object({
   apartmentNumber: z.string().nullable(),
   buildingNumber: z.string().nullable(),
   city: z.string().nullable(),
+  id: z.string().uuid(),
   locationNote: z.string().nullable(),
   mobileServiceFeeType: businessMobileServiceFeeTypeSchema.nullable(),
   mobileServiceFixedFee: z.string(),
@@ -596,7 +638,7 @@ export const businessSetupTeamResponseSchema = z.array(
 export const businessSetupResponseSchema = z.object({
   basics: businessBasicsResponseSchema,
   bookingRules: businessBookingRulesResponseSchema,
-  location: businessLocationResponseSchema,
+  locations: z.array(businessLocationResponseSchema),
   openingHours: businessOpeningHoursResponseSchema,
   publicProfile: businessPublicProfileResponseSchema,
   services: businessServicesResponseSchema,
@@ -622,6 +664,9 @@ export type BusinessBasicsResponse = z.infer<
   typeof businessBasicsResponseSchema
 >;
 export type BusinessLocationForm = z.infer<typeof businessLocationFormSchema>;
+export type BusinessLocationFormItem = z.infer<
+  typeof businessLocationFormItemSchema
+>;
 export type BusinessLocationResponse = z.infer<
   typeof businessLocationResponseSchema
 >;

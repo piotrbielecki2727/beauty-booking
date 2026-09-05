@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 
 import {
   accountLoginSchema,
+  isAccountRole,
   type AccountSession,
   type AuthUser,
 } from "@beauty-booking/shared";
@@ -45,7 +46,28 @@ const getTenantHostFromRequest = (request: Request) =>
 
 const authConfig = {
   callbacks: {
-    jwt: ({ token, user }) => {
+    jwt: ({ session, token, trigger, user }) => {
+      if (trigger === "update") {
+        const nextToken = token as typeof token & {
+          accountSession?: AccountSession;
+        };
+        const nextSession = session as
+          | { user?: Partial<AccountSession> }
+          | undefined;
+
+        if (
+          nextToken.accountSession &&
+          isAccountRole(nextSession?.user?.role)
+        ) {
+          nextToken.accountSession = {
+            ...nextToken.accountSession,
+            role: nextSession.user.role,
+          };
+        }
+
+        return token;
+      }
+
       if (
         user?.id &&
         user.email &&

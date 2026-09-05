@@ -8,6 +8,7 @@ import {
   type BusinessBookingRulesForm,
   type BusinessDetailsForm,
   type BusinessLocationForm,
+  type BusinessLocationResponse,
   type BusinessOpeningHour,
   type BusinessOpeningHoursForm,
   type BusinessWeekday,
@@ -105,6 +106,27 @@ const toBusinessOpeningHourResponse = (
   };
 };
 
+const toBusinessLocationResponse = (
+  location: BusinessSetupRecord["locations"][number],
+): BusinessLocationResponse => ({
+  apartmentNumber: location.apartmentNumber,
+  buildingNumber: location.buildingNumber,
+  city: location.city,
+  id: location.id,
+  locationNote: location.locationNote,
+  mobileServiceFeeType: location.mobileServiceFeeType,
+  mobileServiceFixedFee:
+    location.mobileServiceFixedFeeAmount === null
+      ? ""
+      : (location.mobileServiceFixedFeeAmount / 100).toFixed(2),
+  mobileServiceMaxDistanceKm: location.mobileServiceMaxDistanceKm,
+  mobileServicesEnabled: location.mobileServicesEnabled,
+  mobileServiceTravelTimeMinutes: location.mobileServiceTravelTimeMinutes,
+  parkingNote: location.parkingNote,
+  postalCode: location.postalCode,
+  street: location.street,
+});
+
 const assertCanManageBusinessSetup = (user: AuthUser) => {
   if (!canManageSalonSettings(user.role)) {
     throw new ApiError(403, "Brak uprawnień do konfiguracji biznesu.");
@@ -123,24 +145,7 @@ const toBusinessSetupResponse = (
     specializations: business.specializations,
   },
   bookingRules: toBusinessBookingRulesResponse(business),
-  location: {
-    apartmentNumber: business.apartmentNumber,
-    buildingNumber: business.buildingNumber,
-    city: business.city,
-    locationNote: business.locationNote,
-    mobileServiceFeeType: business.mobileServiceFeeType,
-    mobileServiceFixedFee:
-      business.mobileServiceFixedFeeAmount === null
-        ? ""
-        : (business.mobileServiceFixedFeeAmount / 100).toFixed(2),
-    mobileServiceMaxDistanceKm: business.mobileServiceMaxDistanceKm,
-    mobileServicesEnabled: business.mobileServicesEnabled,
-    mobileServiceTravelTimeMinutes:
-      business.mobileServiceTravelTimeMinutes,
-    parkingNote: business.parkingNote,
-    postalCode: business.postalCode,
-    street: business.street,
-  },
+  locations: business.locations.map(toBusinessLocationResponse),
   openingHours: [...business.openingHours]
     .sort(
       (firstItem, secondItem) =>
@@ -242,6 +247,10 @@ const completeBusinessSetup = async (user: AuthUser) => {
     ),
     userId: user.id,
   });
+
+  if (!updatedBusiness) {
+    throw new ApiError(404, "Nie znaleziono biznesu.");
+  }
 
   return toBusinessSetupResponse(updatedBusiness);
 };
@@ -475,7 +484,7 @@ const saveBusinessLocation = async (
       currentBusiness.onboardingCompletedSteps,
       "LOCATION",
     ),
-    location: values,
+    locations: values.locations,
     onboardingCurrentStep:
       currentBusiness.onboardingStatus === "COMPLETED"
         ? null
@@ -486,6 +495,10 @@ const saveBusinessLocation = async (
         : "IN_PROGRESS",
     userId: user.id,
   });
+
+  if (!updatedBusiness) {
+    throw new ApiError(404, "Nie znaleziono biznesu.");
+  }
 
   return toBusinessSetupResponse(updatedBusiness);
 };

@@ -1,21 +1,6 @@
 import { LoginForm } from "@/features/account/components";
 import { RegisterPageShell } from "@/features/account/components/register";
-
-const getSafeRedirectTo = (value: string | string[] | undefined) => {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-
-  if (!value.startsWith("/") || value.startsWith("//")) {
-    return undefined;
-  }
-
-  if (value.startsWith("/login") || value.startsWith("/register")) {
-    return undefined;
-  }
-
-  return value;
-};
+import { getSafeAuthRedirect } from "@/features/account/lib";
 
 export default async function LoginPage({
   searchParams,
@@ -26,7 +11,7 @@ export default async function LoginPage({
 
   return (
     <RegisterPageShell>
-      <LoginForm redirectTo={getSafeRedirectTo(next)} />
+      <LoginForm redirectTo={getSafeAuthRedirect(next)} />
     </RegisterPageShell>
   );
 }
