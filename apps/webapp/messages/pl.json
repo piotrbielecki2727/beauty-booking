@@ -137,6 +137,88 @@
     },
     "title": "Pracownicy"
   },
+  "managementSettings": {
+    "description": "Zarządzaj informacjami o swoim salonie i sposobem jego działania.",
+    "salon": {
+      "businessType": {
+        "cancel": "Anuluj",
+        "changeFailed": "Nie udało się zmienić sposobu działania salonu.",
+        "transitions": {
+          "SOLO": {
+            "action": "Zapisz zmiany i włącz tryb samodzielny",
+            "description": "Zapiszemy wszystkie zmiany w podstawowych informacjach i przełączymy salon na tryb pracy samodzielnej. Aplikacja przeładuje się, aby dostosować dostępne funkcje i nawigację.",
+            "items": {
+              "data": {
+                "description": "Po ponownym włączeniu trybu zespołowego wcześniejsi pracownicy i ich konfiguracja ponownie będą dostępni.",
+                "title": "Dane zespołu zostaną zachowane"
+              },
+              "employees": {
+                "description": "Funkcje związane z zarządzaniem zespołem nie będą widoczne.",
+                "title": "Sekcja „Pracownicy” zostanie ukryta"
+              },
+              "independent": {
+                "description": "Salon będzie działał w trybie jednej osoby wykonującej usługi.",
+                "title": "Praca samodzielna"
+              }
+            },
+            "title": "Włączyć tryb samodzielny?"
+          },
+          "TEAM": {
+            "action": "Zapisz zmiany i włącz tryb zespołowy",
+            "description": "Zapiszemy wszystkie zmiany w podstawowych informacjach i włączymy zarządzanie zespołem w salonie. Aplikacja przeładuje się, aby dostosować dostępne funkcje i nawigację.",
+            "items": {
+              "data": {
+                "description": "Jeśli wcześniej konfigurowałeś zespół, zapisane dane nadal będą dostępne.",
+                "title": "Twoje dane pozostają bezpieczne"
+              },
+              "employees": {
+                "description": "Dodawaj członków zespołu i zarządzaj ich danymi.",
+                "title": "Sekcja „Pracownicy”"
+              },
+              "roles": {
+                "description": "Określaj role oraz to, kto wykonuje usługi w salonie.",
+                "title": "Role i wykonywanie usług"
+              }
+            },
+            "title": "Włączyć tryb zespołowy?"
+          }
+        }
+      },
+      "emptyValue": "Nie ustawiono",
+      "logoStoragePending": "Edycja logo będzie dostępna po podłączeniu trwałego przechowywania obrazów.",
+      "saveChanges": "Zapisz zmiany",
+      "savingChanges": "Zapisywanie zmian",
+      "fields": {
+        "businessType": "Sposób działania salonu",
+        "logo": "Logo salonu"
+      },
+      "sections": {
+        "basics": {
+          "description": "Nazwa, sposób działania i specjalizacje salonu.",
+          "title": "Podstawowe informacje"
+        },
+        "customerData": {
+          "description": "Informacje widoczne dla klientów i dane kontaktowe.",
+          "title": "Dane dla klientów"
+        },
+        "location": {
+          "description": "Adres, informacje dojazdowe i usługi mobilne.",
+          "title": "Lokalizacja"
+        }
+      },
+      "tabLabel": "Salon",
+      "unsavedChanges": {
+        "description": "Masz niezapisane zmiany w ustawieniach salonu. Możesz je zapisać przed przejściem albo odrzucić.",
+        "discardAndLeave": "Odrzuć i przejdź",
+        "saveAndLeave": "Zapisz i przejdź",
+        "saveFailed": "Nie udało się zapisać wszystkich zmian.",
+        "stay": "Zostań na stronie",
+        "title": "Niezapisane zmiany"
+      }
+    },
+    "tabsLabel": "Kategorie ustawień",
+    "title": "Ustawienia"
+  },
   "businessSetup": {
     "actions": {
       "finish": "Zakończ konfigurację",
@@ -182,13 +264,13 @@
       "title": "Cieszymy się, że tu jesteś"
     },
     "businessBasics": {
-      "description": "Podaj nazwę salonu, wybierz model działalności i specjalizacje.",
+      "description": "Podaj nazwę salonu, określ kto w nim pracuje i wybierz specjalizacje.",
       "descriptions": {
-        "businessType": "Zespół i szczegółową dostępność skonfigurujesz później w panelu.",
+        "businessType": "Wybierz opcję, która najlepiej opisuje obecną strukturę salonu.",
         "specializations": "Wybierz wszystkie obszary, w których Twój salon świadczy usługi."
       },
       "fields": {
-        "businessType": "Jak działa Twój salon?",
+        "businessType": "Kto pracuje w Twoim salonie?",
         "name": "Nazwa salonu",
         "specializations": "Specjalizacje salonu"
       },
@@ -206,7 +288,8 @@
       "description": "Podaj dane kontaktowe widoczne dla klientek na stronie rezerwacji.",
       "fields": {
         "contactEmail": "E-mail kontaktowy",
-        "contactPhone": "Telefon kontaktowy"
+        "contactPhone": "Telefon kontaktowy",
+        "description": "Opis salonu"
       },
       "logo": {
         "dropLabel": "Przeciągnij plik tutaj lub kliknij, aby wybrać",
@@ -224,12 +307,17 @@
       },
       "placeholders": {
         "contactEmail": "np. kontakt@twojsalon.pl",
-        "contactPhone": "np. 512 345 678"
+        "contactPhone": "np. 512 345 678",
+        "description": "Opisz swój salon, podejście do klientek i to, co Cię wyróżnia..."
       },
       "sections": {
         "contact": {
           "description": "Klientki będą mogły skontaktować się z Tobą w razie pytań.",
           "title": "Dane kontaktowe"
+        },
+        "description": {
+          "description": "Opis pojawi się na stronie rezerwacyjnej salonu.",
+          "title": "Opis salonu"
         },
         "logo": {
           "description": "Dodaj logo, które będzie widoczne na Twojej stronie rezerwacyjnej.",
@@ -398,12 +486,12 @@
     "modelSelection": {
       "options": {
         "SOLO": {
-          "description": "Pracujesz samodzielnie i obsługujesz klientki oraz kalendarz.",
+          "description": "Samodzielnie obsługujesz klientów i zarządzasz kalendarzem.",
           "title": "Pracuję samodzielnie"
         },
         "TEAM": {
           "description": "W salonie pracuje więcej osób. Dodasz członków zespołu i określisz ich role.",
-          "title": "Pracujemy jako zespół"
+          "title": "Mam zespół"
         }
       }
     },
@@ -525,7 +613,7 @@
       "title": "Następny krok"
     },
     "feedback": {
-      "businessTypeSaveFailed": "Nie udało się zapisać modelu działalności",
+      "businessTypeSaveFailed": "Nie udało się zapisać sposobu działania salonu",
       "completionFailed": "Nie udało się zakończyć konfiguracji",
       "loadFailed": "Nie udało się pobrać konfiguracji salonu",
       "savedSuccessfully": "Zapisano pomyślnie!",
@@ -577,7 +665,7 @@
         "address": "Adres salonu",
         "contact": "Kontakt",
         "mobileServices": "Usługi z dojazdem",
-        "model": "Model działalności",
+        "model": "Sposób działania salonu",
         "name": "Nazwa salonu",
         "socialMedia": "Profile społecznościowe",
         "specializations": "Specjalizacje"
@@ -840,6 +928,7 @@
     },
     "business": {
       "nameMinLength": "Nazwa salonu musi mieć minimum 2 znaki.",
+      "profileDescriptionMaxLength": "Opis salonu może mieć maksymalnie 500 znaków.",
       "socialProfileInvalid": "Podaj poprawny link do wybranego profilu.",
       "socialProfileMaxLength": "Link do profilu może mieć maksymalnie 200 znaków.",
       "specializationsRequired": "Wybierz co najmniej jedną specjalizację.",

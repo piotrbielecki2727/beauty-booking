@@ -17,6 +17,7 @@ export * from "./Select";
 export * from "./SegmentedControl";
 export * from "./ScrollArea";
 export * from "./Switch";
+export * from "./Tabs";
 export * from "./Tooltip";
 export * from "./Textarea";
 export * from "./TimePicker";

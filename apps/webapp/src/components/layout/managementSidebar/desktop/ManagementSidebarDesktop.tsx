@@ -6,14 +6,17 @@ import { ManagementSidebarHeader } from "@/components/layout/managementSidebar/d
 import { ManagementSidebarNav } from "@/components/layout/managementSidebar/desktop/ManagementSidebarNav";
 
 import type { ManagementSidebarTransition } from "@/components/layout/managementSidebar/managementSidebarTypes";
+import type { BusinessType } from "@beauty-booking/shared";
 
 type ManagementSidebarDesktopProperties = {
+  businessType: BusinessType | null;
   isCollapsed: boolean;
   isSetupMode: boolean;
   transition: ManagementSidebarTransition;
 };
 
 export const ManagementSidebarDesktop = ({
+  businessType,
   isCollapsed,
   isSetupMode,
   transition,
@@ -31,6 +34,7 @@ export const ManagementSidebarDesktop = ({
         <ManagementSidebarAccountSummary isCollapsed={isCollapsed} />
       ) : null}
       <ManagementSidebarNav
+        businessType={businessType}
         isCollapsed={isCollapsed}
         isSetupMode={isSetupMode}
         isTransitioning={transition.isTransitioning}

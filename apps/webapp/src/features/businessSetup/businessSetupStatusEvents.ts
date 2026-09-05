@@ -1,25 +1,33 @@
-import type { BusinessOnboardingStatus } from "@beauty-booking/shared";
+import type {
+  BusinessOnboardingStatus,
+  BusinessType,
+} from "@beauty-booking/shared";
 
 const BUSINESS_SETUP_STATUS_CHANGED_EVENT =
   "beauty-booking:business-setup-status-changed";
 
+type BusinessSetupStatusChange = {
+  businessType: BusinessType | null;
+  status: BusinessOnboardingStatus;
+};
+
 export const notifyBusinessSetupStatusChanged = (
-  status: BusinessOnboardingStatus,
+  change: BusinessSetupStatusChange,
 ) => {
   window.dispatchEvent(
-    new CustomEvent<BusinessOnboardingStatus>(
+    new CustomEvent<BusinessSetupStatusChange>(
       BUSINESS_SETUP_STATUS_CHANGED_EVENT,
-      { detail: status },
+      { detail: change },
     ),
   );
 };
 
 export const subscribeToBusinessSetupStatus = (
-  onStatusChange: (status: BusinessOnboardingStatus) => void,
+  onStatusChange: (change: BusinessSetupStatusChange) => void,
 ) => {
   const handleStatusChange = (event: Event) => {
     onStatusChange(
-      (event as CustomEvent<BusinessOnboardingStatus>).detail,
+      (event as CustomEvent<BusinessSetupStatusChange>).detail,
     );
   };
 

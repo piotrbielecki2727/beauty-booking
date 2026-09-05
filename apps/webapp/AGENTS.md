@@ -166,6 +166,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Route groups should express layout ownership, for example customer, auth and management surfaces.
 - Do not duplicate navigation item rendering if one component can handle variants cleanly.
 - Keep mobile behavior explicit instead of hiding complex desktop assumptions in CSS only.
+- Management pages use `ManagementPageLayout` so the title and optional description remain above the page-owned content. A container-scoped loading state should fill and center itself in the remaining content space below that header.
 - A sidebar is viewport-owned: keep it at `100dvh` and sticky/fixed independently from page content height.
 - Persist desktop sidebar collapse state without a hydration flash. Read the initial value on the server and keep subsequent updates in the shared persistent-state hook.
 
@@ -207,13 +208,28 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Wizard ownership lives in `features/businessSetup`.
 - Individual steps live in `components/steps`; components shared only by wizard steps live in `components/reusable`; the left progress/navigation column lives in `components/stepsColumn`.
 - Each implemented step owns its React Hook Form instance and shared schema. Cross-step setup state, drafts, persistence and active-step navigation belong to `BusinessSetupProvider`.
+- The initial flow is fixed to `BUSINESS_BASICS`, `LOCATION`, `PUBLIC_PROFILE` and `SUMMARY`. Team, services, opening hours, booking rules, add-ons and detailed availability belong to operational configuration after onboarding.
+- `NOT_STARTED` renders the mandatory welcome screen and starts setup explicitly; `IN_PROGRESS` resumes the wizard; `COMPLETED` never renders the initial setup experience.
+- `SOLO` and `TEAM` remain the persisted enum values. UI copy may describe them as “Pracuję samodzielnie” and “Mam zespół”. `SOLO` implies that the owner provides services; `TEAM` leaves that owner-level decision for employee management.
 - Draft values may survive step navigation in memory, but they disappear on refresh until persisted.
+- Provider draft and validation updates must remain atomic. Dirty steps are derived from actual drafts, and save actions use a synchronous request lock so repeated clicks cannot start duplicate requests before React commits loading state.
 - A completed checkmark means the backend confirms that step in `completedSteps`; it must not represent a merely filled local draft.
 - Step navigation does not implicitly save. When leaving dirty state, use the reusable confirmation dialog and offer leave/stay unless the active step is explicitly submitted.
 - Steps with unmet dependencies remain navigable but render a clear requirements state instead of a broken form.
 - While saving a step, disable the complete wizard interaction surface. Advance only after the request succeeds.
 - Keep the step list and footer stable while only the central step content scrolls. On mobile, separate the step list and content visually and provide a useful scroll viewport.
 - Put step labels, dependency metadata and helper item definitions in config files instead of embedding large maps in step components.
+- Wizard step forms are also reused by permanent salon settings. Settings-only props and layouts must be opt-in and must not change the wizard defaults or persistence behavior.
+
+## Salon Settings
+
+- Permanent salon settings live under one `Salon` tab and group persisted data into three independent forms: basic information, location and customer-facing data.
+- Each form owns its draft, validation, submit and loading lifecycle. Saving one form must not disable unrelated forms during an ordinary section save.
+- A section save button is disabled while the form is pristine, invalid or otherwise blocked, and only that section shows its inline saving feedback.
+- Navigation with dirty settings opens the shared unsaved-changes dialog. Save-and-leave validates every dirty form, saves in the order basics, location and customer data, and must not navigate after validation or request failure.
+- Changing `SOLO`/`TEAM` is confirmed separately because it changes available management features. Preserve team data when switching to `SOLO`; hide and route-guard team-only UI without deleting it.
+- After a confirmed business-type save, update mounted tenant/setup state reactively so the sidebar and route access change without a hard page reload.
+- Salon description is editable in settings. Durable logo storage remains deferred until a shared image-storage adapter is introduced.
 
 ## Verification
 

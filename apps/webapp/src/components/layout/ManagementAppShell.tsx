@@ -5,7 +5,10 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 import { ManagementSidebar } from "@/components/layout/managementSidebar";
-import { MANAGEMENT_SIDEBAR_COLLAPSED_KEY } from "@/components/layout/managementSidebar/managementSidebarConfig";
+import {
+  isManagementTeamRoute,
+  MANAGEMENT_SIDEBAR_COLLAPSED_KEY,
+} from "@/components/layout/managementSidebar/managementSidebarConfig";
 import { LoadingOverlay } from "@/components/reusable";
 import { useBusinessSetupStatus } from "@/features/businessSetup/hooks";
 import { useTenantContext } from "@/features/tenant";
@@ -37,6 +40,7 @@ const ManagementAppShellContent = ({
   const { status } = useSession();
   const { isTenantContextLoading } = useTenantContext();
   const {
+    businessType,
     hasSetupStatusError,
     isSetupStatusLoading,
     setupStatus,
@@ -46,6 +50,10 @@ const ManagementAppShellContent = ({
   const shouldRedirectToSetup =
     setupStatus !== null && !isSetupCompleted && !isSetupRoute;
   const shouldRedirectToManagement = isSetupCompleted && isSetupRoute;
+  const shouldRedirectFromTeamRoute =
+    isSetupCompleted &&
+    businessType === "SOLO" &&
+    isManagementTeamRoute(pathname);
   const isSidebarDataLoading =
     status === "loading" || isTenantContextLoading || isSetupStatusLoading;
 
@@ -57,13 +65,24 @@ const ManagementAppShellContent = ({
 
     if (shouldRedirectToManagement) {
       router.replace("/management");
+      return;
     }
-  }, [router, shouldRedirectToManagement, shouldRedirectToSetup]);
+
+    if (shouldRedirectFromTeamRoute) {
+      router.replace("/management");
+    }
+  }, [
+    router,
+    shouldRedirectFromTeamRoute,
+    shouldRedirectToManagement,
+    shouldRedirectToSetup,
+  ]);
 
   if (
     isSidebarDataLoading ||
     shouldRedirectToSetup ||
-    shouldRedirectToManagement
+    shouldRedirectToManagement ||
+    shouldRedirectFromTeamRoute
   ) {
     return <LoadingOverlay variant="bare" />;
   }
@@ -86,6 +105,7 @@ const ManagementAppShellContent = ({
       )}
     >
       <ManagementSidebar
+        businessType={businessType}
         isCollapsed={isSidebarCollapsed}
         isSetupMode={!isSetupCompleted}
         onIsCollapsedChange={onIsSidebarCollapsedChange}

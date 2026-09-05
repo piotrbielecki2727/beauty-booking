@@ -137,6 +137,88 @@
     },
     "title": "Employees"
   },
+  "managementSettings": {
+    "description": "Manage your salon information and how the business operates.",
+    "salon": {
+      "businessType": {
+        "cancel": "Cancel",
+        "changeFailed": "The salon setup could not be changed.",
+        "transitions": {
+          "SOLO": {
+            "action": "Save changes and enable independent mode",
+            "description": "We will save all changes to the basic information and switch the salon to independent working mode. The application will reload to update the available features and navigation.",
+            "items": {
+              "data": {
+                "description": "Previously saved employees and their configuration will become available again when team mode is enabled.",
+                "title": "Team data will be preserved"
+              },
+              "employees": {
+                "description": "Team management features will no longer be visible.",
+                "title": "The Employees section will be hidden"
+              },
+              "independent": {
+                "description": "The salon will operate with one person providing services.",
+                "title": "Independent work"
+              }
+            },
+            "title": "Enable independent mode?"
+          },
+          "TEAM": {
+            "action": "Save changes and enable team mode",
+            "description": "We will save all changes to the basic information and enable team management for your salon. The application will reload to update the available features and navigation.",
+            "items": {
+              "data": {
+                "description": "Any previously configured team data will remain available.",
+                "title": "Your data remains safe"
+              },
+              "employees": {
+                "description": "Add team members and manage their information.",
+                "title": "Employees section"
+              },
+              "roles": {
+                "description": "Define roles and specify who provides services at the salon.",
+                "title": "Roles and service providers"
+              }
+            },
+            "title": "Enable team mode?"
+          }
+        }
+      },
+      "emptyValue": "Not set",
+      "logoStoragePending": "Logo editing will be available after durable image storage is connected.",
+      "saveChanges": "Save changes",
+      "savingChanges": "Saving changes",
+      "fields": {
+        "businessType": "How the salon operates",
+        "logo": "Salon logo"
+      },
+      "sections": {
+        "basics": {
+          "description": "Salon name, working structure, and specializations.",
+          "title": "Basic information"
+        },
+        "customerData": {
+          "description": "Customer-facing information and contact details.",
+          "title": "Customer information"
+        },
+        "location": {
+          "description": "Address, arrival information, and mobile services.",
+          "title": "Location"
+        }
+      },
+      "tabLabel": "Salon",
+      "unsavedChanges": {
+        "description": "You have unsaved salon setting changes. You can save them before leaving or discard them.",
+        "discardAndLeave": "Discard and leave",
+        "saveAndLeave": "Save and leave",
+        "saveFailed": "Not all changes could be saved.",
+        "stay": "Stay on page",
+        "title": "Unsaved changes"
+      }
+    },
+    "tabsLabel": "Settings categories",
+    "title": "Settings"
+  },
   "businessSetup": {
     "actions": {
       "finish": "Finish setup",
@@ -182,13 +264,13 @@
       "title": "We're glad you're here"
     },
     "businessBasics": {
-      "description": "Enter your salon name, then choose its model and specializations.",
+      "description": "Enter your salon name, specify who works there, and choose its specializations.",
       "descriptions": {
-        "businessType": "You will configure the team and detailed availability later in the management panel.",
+        "businessType": "Choose the option that best describes your salon's current structure.",
         "specializations": "Select every area in which your salon provides services."
       },
       "fields": {
-        "businessType": "How does your salon work?",
+        "businessType": "Who works at your salon?",
         "name": "Salon name",
         "specializations": "Salon specializations"
       },
@@ -206,7 +288,8 @@
       "description": "Enter the contact details visible to clients on your booking page.",
       "fields": {
         "contactEmail": "Contact e-mail",
-        "contactPhone": "Contact phone"
+        "contactPhone": "Contact phone",
+        "description": "Salon description"
       },
       "logo": {
         "dropLabel": "Drag a file here or click to choose",
@@ -224,12 +307,17 @@
       },
       "placeholders": {
         "contactEmail": "e.g. contact@yoursalon.com",
-        "contactPhone": "e.g. 512 345 678"
+        "contactPhone": "e.g. 512 345 678",
+        "description": "Describe your salon, your approach to clients, and what makes it stand out..."
       },
       "sections": {
         "contact": {
           "description": "Clients will be able to contact you if they have questions.",
           "title": "Contact details"
+        },
+        "description": {
+          "description": "The description will appear on the salon booking page.",
+          "title": "Salon description"
         },
         "logo": {
           "description": "Add the logo displayed on your booking page.",
@@ -398,12 +486,12 @@
     "modelSelection": {
       "options": {
         "SOLO": {
-          "description": "You work independently and manage your clients and calendar.",
+          "description": "Manage clients and the calendar independently.",
           "title": "I work independently"
         },
         "TEAM": {
           "description": "More people work at the salon. You will add team members and define their roles.",
-          "title": "We work as a team"
+          "title": "I have a team"
         }
       }
     },
@@ -525,7 +613,7 @@
       "title": "Next step"
     },
     "feedback": {
-      "businessTypeSaveFailed": "Could not save the salon model",
+      "businessTypeSaveFailed": "Could not save how the salon operates",
       "completionFailed": "Could not finish salon setup",
       "loadFailed": "Could not load salon setup",
       "savedSuccessfully": "Saved successfully!",
@@ -577,7 +665,7 @@
         "address": "Salon address",
         "contact": "Contact",
         "mobileServices": "Mobile services",
-        "model": "Salon model",
+        "model": "How the salon operates",
         "name": "Salon name",
         "socialMedia": "Social profiles",
         "specializations": "Specializations"
@@ -840,6 +928,7 @@
     },
     "business": {
       "nameMinLength": "Salon name must contain at least 2 characters.",
+      "profileDescriptionMaxLength": "Salon description can contain up to 500 characters.",
       "socialProfileInvalid": "Enter a valid link to the selected profile.",
       "socialProfileMaxLength": "A profile link can contain at most 200 characters.",
       "specializationsRequired": "Select at least one specialization.",

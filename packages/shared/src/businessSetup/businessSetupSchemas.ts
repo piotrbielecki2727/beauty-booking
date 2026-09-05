@@ -174,6 +174,7 @@ export const businessSetupStateSchema = z.object({
 });
 
 export const businessSetupStatusResponseSchema = z.object({
+  businessType: businessTypeSchema.nullable(),
   status: businessOnboardingStatusSchema,
 });
 
@@ -201,6 +202,12 @@ export const businessDetailsFormSchema = z.object({
     .regex(/^\d{9}$/, "validation.account.phone.invalid")
     .optional()
     .or(z.literal("")),
+  description: z
+    .string()
+    .trim()
+    .max(500, "validation.business.profileDescriptionMaxLength")
+    .optional()
+    .or(z.literal("")),
   facebookUrl: optionalSocialProfileSchema(["facebook.com", "fb.com"]),
   instagramUrl: optionalSocialProfileSchema(["instagram.com"]),
   pinterestUrl: optionalSocialProfileSchema(["pinterest.com", "pin.it"]),
@@ -219,6 +226,7 @@ export const businessBasicsResponseSchema = z.object({
 export const businessPublicProfileResponseSchema = z.object({
   contactEmail: z.string().nullable(),
   contactPhone: z.string().nullable(),
+  description: z.string().nullable(),
   facebookUrl: z.string().nullable(),
   instagramUrl: z.string().nullable(),
   pinterestUrl: z.string().nullable(),

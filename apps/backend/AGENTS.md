@@ -12,7 +12,7 @@
 
 ## Current Backend Stage
 
-The backend is in the first implementation stage.
+The backend provides the current authentication, tenant, onboarding, salon-settings and team-invitation foundation. Calendar, booking execution, operational service management and employee scheduling are not complete yet.
 
 Current stack:
 
@@ -30,9 +30,10 @@ Current implemented modules:
 
 - `auth`: registration, e-mail verification mock, login, current user, logout.
 - `tenant`: active business context resolution from host.
-- `businessSetup`: setup state plus persisted business basics, location and services.
+- `businessSetup`: onboarding lifecycle plus persisted business basics, public details, location, opening hours, booking rules, business type, team and services.
+- `businessTeam`: team reads and the temporary invitation create, cancel, preview and acceptance flow.
 
-The backend auth module is connected to the frontend through Auth.js/NextAuth Credentials. Booking, employee scheduling and the remaining setup steps are still incomplete or mocked until their backend modules are added.
+The backend auth module is connected to the frontend through Auth.js/NextAuth Credentials. Booking execution, employee scheduling, public slot generation and real invitation e-mail delivery remain incomplete or mocked until their operational modules are added.
 
 Current auth persistence includes a legal acceptance timestamp on `User`:
 
@@ -201,9 +202,14 @@ Current foundational models:
 - `User`,
 - `EmailVerificationCode`,
 - `Business`,
+- `BusinessBookingSettings`,
+- `BookingReleaseWindow`,
+- `BusinessOpeningHour`,
 - `BusinessDomain`,
 - `BusinessMembership`,
-- `BusinessService`.
+- `BusinessService`,
+- `BusinessTeamMember`,
+- `BusinessTeamInvitation`.
 
 `User` currently includes `termsAndPrivacyPolicyAcceptedAt` for registration legal acceptance. When this field or other persisted auth fields change, add a Prisma migration and regenerate the client.
 
@@ -228,17 +234,27 @@ Migration rules:
 
 ## Business Setup
 
-Initial setup is a resumable, business-scoped workflow. It is distinct from the permanent settings area that will later edit already configured data.
+Initial setup is a resumable, business-scoped workflow. It is distinct from permanent settings, which reuse the same contracts to edit already configured data.
 
 Current endpoints:
 
+- `GET /business/setup/status`,
 - `GET /business/setup`,
+- `PATCH /business/setup/start`,
+- `PATCH /business/setup/complete`,
+- `PATCH /business/setup/business-type`,
 - `PATCH /business/setup/business-basics`,
+- `PATCH /business/setup/business-details`,
 - `PATCH /business/setup/location`,
+- `PATCH /business/setup/opening-hours`,
+- `PATCH /business/setup/booking-rules`,
+- `PATCH /business/setup/team`,
 - `PATCH /business/setup/services`.
 
 Rules:
 
+- The setup status lifecycle is `NOT_STARTED` -> `IN_PROGRESS` -> `COMPLETED`. Starting and completing setup use explicit, idempotent endpoints; the backend remains the source of truth.
+- Initial completion currently requires persisted `BUSINESS_BASICS`, `LOCATION` and `PUBLIC_PROFILE`; `SUMMARY` is recorded by the completion operation. Preserved operational endpoints are not initial-wizard requirements.
 - Keep one focused endpoint and shared schema per persisted setup step.
 - Authorize setup access explicitly; only eligible management roles may modify business configuration.
 - Scope every setup read/write to the authenticated business.
@@ -249,7 +265,17 @@ Rules:
 - Use transactions for replacing collections such as services together with completion metadata.
 - Preserve existing persisted setup data when saving a different step.
 - A failed save must not advance setup state or leave partial related records behind.
+- Saving `SOLO` sets the owner's membership `providesServices` to `true`; saving `TEAM` leaves it unset until employee management supplies that decision.
+- Switching from `TEAM` to `SOLO` must preserve team members, invitations and related assignments. Team-only routes use the business-type guard and become available again after switching back to `TEAM`.
 - Update `docs/features/business-setup.md` whenever steps, dependencies, contracts or completion behavior change.
+
+## Business Team
+
+- Business team data belongs to the active business and must never be resolved by a client-supplied business ID.
+- Team management routes require authentication, completed onboarding and `businessType = TEAM`. Invitation acceptance remains available during onboarding because it is an account-linking flow rather than an operational management route.
+- Store only an invitation token hash. Return the plaintext token only from the temporary creation response so a future e-mail adapter can deliver it without persisting the secret.
+- Creating a new active invitation for a member cancels the previous active invitation. Acceptance must verify tenant, e-mail, expiry and invitation state before linking the user and membership.
+- Switching to `SOLO` hides access but does not delete team profiles, invitations, memberships or service assignments.
 
 ## Error Handling
 
